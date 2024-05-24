@@ -1,12 +1,15 @@
 package webly.meyzieu_gym.back.usermanagement.user;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
-
 import webly.meyzieu_gym.back.usermanagement.role.Role;
 
 @Entity
+@Table(name = "user", 
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")})
 public class User {
     
     @Id
@@ -31,26 +34,24 @@ public class User {
     @Column(name = "address", nullable = false, length = 255)
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
       name = "user_roles", 
       joinColumns = @JoinColumn(name = "user_id"), 
       inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
     public User() {
     }
 
-    public User(long id, String firstname, String lastname, String email, String password, String phoneNumber, String address, Set<Role> roles) {
-        this.id = id;
+    public User(String firstname, String lastname, String email, String password, String phoneNumber, String address) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.roles = roles;
     }
 
     public long getId() {
@@ -116,45 +117,4 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
-    public User id(long id) {
-        setId(id);
-        return this;
-    }
-
-    public User firstname(String firstname) {
-        setFirstname(firstname);
-        return this;
-    }
-
-    public User lastname(String lastname) {
-        setLastname(lastname);
-        return this;
-    }
-
-    public User email(String email) {
-        setEmail(email);
-        return this;
-    }
-
-    public User password(String password) {
-        setPassword(password);
-        return this;
-    }
-
-    public User phoneNumber(String phoneNumber) {
-        setPhoneNumber(phoneNumber);
-        return this;
-    }
-
-    public User address(String address) {
-        setAddress(address);
-        return this;
-    }
-
-    public User roles(Set<Role> roles) {
-        setRoles(roles);
-        return this;
-    }
-    
 }
