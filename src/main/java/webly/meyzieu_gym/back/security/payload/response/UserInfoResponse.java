@@ -1,41 +1,28 @@
 package webly.meyzieu_gym.back.security.payload.response;
 
-import java.util.Set;
+import java.util.List;
 
 public class UserInfoResponse {
     
-    private final String jwt;
+    private final Long id;
     private final String email;
-    private final String firstname;
-    private final Set<String> roles;
-    private final Long expirationTime;
+    private final List<String> roles;
 
-    public UserInfoResponse(String jwt, String email, String firstname, Set<String> roles, Long expirationTime) {
-        this.jwt = jwt;
+    public UserInfoResponse(Long id, String email, List<String> roles) {
+        this.id = id;
         this.email = email;
-        this.firstname = firstname;
         this.roles = roles;
-        this.expirationTime = expirationTime;
-    }
-
-    public String getJwt() {
-        return jwt;
-    }
+    }    
 
     public String getEmail() {
         return email;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public Long getId(){
+        return id;
     }
 
-    public Set<String> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
-
-    public Long getExpirationTime() {
-        return expirationTime;
-    }
-    
 }

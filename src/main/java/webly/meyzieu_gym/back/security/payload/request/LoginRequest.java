@@ -2,7 +2,7 @@ package webly.meyzieu_gym.back.security.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class LogingRequest {
+public class LoginRequest {
     
     @NotBlank
     private String email;
@@ -10,11 +10,11 @@ public class LogingRequest {
     @NotBlank
     private String password;
 
-    public LogingRequest() {
+    public LoginRequest() {
 
     }
 
-    public LogingRequest(String email, String password) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }

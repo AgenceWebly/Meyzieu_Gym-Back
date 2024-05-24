@@ -1,11 +1,18 @@
 package webly.meyzieu_gym.back.security.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import webly.meyzieu_gym.back.security.jwt.JwtUtils;
+import webly.meyzieu_gym.back.security.payload.request.LoginRequest;
 import webly.meyzieu_gym.back.security.payload.request.SignupRequest;
 import webly.meyzieu_gym.back.security.payload.response.MessageResponse;
+import webly.meyzieu_gym.back.security.payload.response.UserInfoResponse;
+import webly.meyzieu_gym.back.security.service.UserDetailsImpl;
 import webly.meyzieu_gym.back.usermanagement.role.ERole;
 import webly.meyzieu_gym.back.usermanagement.role.Role;
 import webly.meyzieu_gym.back.usermanagement.role.RoleRepository;
@@ -53,9 +63,10 @@ public class AuthController {
     User user = new User(signUpRequest.getFirstname(),
                          signUpRequest.getLastname(),
                          signUpRequest.getEmail(),
+                         encoder.encode(signUpRequest.getPassword()),
                          signUpRequest.getPhoneNumber(),
-                         signUpRequest.getAddress(),
-                         encoder.encode(signUpRequest.getPassword()));
+                         signUpRequest.getAddress()
+                         );
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
@@ -91,6 +102,37 @@ public class AuthController {
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+  }
+
+
+  @PostMapping("/signin")
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
+    Authentication authentication = authenticationManager
+        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+        // Collect user roles
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        // Create response with user details
+        UserInfoResponse userInfoResponse = new UserInfoResponse(
+                userDetails.getId(),
+                userDetails.getEmail(),
+                roles
+        );
+
+        // Return response with JWT cookie
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(userInfoResponse);
   }
 
 }
