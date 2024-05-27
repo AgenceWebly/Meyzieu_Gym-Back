@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -38,11 +37,11 @@ import webly.meyzieu_gym.back.usermanagement.user.UserRepository;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  AuthenticationManager authenticationManager;
-  UserRepository userRepository;
-  RoleRepository roleRepository;
-  PasswordEncoder encoder;
-  JwtUtils jwtUtils;
+    AuthenticationManager authenticationManager;
+    UserRepository userRepository;
+    RoleRepository roleRepository;
+    PasswordEncoder encoder;
+    JwtUtils jwtUtils;
 
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
@@ -52,87 +51,94 @@ public class AuthController {
         this.jwtUtils = jwtUtils;
     }
 
-@PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    @PostMapping("/signup")
+    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
-    if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
-      return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-    }
-
-    // Create new user's account
-    User user = new User(signUpRequest.getFirstname(),
-                         signUpRequest.getLastname(),
-                         signUpRequest.getEmail(),
-                         encoder.encode(signUpRequest.getPassword()),
-                         signUpRequest.getPhoneNumber(),
-                         signUpRequest.getAddress()
-                         );
-
-    Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();
-
-    if (strRoles == null) {
-      Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-      roles.add(userRole);
-    } else {
-      strRoles.forEach(role -> {
-        switch (role) {
-        case "admin":
-          Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(adminRole);
-
-          break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
-
-          break;
-        default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(userRole);
+        // Check if the email is already in use
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
+        // Return a bad request response with an error message
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
-      });
+
+        // Create new user's account with provided details and encoded password
+        User user = new User(signUpRequest.getFirstname(),
+                            signUpRequest.getLastname(),
+                            signUpRequest.getEmail(),
+                            encoder.encode(signUpRequest.getPassword()),
+                            signUpRequest.getPhoneNumber(),
+                            signUpRequest.getAddress()
+                            );
+
+        // Initialize a set to store the roles
+        Set<String> strRoles = signUpRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        // Assign roles to the user based on the provided roles in the signup request
+        if (strRoles == null) {
+            // Default role if no specific role is provided
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+            } else {
+            // Assign roles based on the provided role names
+            strRoles.forEach(role -> {
+                switch (role) {
+                case "admin":
+                Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(adminRole);
+
+                break;
+                case "mod":
+                Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(modRole);
+
+                break;
+                default:
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                }
+            });
+        }
+        user.setRoles(roles);
+        userRepository.save(user);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    user.setRoles(roles);
-    userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-  }
+    @PostMapping("/signin")
+    public ResponseEntity<UserInfoResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    
+        // Authenticate the user with the provided email and password
+        Authentication authentication = authenticationManager
+            .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
+        // Set the authenticated user in the SecurityContext
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-  @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        // Get the authenticated user's details
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-    Authentication authentication = authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        // Generate a JWT and set it in a cookie
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
-        // Collect user roles
+        // Collect user roles from the authorities
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+                            .map(item -> item.getAuthority())
+                            .collect(Collectors.toList());
 
         // Create response with user details
         UserInfoResponse userInfoResponse = new UserInfoResponse(
-                userDetails.getId(),
-                userDetails.getEmail(),
-                roles
-        );
+                                                userDetails.getId(),
+                                                userDetails.getEmail(),
+                                                roles);
 
-        // Return response with JWT cookie
+        // Return response with JWT cookie set in the headers and user info in the body
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(userInfoResponse);
-  }
+            .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+            .body(userInfoResponse);
+    }
 
 }
