@@ -1,9 +1,11 @@
 package webly.meyzieu_gym.back.security.payload.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequest {
     
+    @Email
     @NotBlank
     private String email;
     
