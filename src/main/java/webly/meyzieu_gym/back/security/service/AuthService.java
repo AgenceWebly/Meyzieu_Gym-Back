@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
+import webly.meyzieu_gym.back.common.exception.custom.UserAlreadyExistsException;
 import webly.meyzieu_gym.back.security.jwt.JwtUtils;
 import webly.meyzieu_gym.back.security.payload.request.LoginRequest;
 import webly.meyzieu_gym.back.security.payload.request.SignupRequest;
@@ -45,7 +47,7 @@ public class AuthService {
 
     public ResponseEntity<MessageResponse> registerUser(SignupRequest signUpRequest) {
         if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            throw new UserAlreadyExistsException("Error: This email is already used!");
         }
 
         User user = new User(signUpRequest.getFirstname(),
@@ -88,7 +90,7 @@ public class AuthService {
 
     private void addRoleToSet(Set<Role> roles, ERole roleEnum) {
         Role role = roleRepository.findByName(roleEnum)
-            .orElseThrow(() -> new RuntimeException("Error: Role " + roleEnum + " is not found."));
+            .orElseThrow(() -> new RoleNotFoundException("Error: Role " + roleEnum + " is not found."));
         roles.add(role);
     }
 
