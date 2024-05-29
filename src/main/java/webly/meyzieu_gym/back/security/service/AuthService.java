@@ -71,9 +71,9 @@ public class AuthService {
                         addRoleToSet(roles, ERole.ROLE_USER);
                         addRoleToSet(roles, ERole.ROLE_ADMIN);
                         break;
-                    case "mod":
+                    case "trainer":
                         addRoleToSet(roles, ERole.ROLE_USER);
-                        addRoleToSet(roles, ERole.ROLE_MODERATOR);
+                        addRoleToSet(roles, ERole.ROLE_TRAINER);
                         break;
                     default:
                         addRoleToSet(roles, ERole.ROLE_USER);
