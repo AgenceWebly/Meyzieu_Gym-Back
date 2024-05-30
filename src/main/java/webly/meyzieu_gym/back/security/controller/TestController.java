@@ -28,6 +28,12 @@ public class TestController {
         return "Guardian Board.";
     }
 
+    @GetMapping("/trainer")
+    @PreAuthorize("hasRole('TRAINER')")
+    public String trainerAccess() {
+        return "Trainer Board.";
+    }
+
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
