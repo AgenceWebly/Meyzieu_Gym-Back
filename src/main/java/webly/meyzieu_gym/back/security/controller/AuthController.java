@@ -30,10 +30,13 @@ public class AuthController {
         return authService.registerUser(signUpRequest);
     }
 
-
     @PostMapping("/signin")
     public ResponseEntity<UserInfoResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.authenticateUser(loginRequest);
     }
 
+    @PostMapping("/signout")
+    public ResponseEntity<MessageResponse> logoutUser() {
+        return authService.logout();
+    }
 }
