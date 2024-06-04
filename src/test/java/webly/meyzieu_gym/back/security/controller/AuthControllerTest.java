@@ -55,6 +55,7 @@ class AuthControllerTest {
         signupRequest.setPassword("password");
         signupRequest.setPhoneNumber("01 05 09 15 65");
         signupRequest.setAddress("123 Elm Street");
+        signupRequest.setOccupation("Batman");
         signupRequest.setRole(Set.of("trainer"));
 
         when(authService.registerUser(any(SignupRequest.class)))
@@ -75,6 +76,7 @@ class AuthControllerTest {
         signupRequest.setPassword("password");
         signupRequest.setPhoneNumber("01 05 09 15 65");
         signupRequest.setAddress("123 Elm Street");
+        signupRequest.setOccupation("Batman");
         signupRequest.setRole(Set.of("trainer"));
 
         when(authService.registerUser(any(SignupRequest.class)))

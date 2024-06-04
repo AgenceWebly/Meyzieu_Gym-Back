@@ -33,6 +33,8 @@ public class SignupRequest {
     @Size(min = 3, max = 255)
     private String address;
 
+    private String occupation;
+
     private Set<String> role;
 
     public String getFirstname() {
@@ -81,6 +83,14 @@ public class SignupRequest {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getOccupation() {
+        return this.occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
     public Set<String> getRole() {

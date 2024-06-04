@@ -33,6 +33,9 @@ public class User {
     @Column(name = "address", nullable = false, length = 255)
     private String address;
 
+    @Column(name = "occupation", nullable = false, length = 255)
+    private String occupation;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_roles", 
@@ -44,13 +47,14 @@ public class User {
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String password, String phoneNumber, String address) {
+    public User(String firstname, String lastname, String email, String password, String phoneNumber, String address, String occupation) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.occupation = occupation;
     }
 
     public long getId() {
@@ -107,6 +111,14 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getOccupation() {
+        return this.occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
     public Set<Role> getRoles() {
