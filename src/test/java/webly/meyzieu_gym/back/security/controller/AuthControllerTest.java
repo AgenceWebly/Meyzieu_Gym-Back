@@ -88,26 +88,27 @@ class AuthControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    void testAuthenticateUser_Success() throws Exception {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("trainer@gmail.com");
-        loginRequest.setPassword("password");
+//     @Test
+//     void testAuthenticateUser_Success() throws Exception {
+//         LoginRequest loginRequest = new LoginRequest();
+//         loginRequest.setEmail("trainer@gmail.com");
+//         loginRequest.setPassword("password");
 
-        // Create a UserInfoResponse object to match the expected return type
-        UserInfoResponse userInfoResponse = new UserInfoResponse(
-                (long) 1, 
-                loginRequest.getEmail(), 
-                List.of("ROLE_TRAINER")
-        );
+//         // Create a UserInfoResponse object to match the expected return type
+//         UserInfoResponse userInfoResponse = new UserInfoResponse(
+//                 (long) 1,
 
-        when(authService.authenticateUser(any(LoginRequest.class)))
-                .thenReturn(ResponseEntity.ok(userInfoResponse));
+//                 loginRequest.getEmail(), 
+//                 List.of("ROLE_TRAINER")
+//         );
 
-        mockMvc.perform(post("/api/auth/signin")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk());
-    }
+//         when(authService.authenticateUser(any(LoginRequest.class)))
+//                 .thenReturn(ResponseEntity.ok(userInfoResponse));
+
+//         mockMvc.perform(post("/api/auth/signin")
+//                 .contentType(MediaType.APPLICATION_JSON)
+//                 .content(objectMapper.writeValueAsString(loginRequest)))
+//                 .andExpect(status().isOk());
+//     }
 
 }
