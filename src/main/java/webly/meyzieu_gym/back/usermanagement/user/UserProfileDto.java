@@ -8,17 +8,19 @@ public class UserProfileDto {
     private String email;
     private String phoneNumber;
     private String address;
+    private String occupation;
 
     public UserProfileDto() {
     }
 
-    public UserProfileDto(Long id, String firstname, String lastname, String email, String phoneNumber, String address) {
+    public UserProfileDto(Long id, String firstname, String lastname, String email, String phoneNumber, String address, String occupation) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.occupation = occupation;
     }
 
     public Long getId() {
@@ -67,6 +69,14 @@ public class UserProfileDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getOccupation() {
+        return this.occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
 }

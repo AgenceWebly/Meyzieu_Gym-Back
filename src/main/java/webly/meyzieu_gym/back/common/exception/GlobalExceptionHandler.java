@@ -9,6 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.UserAlreadyExistsException;
+import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 import webly.meyzieu_gym.back.security.payload.response.MessageResponse;
 
 @RestControllerAdvice
@@ -34,4 +35,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new MessageResponse("You do not have permission to access this resource"), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<MessageResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
+    }
 }

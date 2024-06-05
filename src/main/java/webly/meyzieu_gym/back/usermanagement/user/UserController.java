@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
     
     @GetMapping("/{id}")
-    public Optional<User> getUserProfile(@PathVariable Long id) {
-        return userRepository.findById(id);
+    public UserProfileDto getUserProfile(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
     
 }
