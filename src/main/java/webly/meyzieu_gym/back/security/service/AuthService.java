@@ -111,6 +111,7 @@ public class AuthService {
 
         UserInfoResponse userInfoResponse = new UserInfoResponse(
             userDetails.getId(),
+            userDetails.getFirstname(),
             userDetails.getEmail(),
             roles
         );

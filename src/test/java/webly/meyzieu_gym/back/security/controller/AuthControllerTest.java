@@ -96,7 +96,8 @@ class AuthControllerTest {
 
         // Create a UserInfoResponse object to match the expected return type
         UserInfoResponse userInfoResponse = new UserInfoResponse(
-                (long) 1, 
+                (long) 1,
+                "Ben",
                 loginRequest.getEmail(), 
                 List.of("ROLE_TRAINER")
         );
