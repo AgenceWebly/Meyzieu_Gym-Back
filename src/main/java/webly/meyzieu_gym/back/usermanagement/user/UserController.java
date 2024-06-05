@@ -19,7 +19,7 @@ public class UserController {
     }
     
     @GetMapping("/{id}")
-    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
+    @PreAuthorize("#id == authentication.principal.id")
     public UserProfileDto getUserProfile(@PathVariable Long id) {
         return userService.getUserById(id);
     }
