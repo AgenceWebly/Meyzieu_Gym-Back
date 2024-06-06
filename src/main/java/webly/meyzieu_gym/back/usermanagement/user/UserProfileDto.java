@@ -1,13 +1,25 @@
 package webly.meyzieu_gym.back.usermanagement.user;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class UserProfileDto {
 
     private Long id;
     private String firstname;
     private String lastname;
     private String email;
+
+    @NotBlank
+    @Size(min = 3, max = 20, message = "OI OI OI it's not good")
     private String phoneNumber;
+
+    @NotBlank
+    @Size(min = 3, max = 255, message = "OI OI OI it's not good")
     private String address;
+
+    @NotBlank
+    @Size(min = 3, message = "OI OI OI it's not good")
     private String occupation;
 
     public UserProfileDto() {
