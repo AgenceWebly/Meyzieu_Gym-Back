@@ -1,13 +1,25 @@
 package webly.meyzieu_gym.back.usermanagement.user;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class UserProfileDto {
 
     private Long id;
     private String firstname;
     private String lastname;
     private String email;
+
+    @NotBlank(message = "The phone number is mandatory")
+    @Size(min = 3, max = 20, message = "The phone number format isn't correct!")
     private String phoneNumber;
+
+    @NotBlank(message = "The adress is mandatory")
+    @Size(min = 3, max = 255, message = "The address format isn't correct!")
     private String address;
+
+    @NotBlank(message = "The occupation is mandatory")
+    @Size(min = 3, message = "The occupation format isn't correct!")
     private String occupation;
 
     public UserProfileDto() {
