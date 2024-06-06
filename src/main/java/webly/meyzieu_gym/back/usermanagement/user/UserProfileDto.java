@@ -10,16 +10,16 @@ public class UserProfileDto {
     private String lastname;
     private String email;
 
-    @NotBlank
-    @Size(min = 3, max = 20, message = "OI OI OI it's not good")
+    @NotBlank(message = "The phone number is mandatory")
+    @Size(min = 3, max = 20, message = "The phone number format isn't correct!")
     private String phoneNumber;
 
-    @NotBlank
-    @Size(min = 3, max = 255, message = "OI OI OI it's not good")
+    @NotBlank(message = "The adress is mandatory")
+    @Size(min = 3, max = 255, message = "The address format isn't correct!")
     private String address;
 
-    @NotBlank
-    @Size(min = 3, message = "OI OI OI it's not good")
+    @NotBlank(message = "The occupation is mandatory")
+    @Size(min = 3, message = "The occupation format isn't correct!")
     private String occupation;
 
     public UserProfileDto() {
