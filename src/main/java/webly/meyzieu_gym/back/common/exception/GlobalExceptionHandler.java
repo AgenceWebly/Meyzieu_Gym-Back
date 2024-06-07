@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
+import webly.meyzieu_gym.back.common.exception.custom.SeasonNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.UserAlreadyExistsException;
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 import webly.meyzieu_gym.back.security.payload.response.MessageResponse;
@@ -42,6 +43,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<MessageResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SeasonNotFoundException.class)
+    public ResponseEntity<MessageResponse> handleSeasonNotFoundException(SeasonNotFoundException ex, WebRequest request) {
         return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
