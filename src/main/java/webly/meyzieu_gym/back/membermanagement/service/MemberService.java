@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.dto.CreateMemberDto;
+import webly.meyzieu_gym.back.membermanagement.dto.EmergencyContactDto;
+import webly.meyzieu_gym.back.membermanagement.entity.EmergencyContact;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.entity.MemberGuardian;
+import webly.meyzieu_gym.back.membermanagement.repository.EmergencyContactRepository;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberGuardianRepository;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
 import webly.meyzieu_gym.back.usermanagement.user.User;
@@ -18,11 +21,13 @@ public class MemberService {
     private UserRepository userRepository;
     private MemberRepository memberRepository;
     private MemberGuardianRepository memberGuardianRepository;
+    private EmergencyContactRepository emergencyContactRepository;
 
-    public MemberService(UserRepository userRepository, MemberRepository memberRepository, MemberGuardianRepository memberGuardianRepository) {
+    public MemberService(UserRepository userRepository, MemberRepository memberRepository, MemberGuardianRepository memberGuardianRepository, EmergencyContactRepository emergencyContactRepository) {
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.memberGuardianRepository = memberGuardianRepository;
+        this.emergencyContactRepository = emergencyContactRepository;
     }
 
     @Transactional
@@ -52,6 +57,18 @@ public class MemberService {
 
         memberGuardianRepository.save(memberGuardian);
 
+        if (createMemberDto.getEmergencyContacts() != null) {
+            for (EmergencyContactDto contactDto : createMemberDto.getEmergencyContacts()) {
+                EmergencyContact contact = new EmergencyContact();
+                contact.setFirstname(contactDto.getFirstname());
+                contact.setLastname(contactDto.getLastname());
+                contact.setRelationToMember(contactDto.getRelationToMember());
+                contact.setPhoneNumber(contactDto.getPhoneNumber());
+                contact.setMember(member);
+                emergencyContactRepository.save(contact);
+            }
+        }
+        
         return member.getId();
     }
 

@@ -1,6 +1,7 @@
 package webly.meyzieu_gym.back.membermanagement.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
 
@@ -51,10 +52,12 @@ public class CreateMemberDto {
     @Pattern(regexp = "parent|grand-parent|relative|other", message = "The sent relation to member isn't right")
     private String relationToMember;
 
+    private List<EmergencyContactDto> emergencyContacts;
+    
     public CreateMemberDto() {
     }
 
-    public CreateMemberDto(String firstname, String lastname, Date birthdate, String gender, String school, boolean isPhotoApproved, boolean isTransportApproved, boolean isFirstAidApproved, boolean isAllowedToLeave, String profilePictureUrl, String relationToMember) {
+    public CreateMemberDto(String firstname, String lastname, Date birthdate, String gender, String school, boolean isPhotoApproved, boolean isTransportApproved, boolean isFirstAidApproved, boolean isAllowedToLeave, String profilePictureUrl, String relationToMember,  List<EmergencyContactDto> emergencyContacts) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
@@ -66,6 +69,7 @@ public class CreateMemberDto {
         this.isAllowedToLeave = isAllowedToLeave;
         this.profilePictureUrl = profilePictureUrl;
         this.relationToMember = relationToMember;
+        this.emergencyContacts = emergencyContacts;
     }
 
     public String getFirstname() {
@@ -156,4 +160,11 @@ public class CreateMemberDto {
         this.relationToMember = relationToMember;
     }
 
+    public List<EmergencyContactDto> getEmergencyContacts() {
+        return this.emergencyContacts;
+    }
+
+    public void setEmergencyContacts(List<EmergencyContactDto> emergencyContacts) {
+        this.emergencyContacts = emergencyContacts;
+    }
 }
