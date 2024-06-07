@@ -12,7 +12,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
+
     public UserProfileDto getUserById(Long id) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException("User not found"));

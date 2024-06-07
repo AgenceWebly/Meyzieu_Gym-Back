@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.membermanagement;
+package webly.meyzieu_gym.back.membermanagement.entity;
 
 import java.util.Date;
 
@@ -47,10 +47,13 @@ public class Member {
     @Column(name = "allowed_to_leave", nullable = false)
     private boolean isAllowedToLeave;
 
+    @Column(name = "profile_picture_url", nullable = false)
+    private String profilePictureUrl;
+
     public Member() {
     }
 
-    public Member(String firstname, String lastname, Date birthdate, String gender, String school, boolean isPhotoApproved, boolean isTransportApproved, boolean isFirstAidApproved, boolean isAllowedToLeave) {
+    public Member(String firstname, String lastname, Date birthdate, String gender, String school, boolean isPhotoApproved, boolean isTransportApproved, boolean isFirstAidApproved, boolean isAllowedToLeave, String profilePictureUrl) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
@@ -60,6 +63,7 @@ public class Member {
         this.isTransportApproved = isTransportApproved;
         this.isFirstAidApproved = isFirstAidApproved;
         this.isAllowedToLeave = isAllowedToLeave;
+        this.profilePictureUrl = profilePictureUrl;
     }
 
     public Long getId() {
@@ -140,5 +144,13 @@ public class Member {
 
     public void setAllowedToLeave(boolean isAllowedToLeave) {
         this.isAllowedToLeave = isAllowedToLeave;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 }
