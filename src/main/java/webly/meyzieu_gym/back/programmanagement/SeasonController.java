@@ -28,9 +28,9 @@ public class SeasonController {
     }
 
     @PostMapping
-    public ResponseEntity<SeasonDto> createSeason(@Valid @RequestBody SeasonDto seasonDto) {
-        SeasonDto createdSeason = seasonService.createSeason(seasonDto);
-        return ResponseEntity.ok(createdSeason);
+    public ResponseEntity<Void> createSeason(@Valid @RequestBody SeasonDto seasonDto) {
+        seasonService.createSeason(seasonDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")

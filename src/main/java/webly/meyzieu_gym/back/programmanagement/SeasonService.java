@@ -18,10 +18,9 @@ public class SeasonService {
         this.seasonRepository = seasonRepository;
     }
 
-    public SeasonDto createSeason(SeasonDto seasonDto) {
+    public void createSeason(SeasonDto seasonDto) {
         Season season = mapToEntity(seasonDto);
-        Season savedSeason = seasonRepository.save(season);
-        return mapToDto(savedSeason);
+        seasonRepository.save(season);
     }
 
     @Transactional(readOnly = true)
