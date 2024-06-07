@@ -2,18 +2,53 @@ package webly.meyzieu_gym.back.membermanagement.dto;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.URL;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class CreateMemberDto {
     
+    @NotBlank
+    @Size(min = 3, max = 100)
     private String firstname;
+
+    @NotBlank
+    @Size(min = 3, max = 100)
     private String lastname;
+    
+    @NotNull
+    @Past(message = "Birthdate must be in the past")
     private Date birthdate;
+    
+    @NotBlank
+    @Pattern(regexp = "male|female", message = "Gender must be male or female")
     private String gender;
+    
+    @NotBlank
+    @Size(min = 10, max = 255)
     private String school;
+    
+    @NotNull
     private boolean isPhotoApproved;
+    
+    @NotNull
     private boolean isTransportApproved;
+    
+    @NotNull
     private boolean isFirstAidApproved;
+    
+    @NotNull
     private boolean isAllowedToLeave;
+    
+    @URL(message = "Invalid URL format")
     private String profilePictureUrl;
+    
+    @NotBlank
+    @Pattern(regexp = "parent|grand-parent|relative|other", message = "The sent relation to member isn't right")
     private String relationToMember;
 
     public CreateMemberDto() {
