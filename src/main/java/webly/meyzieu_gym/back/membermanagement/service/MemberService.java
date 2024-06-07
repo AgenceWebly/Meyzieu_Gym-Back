@@ -1,5 +1,7 @@
 package webly.meyzieu_gym.back.membermanagement.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -32,9 +34,19 @@ public class MemberService {
 
     @Transactional
     public Long createMember(CreateMemberDto createMemberDto, Long userId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = getUserById(userId);
+        Member member = saveMember(createMemberDto);
+        saveMemberGuardian(member, user, createMemberDto.getRelationToMember());
+        saveEmergencyContacts(member, createMemberDto.getEmergencyContacts());
+        return member.getId();
+    }
 
+    private User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    private Member saveMember(CreateMemberDto createMemberDto) {
         Member member = new Member();
         member.setFirstname(createMemberDto.getFirstname());
         member.setLastname(createMemberDto.getLastname());
@@ -46,30 +58,28 @@ public class MemberService {
         member.setFirstAidApproved(createMemberDto.isFirstAidApproved());
         member.setAllowedToLeave(createMemberDto.isAllowedToLeave());
         member.setProfilePictureUrl(createMemberDto.getProfilePictureUrl());
+        return memberRepository.save(member);
+    }
 
-        memberRepository.save(member);
-
+    private void saveMemberGuardian(Member member, User user, String relationToMember) {
         MemberGuardian memberGuardian = new MemberGuardian();
         memberGuardian.setMember(member);
         memberGuardian.setUser(user);
-        memberGuardian.setRelationToMember(createMemberDto.getRelationToMember());
+        memberGuardian.setRelationToMember(relationToMember);
         memberGuardian.setReferent(true);
-
         memberGuardianRepository.save(memberGuardian);
+    }
 
-        if (createMemberDto.getEmergencyContacts() != null) {
-            for (EmergencyContactDto contactDto : createMemberDto.getEmergencyContacts()) {
-                EmergencyContact contact = new EmergencyContact();
-                contact.setFirstname(contactDto.getFirstname());
-                contact.setLastname(contactDto.getLastname());
-                contact.setRelationToMember(contactDto.getRelationToMember());
-                contact.setPhoneNumber(contactDto.getPhoneNumber());
-                contact.setMember(member);
-                emergencyContactRepository.save(contact);
-            }
+    private void saveEmergencyContacts(Member member, List<EmergencyContactDto> emergencyContacts) {
+        for (EmergencyContactDto contactDto : emergencyContacts) {
+            EmergencyContact contact = new EmergencyContact();
+            contact.setFirstname(contactDto.getFirstname());
+            contact.setLastname(contactDto.getLastname());
+            contact.setRelationToMember(contactDto.getRelationToMember());
+            contact.setPhoneNumber(contactDto.getPhoneNumber());
+            contact.setMember(member);
+            emergencyContactRepository.save(contact);
         }
-        
-        return member.getId();
     }
 
 }
