@@ -13,7 +13,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
+
     @Transactional(readOnly = true)
     public UserProfileDto getUserById(Long id) {
         User user = userRepository.findById(id)
