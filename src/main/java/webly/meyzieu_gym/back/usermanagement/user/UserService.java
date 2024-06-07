@@ -1,6 +1,7 @@
 package webly.meyzieu_gym.back.usermanagement.user;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 
@@ -13,12 +14,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
+    @Transactional(readOnly = true)
     public UserProfileDto getUserById(Long id) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException("User not found"));
         return mapToDto(user);
     }
 
+    @Transactional
     public UserProfileDto updateUser(Long id, UserProfileDto updatedProfileDto){
         User user = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("User not found"));

@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 import webly.meyzieu_gym.back.usermanagement.user.User;
@@ -19,6 +20,7 @@ public class AdminService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<UserProfileForAdminDto> getUsersForAdmin() {
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
@@ -29,6 +31,7 @@ public class AdminService {
                     .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public UserProfileForAdminDto getUserById(Long id) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException("User not found"));
