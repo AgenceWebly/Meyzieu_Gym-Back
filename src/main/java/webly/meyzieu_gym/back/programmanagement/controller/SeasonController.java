@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement;
+package webly.meyzieu_gym.back.programmanagement.controller;
 
 import java.util.List;
 
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import webly.meyzieu_gym.back.programmanagement.dto.SeasonDto;
+import webly.meyzieu_gym.back.programmanagement.service.SeasonService;
 
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", maxAge = 3600)
 @RestController
