@@ -8,9 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "season")
+@Table(name = "program")
 public class Program {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,12 +22,12 @@ public class Program {
     private String description;
     
     @Column(name = "is_including_competition", nullable = false)
-    private Boolean isIncludingCompetition;
+    private boolean isIncludingCompetition;
 
     public Program() {
     }
 
-    public Program(String name, String description, Boolean isIncludingCompetition) {
+    public Program(String name, String description, boolean isIncludingCompetition) {
         this.name = name;
         this.description = description;
         this.isIncludingCompetition = isIncludingCompetition;
@@ -57,11 +57,11 @@ public class Program {
         this.description = description;
     }
 
-    public Boolean isIncludingCompetition() {
+    public boolean isIncludingCompetition() {
         return this.isIncludingCompetition;
     }
 
-    public void setIncludingCompetition(Boolean isIncludingCompetition) {
+    public void setIncludingCompetition(boolean isIncludingCompetition) {
         this.isIncludingCompetition = isIncludingCompetition;
     }
 }

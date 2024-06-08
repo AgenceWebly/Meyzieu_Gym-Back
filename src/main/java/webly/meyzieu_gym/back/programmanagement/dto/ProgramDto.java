@@ -17,7 +17,7 @@ public class ProgramDto {
     private String description;
 
     @NotNull
-    private Boolean isIncludingCompetition;
+    private boolean isIncludingCompetition;
 
     public ProgramDto() {
     }
