@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "season")
@@ -18,9 +20,11 @@ public class Season {
     private Long id;
 
     @Column(name = "start_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @Column(name = "end_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     public Season() {}
