@@ -4,14 +4,12 @@ import java.util.Date;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 
 public class SeasonDto {
     
     private Long id;
 
     @NotNull(message = "Start date cannot be null")
-    @PastOrPresent(message = "Start date cannot be in the future")
     private Date startDate;
 
     @NotNull(message = "End date cannot be null")
