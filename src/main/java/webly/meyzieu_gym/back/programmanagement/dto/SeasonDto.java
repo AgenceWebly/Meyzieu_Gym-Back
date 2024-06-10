@@ -1,35 +1,32 @@
-package webly.meyzieu_gym.back.programmanagement;
+package webly.meyzieu_gym.back.programmanagement.dto;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
-@Entity
-@Table(name = "season")
-public class Season {
+public class SeasonDto {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date", nullable = false)
+    @NotNull(message = "Start date cannot be null")
+    @PastOrPresent(message = "Start date cannot be in the future")
     private Date startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @NotNull(message = "End date cannot be null")
+    @Future(message = "End date must be in the future")
     private Date endDate;
 
-    public Season() {}
+    public SeasonDto() {
+    }
 
-    public Season(Date startDate, Date endDate) {
+    public SeasonDto(Long id, Date startDate, Date endDate) {
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
+    
     public Long getId() {
         return id;
     }

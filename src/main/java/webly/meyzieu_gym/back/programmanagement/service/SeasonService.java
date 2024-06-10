@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement;
+package webly.meyzieu_gym.back.programmanagement.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.SeasonNotFoundException;
+import webly.meyzieu_gym.back.programmanagement.dto.SeasonDto;
+import webly.meyzieu_gym.back.programmanagement.entity.Season;
+import webly.meyzieu_gym.back.programmanagement.repository.SeasonRepository;
 
 @Service
 @Transactional
