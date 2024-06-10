@@ -9,7 +9,7 @@ public class ProgramDto {
     private Long id;
 
     @NotBlank
-    @Size(min = 3, max = 100, message = "The name size isn't right")
+    @Size(min = 2, max = 100, message = "The name size isn't right")
     private String name;
 
     @NotBlank
