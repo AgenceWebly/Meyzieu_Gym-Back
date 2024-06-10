@@ -116,7 +116,7 @@ public class CreateMemberDto {
         return this.isPhotoApproved;
     }
 
-    public void setIsPhotoApproved(boolean isPhotoApproved) {
+    public void setPhotoApproved(boolean isPhotoApproved) {
         this.isPhotoApproved = isPhotoApproved;
     }
 
@@ -132,7 +132,7 @@ public class CreateMemberDto {
         return this.isFirstAidApproved;
     }
 
-    public void setIsFirstAidApproved(boolean isFirstAidApproved) {
+    public void setFirstAidApproved(boolean isFirstAidApproved) {
         this.isFirstAidApproved = isFirstAidApproved;
     }
 
@@ -140,7 +140,7 @@ public class CreateMemberDto {
         return this.isAllowedToLeave;
     }
 
-    public void setIsAllowedToLeave(boolean isAllowedToLeave) {
+    public void setAllowedToLeave(boolean isAllowedToLeave) {
         this.isAllowedToLeave = isAllowedToLeave;
     }
 
