@@ -38,16 +38,16 @@ public class Member {
     @Column(name = "school", nullable = false, length = 255)
     private String school;
 
-    @Column(name = "photo_approved", nullable = false)
+    @Column(name = "is_photo_approved", nullable = false)
     private boolean isPhotoApproved;
 
-    @Column(name = "transport_approved", nullable = false)
+    @Column(name = "is_transport_approved", nullable = false)
     private boolean isTransportApproved;
 
-    @Column(name = "first_aid_approved", nullable = false)
+    @Column(name = "is_first_aid_approved", nullable = false)
     private boolean isFirstAidApproved;
 
-    @Column(name = "allowed_to_leave", nullable = false)
+    @Column(name = "is_allowed_to_leave", nullable = false)
     private boolean isAllowedToLeave;
 
     @Column(name = "profile_picture_url", nullable = false)

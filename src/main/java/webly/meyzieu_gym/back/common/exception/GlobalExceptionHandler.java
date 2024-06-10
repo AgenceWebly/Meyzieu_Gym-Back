@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import webly.meyzieu_gym.back.common.exception.custom.ProgramNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.SeasonNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.UserAlreadyExistsException;
@@ -51,6 +52,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ProgramNotFoundException.class)
+    public ResponseEntity<MessageResponse> handleProgramNotFoundException(ProgramNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
+    }
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();

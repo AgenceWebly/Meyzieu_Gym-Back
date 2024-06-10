@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement;
+package webly.meyzieu_gym.back.programmanagement.entity;
 
 import java.util.Date;
 
