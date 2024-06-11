@@ -74,7 +74,7 @@ public class MemberGuardian {
         this.relationToMember = relationToMember;
     }
 
-    public boolean isIsReferent() {
+    public boolean isReferent() {
         return this.isReferent;
     }
 
