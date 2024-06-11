@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.CourseNotFoundException;
+import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationException;
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberGuardianRepository;
@@ -36,6 +37,13 @@ public class RegistrationService {
                 .orElseThrow(() -> new MemberNotFoundException("Member not found"));
         Course course = courseRepository.findById(registerMemberDto.getCourseId())
                 .orElseThrow(() -> new CourseNotFoundException("Course not found"));
+
+        boolean isAlreadyRegistered = registrationRepository.existsByMemberIdAndCourseSeasonId(
+                registerMemberDto.getMemberId(), course.getSeason().getId());
+        
+        if (isAlreadyRegistered) {
+            throw new DuplicateRegistrationException("Member is already registered for a course in this season");
+        }
 
         Registration registration = new Registration(
             member,
