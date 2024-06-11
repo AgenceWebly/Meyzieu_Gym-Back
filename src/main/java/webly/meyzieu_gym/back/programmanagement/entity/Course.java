@@ -14,9 +14,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "program_season")
-public class ProgramSeason {
-    
+@Table(name = "course")
+public class Course {
+
 @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,10 +47,10 @@ public class ProgramSeason {
     @Column(name = "max_age", nullable = false)
     private Integer maxAge;
 
-    public ProgramSeason() {
+    public Course() {
     }
 
-    public ProgramSeason(Season season,
+    public Course(Season season,
             Program program,
             LocalDateTime registrationStartDate,
             LocalDateTime registrationEndDate,

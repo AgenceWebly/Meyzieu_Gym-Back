@@ -7,7 +7,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public class CreateProgramSeasonDto {
+public class CourseDto {
 
     @NotNull
     private Long seasonId;
@@ -37,10 +37,10 @@ public class CreateProgramSeasonDto {
     @Positive
     private Integer maxAge;
 
-    public CreateProgramSeasonDto() {
+    public CourseDto() {
     }
 
-    public CreateProgramSeasonDto(
+    public CourseDto(
         Long seasonId, 
         Long programId, 
         LocalDateTime registrationStartDate, 

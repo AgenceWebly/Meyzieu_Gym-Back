@@ -17,19 +17,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import webly.meyzieu_gym.back.common.exception.custom.DuplicateProgramSeasonException;
-import webly.meyzieu_gym.back.programmanagement.dto.CreateProgramSeasonDto;
+import webly.meyzieu_gym.back.common.exception.custom.DuplicateCourseException;
+import webly.meyzieu_gym.back.programmanagement.dto.CourseDto;
 import webly.meyzieu_gym.back.programmanagement.entity.Program;
-import webly.meyzieu_gym.back.programmanagement.entity.ProgramSeason;
+import webly.meyzieu_gym.back.programmanagement.entity.Course;
 import webly.meyzieu_gym.back.programmanagement.entity.Season;
 import webly.meyzieu_gym.back.programmanagement.repository.ProgramRepository;
-import webly.meyzieu_gym.back.programmanagement.repository.ProgramSeasonRepository;
+import webly.meyzieu_gym.back.programmanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.programmanagement.repository.SeasonRepository;
 
 class ProgramSeasonServiceTest {
 
     @Mock
-    private ProgramSeasonRepository programSeasonRepository;
+    private CourseRepository courseRepository;
 
     @Mock
     private SeasonRepository seasonRepository;
@@ -38,7 +38,7 @@ class ProgramSeasonServiceTest {
     private ProgramRepository programRepository;
 
     @InjectMocks
-    private ProgramSeasonService programSeasonService;
+    private CourseService courseService;
 
     @BeforeEach
     void setUp() {
@@ -46,7 +46,7 @@ class ProgramSeasonServiceTest {
     }
 
     @Test
-    void testCreateProgramSeason() throws Exception {
+    void testCreateCourse() throws Exception {
         // Setup the Season entity
         Season season = new Season();
         season.setId(1L);
@@ -66,10 +66,10 @@ class ProgramSeasonServiceTest {
         // Mock the repositories
         when(seasonRepository.findById(1L)).thenReturn(Optional.of(season));
         when(programRepository.findById(1L)).thenReturn(Optional.of(program));
-        when(programSeasonRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.empty());
+        when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.empty());
 
         // Create the DTO
-        CreateProgramSeasonDto dto = new CreateProgramSeasonDto();
+        CourseDto dto = new CourseDto();
         dto.setSeasonId(1L);
         dto.setProgramId(1L);
         dto.setRegistrationStartDate(LocalDateTime.of(2023, 1, 1, 0, 0));
@@ -80,10 +80,10 @@ class ProgramSeasonServiceTest {
         dto.setMaxAge(65);
 
         // Call the service
-        programSeasonService.createProgramSeason(dto);
+        courseService.createCourse(dto);
 
         // Verify that the save method was called
-        verify(programSeasonRepository).save(any(ProgramSeason.class));
+        verify(courseRepository).save(any(Course.class));
     }
     
     @Test
@@ -98,7 +98,7 @@ class ProgramSeasonServiceTest {
         program.setName("Yoga");
 
         // Create the DTO
-        CreateProgramSeasonDto dto = new CreateProgramSeasonDto();
+        CourseDto dto = new CourseDto();
         dto.setSeasonId(1L);
         dto.setProgramId(1L);
         dto.setRegistrationStartDate(LocalDateTime.of(2023, 1, 1, 0, 0));
@@ -111,9 +111,9 @@ class ProgramSeasonServiceTest {
         // Mock the repositories
         when(seasonRepository.findById(1L)).thenReturn(Optional.of(season));
         when(programRepository.findById(1L)).thenReturn(Optional.of(program));
-        when(programSeasonRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.of(new ProgramSeason()));
+        when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.of(new Course()));
 
         // Call the service and expect DuplicateProgramSeasonException
-        assertThrows(DuplicateProgramSeasonException.class, () -> programSeasonService.createProgramSeason(dto));
+        assertThrows(DuplicateCourseException.class, () -> courseService.createCourse(dto));
     }
 }

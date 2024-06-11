@@ -32,7 +32,7 @@ public class Season {
     private Date endDate;
 
     @OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProgramSeason> programSeasons = new HashSet<>();
+    private Set<Course> courses = new HashSet<>();
 
     public Season() {}
 
@@ -65,11 +65,11 @@ public class Season {
         this.endDate = endDate;
     }
 
-    public Set<ProgramSeason> getProgramSeasons() {
-        return this.programSeasons;
+    public Set<Course> getCourses() {
+        return this.courses;
     }
 
-    public void setProgramSeasons(Set<ProgramSeason> programSeasons) {
-        this.programSeasons = programSeasons;
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }
