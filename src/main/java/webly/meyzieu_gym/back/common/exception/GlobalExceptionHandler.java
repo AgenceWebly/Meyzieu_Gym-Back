@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import webly.meyzieu_gym.back.common.exception.custom.DuplicateProgramSeasonException;
 import webly.meyzieu_gym.back.common.exception.custom.ProgramNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.SeasonNotFoundException;
@@ -66,5 +67,10 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DuplicateProgramSeasonException.class)
+    public ResponseEntity<MessageResponse> handleDuplicateProgramSeasonException(DuplicateProgramSeasonException ex) {
+        return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.CONFLICT);
     }
 }
