@@ -19,7 +19,7 @@ public class RegistrationController {
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
-
+    @PreAuthorize("@registrationService.isMemberOwner(#registerMemberDto.memberId, authentication.principal.id)")
     @PostMapping
     public ResponseEntity<Void> registerMember(@Valid @RequestBody RegisterMemberDto registerMemberDto) {
         registrationService.registerMember(registerMemberDto);
