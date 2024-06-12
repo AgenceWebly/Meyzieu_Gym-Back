@@ -2,10 +2,12 @@ package webly.meyzieu_gym.back.membermanagement.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -56,6 +58,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmergencyContact> emergencyContacts;
     
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private Set<MemberGuardian> guardians;
+
     public Member() {
     }
 
@@ -166,5 +171,13 @@ public class Member {
 
     public void setEmergencyContacts(List<EmergencyContact> emergencyContacts) {
         this.emergencyContacts = emergencyContacts;
+    }
+
+    public Set<MemberGuardian> getGuardians() {
+        return this.guardians;
+    }
+
+    public void setGuardians(Set<MemberGuardian> guardians) {
+        this.guardians = guardians;
     }
 }
