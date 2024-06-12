@@ -2,7 +2,9 @@ package webly.meyzieu_gym.back.coursemanagement.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -46,6 +49,9 @@ public class Course {
 
     @Column(name = "max_age", nullable = false)
     private Integer maxAge;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrainingSlot> trainingSlots;
 
     public Course() {
     }
@@ -139,5 +145,13 @@ public class Course {
 
     public void setMaxAge(Integer maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public List<TrainingSlot> getTrainingSlots() {
+        return this.trainingSlots;
+    }
+
+    public void setTrainingSlots(List<TrainingSlot> trainingSlots) {
+        this.trainingSlots = trainingSlots;
     }
 }
