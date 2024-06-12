@@ -26,9 +26,9 @@ public class RegistrationController {
 
     @PreAuthorize("@registrationService.isMemberOwner(#newRegistrationDto.memberId, authentication.principal.id)")
     @PostMapping
-    public ResponseEntity<Void> registerMember(@Valid @RequestBody NewRegistrationDto newRegistrationDto) {
-        registrationService.registerMember(newRegistrationDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> registerMember(@Valid @RequestBody NewRegistrationDto newRegistrationDto) {
+        Long registrationId = registrationService.registerMember(newRegistrationDto);
+        return ResponseEntity.ok(registrationId);
     }
 
     @PreAuthorize("@registrationService.isRegistrationOwner(#updateHealthCertificateDto.id, authentication.principal.id)")

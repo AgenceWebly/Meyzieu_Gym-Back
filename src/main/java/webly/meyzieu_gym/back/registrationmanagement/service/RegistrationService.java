@@ -41,7 +41,7 @@ public class RegistrationService {
     }
 
     @Transactional
-    public void registerMember(NewRegistrationDto newRegistrationDto){
+    public Long registerMember(NewRegistrationDto newRegistrationDto){
         Member member = memberRepository.findById(newRegistrationDto.getMemberId())
                 .orElseThrow(() -> new MemberNotFoundException("Member not found"));
         Course course = courseRepository.findById(newRegistrationDto.getCourseId())
@@ -66,7 +66,8 @@ public class RegistrationService {
             false
         );
 
-        registrationRepository.save(registration);
+        Registration savedRegistration = registrationRepository.save(registration);
+        return savedRegistration.getId();
     }
 
     @Transactional
