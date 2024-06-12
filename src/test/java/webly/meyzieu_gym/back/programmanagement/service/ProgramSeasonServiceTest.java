@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateCourseException;
-import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
+import webly.meyzieu_gym.back.coursemanagement.dto.CreateCourseDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.coursemanagement.entity.Program;
 import webly.meyzieu_gym.back.coursemanagement.entity.Season;
@@ -70,7 +70,7 @@ class ProgramSeasonServiceTest {
         when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.empty());
 
         // Create the DTO
-        CourseDto dto = new CourseDto();
+        CreateCourseDto dto = new CreateCourseDto();
         dto.setSeasonId(1L);
         dto.setProgramId(1L);
         dto.setRegistrationStartDate(LocalDateTime.of(2023, 1, 1, 0, 0));
@@ -99,7 +99,7 @@ class ProgramSeasonServiceTest {
         program.setName("Yoga");
 
         // Create the DTO
-        CourseDto dto = new CourseDto();
+        CreateCourseDto dto = new CreateCourseDto();
         dto.setSeasonId(1L);
         dto.setProgramId(1L);
         dto.setRegistrationStartDate(LocalDateTime.of(2023, 1, 1, 0, 0));

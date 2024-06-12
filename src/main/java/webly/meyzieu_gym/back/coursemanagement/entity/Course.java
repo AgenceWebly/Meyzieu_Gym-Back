@@ -50,7 +50,7 @@ public class Course {
     @Column(name = "max_age", nullable = false)
     private Integer maxAge;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrainingSlot> trainingSlots;
 
     public Course() {

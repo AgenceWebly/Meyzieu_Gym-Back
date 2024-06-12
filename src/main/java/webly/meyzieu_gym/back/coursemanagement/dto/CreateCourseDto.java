@@ -2,12 +2,15 @@ package webly.meyzieu_gym.back.coursemanagement.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
-public class CourseDto {
+public class CreateCourseDto {
 
     @NotNull
     private Long seasonId;
@@ -37,10 +40,14 @@ public class CourseDto {
     @Positive
     private Integer maxAge;
 
-    public CourseDto() {
+    @Valid
+    @Size(min = 1, message = "At least one training slot is required")
+    private List<CreateTrainingSlotDto> createTrainingSlotDtos;
+
+    public CreateCourseDto() {
     }
 
-    public CourseDto(
+    public CreateCourseDto(
         Long seasonId, 
         Long programId, 
         LocalDateTime registrationStartDate, 
@@ -121,5 +128,13 @@ public class CourseDto {
 
     public void setMaxAge(Integer maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public List<CreateTrainingSlotDto> getCreateTrainingSlotDtos() {
+        return this.createTrainingSlotDtos;
+    }
+
+    public void setCreateTrainingSlotDtos(List<CreateTrainingSlotDto> createTrainingSlotDtos) {
+        this.createTrainingSlotDtos = createTrainingSlotDtos;
     }
 }

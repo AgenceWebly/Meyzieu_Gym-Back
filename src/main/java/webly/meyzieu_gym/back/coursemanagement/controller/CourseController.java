@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
+import webly.meyzieu_gym.back.coursemanagement.dto.CreateCourseDto;
 import webly.meyzieu_gym.back.coursemanagement.service.CourseService;
 
 @RestController
@@ -23,8 +23,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCourse(@Valid @RequestBody CourseDto courseDto) {
-        courseService.createCourse(courseDto);
+    public ResponseEntity<Void> createCourse(@Valid @RequestBody CreateCourseDto createCourseDto) {
+        courseService.createCourse(createCourseDto);
         return ResponseEntity.ok().build();
     }
 }
