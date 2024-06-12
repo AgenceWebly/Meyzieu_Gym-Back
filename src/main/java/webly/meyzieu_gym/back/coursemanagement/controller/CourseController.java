@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement.controller;
+package webly.meyzieu_gym.back.coursemanagement.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import webly.meyzieu_gym.back.programmanagement.dto.CourseDto;
-import webly.meyzieu_gym.back.programmanagement.service.CourseService;
+import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
+import webly.meyzieu_gym.back.coursemanagement.service.CourseService;
 
 @RestController
 @RequestMapping("/api/courses")

@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement.service;
+package webly.meyzieu_gym.back.coursemanagement.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.ProgramNotFoundException;
-import webly.meyzieu_gym.back.programmanagement.dto.ProgramDto;
-import webly.meyzieu_gym.back.programmanagement.entity.Program;
-import webly.meyzieu_gym.back.programmanagement.repository.ProgramRepository;
+import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
+import webly.meyzieu_gym.back.coursemanagement.entity.Program;
+import webly.meyzieu_gym.back.coursemanagement.repository.ProgramRepository;
 
 @Service
 @Transactional

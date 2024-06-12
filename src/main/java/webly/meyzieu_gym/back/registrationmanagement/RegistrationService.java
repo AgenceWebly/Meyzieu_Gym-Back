@@ -6,11 +6,11 @@ import jakarta.transaction.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.CourseNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationException;
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
+import webly.meyzieu_gym.back.coursemanagement.entity.Course;
+import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberGuardianRepository;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
-import webly.meyzieu_gym.back.programmanagement.entity.Course;
-import webly.meyzieu_gym.back.programmanagement.repository.CourseRepository;
 
 @Service
 public class RegistrationService {

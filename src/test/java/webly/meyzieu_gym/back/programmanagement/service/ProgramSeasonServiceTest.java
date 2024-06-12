@@ -18,13 +18,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateCourseException;
-import webly.meyzieu_gym.back.programmanagement.dto.CourseDto;
-import webly.meyzieu_gym.back.programmanagement.entity.Program;
-import webly.meyzieu_gym.back.programmanagement.entity.Course;
-import webly.meyzieu_gym.back.programmanagement.entity.Season;
-import webly.meyzieu_gym.back.programmanagement.repository.ProgramRepository;
-import webly.meyzieu_gym.back.programmanagement.repository.CourseRepository;
-import webly.meyzieu_gym.back.programmanagement.repository.SeasonRepository;
+import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
+import webly.meyzieu_gym.back.coursemanagement.entity.Course;
+import webly.meyzieu_gym.back.coursemanagement.entity.Program;
+import webly.meyzieu_gym.back.coursemanagement.entity.Season;
+import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
+import webly.meyzieu_gym.back.coursemanagement.repository.ProgramRepository;
+import webly.meyzieu_gym.back.coursemanagement.repository.SeasonRepository;
+import webly.meyzieu_gym.back.coursemanagement.service.CourseService;
 
 class ProgramSeasonServiceTest {
 

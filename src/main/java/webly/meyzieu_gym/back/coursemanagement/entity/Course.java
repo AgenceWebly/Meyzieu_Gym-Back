@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement.entity;
+package webly.meyzieu_gym.back.coursemanagement.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
