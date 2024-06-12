@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.registrationmanagement;
+package webly.meyzieu_gym.back.registrationmanagement.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class RegisterMemberDto {
+public class NewRegistrationDto {
     
     @NotNull
     private Long memberId;
@@ -37,25 +37,18 @@ public class RegisterMemberDto {
     @NotNull
     private LocalDateTime registrationDate;
 
-    private String healthCertificateFileUrl;
 
-    @NotNull
-    private boolean isHealthCertificateRequired;
-
-
-    public RegisterMemberDto() {
+    public NewRegistrationDto() {
     }
 
-    public RegisterMemberDto(
+    public NewRegistrationDto(
         Long memberId,
         Long courseId,
         BigDecimal registrationFee,
         String paymentMethod,
         String paymentStatus,
         String registrationStatus,
-        LocalDateTime registrationDate,
-        String healthCertificateFileUrl, 
-        boolean isHealthCertificateRequired) {
+        LocalDateTime registrationDate) {
             this.memberId = memberId;
             this.courseId = courseId;
             this.registrationFee = registrationFee;
@@ -63,8 +56,6 @@ public class RegisterMemberDto {
             this.paymentStatus = paymentStatus;
             this.registrationStatus = registrationStatus;
             this.registrationDate = registrationDate;
-            this.healthCertificateFileUrl = healthCertificateFileUrl;
-            this.isHealthCertificateRequired = isHealthCertificateRequired;
     }
 
     public Long getMemberId() {
@@ -121,22 +112,6 @@ public class RegisterMemberDto {
 
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
-    }
-
-    public String getHealthCertificateFileUrl() {
-        return this.healthCertificateFileUrl;
-    }
-
-    public void setHealthCertificateFileUrl(String healthCertificateFileUrl) {
-        this.healthCertificateFileUrl = healthCertificateFileUrl;
-    }
-
-    public boolean isHealthCertificateRequired() {
-        return this.isHealthCertificateRequired;
-    }
-
-    public void setHealthCertificateRequired(boolean isHealthCertificateRequired) {
-        this.isHealthCertificateRequired = isHealthCertificateRequired;
     }
 
 }
