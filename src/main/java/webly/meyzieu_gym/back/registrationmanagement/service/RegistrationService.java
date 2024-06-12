@@ -8,7 +8,6 @@ import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationExcep
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.RegistrationNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
-import webly.meyzieu_gym.back.membermanagement.repository.MemberGuardianRepository;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
 import webly.meyzieu_gym.back.programmanagement.entity.Course;
 import webly.meyzieu_gym.back.programmanagement.repository.CourseRepository;
@@ -23,21 +22,11 @@ public class RegistrationService {
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
     private final RegistrationRepository registrationRepository;
-    private final MemberGuardianRepository memberGuardianRepository;
 
-    public RegistrationService(MemberRepository memberRepository, CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberGuardianRepository memberGuardianRepository) {
+    public RegistrationService(MemberRepository memberRepository, CourseRepository courseRepository, RegistrationRepository registrationRepository) {
         this.memberRepository = memberRepository;
         this.courseRepository = courseRepository;
         this.registrationRepository = registrationRepository;
-        this.memberGuardianRepository = memberGuardianRepository;
-    }
-
-    public boolean isMemberOwner(Long memberId, Long userId) {
-        return memberGuardianRepository.findByMemberIdAndUserId(memberId, userId).isPresent();
-    }
-    
-    public boolean isRegistrationOwner(Long registrationId, Long userId) {
-        return registrationRepository.existsByIdAndMemberGuardianUserId(registrationId, userId);
     }
 
     @Transactional

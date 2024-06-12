@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+
 import webly.meyzieu_gym.back.registrationmanagement.dto.NewRegistrationDto;
 import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateHealthCertificateDto;
 import webly.meyzieu_gym.back.registrationmanagement.service.RegistrationService;
@@ -18,20 +19,20 @@ import webly.meyzieu_gym.back.registrationmanagement.service.RegistrationService
 @PreAuthorize("hasRole('GUARDIAN')")
 public class RegistrationController {
     
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
 
-    @PreAuthorize("@registrationService.isMemberOwner(#newRegistrationDto.memberId, authentication.principal.id)")
+    @PreAuthorize("@memberOwnershipService.isMemberOwner(#newRegistrationDto.memberId, authentication.principal.id)")
     @PostMapping
     public ResponseEntity<Long> registerMember(@Valid @RequestBody NewRegistrationDto newRegistrationDto) {
         Long registrationId = registrationService.registerMember(newRegistrationDto);
         return ResponseEntity.ok(registrationId);
     }
 
-    @PreAuthorize("@registrationService.isRegistrationOwner(#updateHealthCertificateDto.id, authentication.principal.id)")
+    @PreAuthorize("@registrationOwnershipService.isRegistrationOwner(#updateHealthCertificateDto.id, authentication.principal.id)")
     @PutMapping("/health-certificate")
     public ResponseEntity<Void> updateHealthCertificate(@Valid @RequestBody UpdateHealthCertificateDto updateHealthCertificateDto) {
         registrationService.updateHealthCertificate(updateHealthCertificateDto);
