@@ -1,62 +1,54 @@
-package webly.meyzieu_gym.back.programmanagement.dto;
+package webly.meyzieu_gym.back.coursemanagement.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import java.util.List;
 
 public class CourseDto {
 
-    @NotNull
+    private Long id;
     private Long seasonId;
-
-    @NotNull
     private Long programId;
-
-    @NotNull
     private LocalDateTime registrationStartDate;
-
-    @NotNull
     private LocalDateTime registrationEndDate;
-
-    @NotNull
-    @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal price;
-
-    @NotNull
-    @Positive
     private Integer maxMembers;
-
-    @NotNull
-    @Positive
     private Integer minAge;
-
-    @NotNull
-    @Positive
     private Integer maxAge;
+    private List<TrainingSlotDto> trainingSlotDtos;
 
     public CourseDto() {
     }
 
     public CourseDto(
-        Long seasonId, 
-        Long programId, 
-        LocalDateTime registrationStartDate, 
-        LocalDateTime registrationEndDate, 
-        BigDecimal price, 
-        Integer maxMembers, 
-        Integer minAge, 
-        Integer maxAge) {
-            this.seasonId = seasonId;
-            this.programId = programId;
-            this.registrationStartDate = registrationStartDate;
-            this.registrationEndDate = registrationEndDate;
-            this.price = price;
-            this.maxMembers = maxMembers;
-            this.minAge = minAge;
-            this.maxAge = maxAge;
+            Long id, 
+            Long seasonId,
+            Long programId,
+            LocalDateTime registrationStartDate,
+            LocalDateTime registrationEndDate,
+            BigDecimal price,
+            Integer maxMembers,
+            Integer minAge,
+            Integer maxAge,
+            List<TrainingSlotDto> trainingSlotDtos) {
+        this.id = id;
+        this.seasonId = seasonId;
+        this.programId = programId;
+        this.registrationStartDate = registrationStartDate;
+        this.registrationEndDate = registrationEndDate;
+        this.price = price;
+        this.maxMembers = maxMembers;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
+        this.trainingSlotDtos = trainingSlotDtos;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getSeasonId() {
@@ -121,5 +113,13 @@ public class CourseDto {
 
     public void setMaxAge(Integer maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public List<TrainingSlotDto> getTrainingSlotDtos() {
+        return trainingSlotDtos;
+    }
+
+    public void setTrainingSlotDtos(List<TrainingSlotDto> trainingSlotDtos) {
+        this.trainingSlotDtos = trainingSlotDtos;
     }
 }

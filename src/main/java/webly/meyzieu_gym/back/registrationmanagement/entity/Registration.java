@@ -12,8 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
-import webly.meyzieu_gym.back.programmanagement.entity.Course;
 
 @Entity
 @Table(name = "registration")

@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.programmanagement.controller;
+package webly.meyzieu_gym.back.coursemanagement.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import webly.meyzieu_gym.back.programmanagement.dto.SeasonDto;
-import webly.meyzieu_gym.back.programmanagement.service.SeasonService;
+import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
+import webly.meyzieu_gym.back.coursemanagement.service.SeasonService;
 
 @RestController
 @RequestMapping("/api/seasons")
