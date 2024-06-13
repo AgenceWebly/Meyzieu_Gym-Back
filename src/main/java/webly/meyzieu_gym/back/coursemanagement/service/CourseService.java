@@ -1,8 +1,6 @@
 package webly.meyzieu_gym.back.coursemanagement.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +22,11 @@ public class CourseService {
     }
 
     public List<CourseDto> getAvailableCoursesForRegistration() {
+        Date currentDate = new Date();
 
         return courseRepository.findAll().stream()
-                .filter(course -> course.getRegistrationEndDate().isAfter(LocalDateTime.now()) 
-                                  && toLocalDate(course.getSeason().getEndDate()).isAfter(LocalDate.now()))
+                .filter(course -> course.getRegistrationEndDate().isAfter(LocalDateTime.now())
+                                  && course.getSeason().getEndDate().after(currentDate))
                 .map(this::mapToAvailableCourseDto)
                 .collect(Collectors.toList());
     }
@@ -52,9 +51,5 @@ public class CourseService {
                         slot.getEndTime()))
                     .collect(Collectors.toList())
         );
-    }
-
-    private LocalDate toLocalDate(Date date) {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }
