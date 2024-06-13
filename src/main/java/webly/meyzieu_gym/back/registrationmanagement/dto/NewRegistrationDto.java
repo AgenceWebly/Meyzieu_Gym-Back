@@ -1,7 +1,6 @@
 package webly.meyzieu_gym.back.registrationmanagement.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -34,10 +33,6 @@ public class NewRegistrationDto {
     @Size(max = 30)
     private String registrationStatus;
 
-    @NotNull
-    private LocalDateTime registrationDate;
-
-
     public NewRegistrationDto() {
     }
 
@@ -47,15 +42,13 @@ public class NewRegistrationDto {
         BigDecimal registrationFee,
         String paymentMethod,
         String paymentStatus,
-        String registrationStatus,
-        LocalDateTime registrationDate) {
+        String registrationStatus) {
             this.memberId = memberId;
             this.courseId = courseId;
             this.registrationFee = registrationFee;
             this.paymentMethod = paymentMethod;
             this.paymentStatus = paymentStatus;
             this.registrationStatus = registrationStatus;
-            this.registrationDate = registrationDate;
     }
 
     public Long getMemberId() {
@@ -105,13 +98,4 @@ public class NewRegistrationDto {
     public void setRegistrationStatus(String registrationStatus) {
         this.registrationStatus = registrationStatus;
     }
-
-    public LocalDateTime getRegistrationDate() {
-        return this.registrationDate;
-    }
-
-    public void setRegistrationDate(LocalDateTime registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
 }

@@ -1,5 +1,7 @@
 package webly.meyzieu_gym.back.registrationmanagement.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -50,7 +52,7 @@ public class RegistrationService {
             newRegistrationDto.getPaymentMethod(),
             newRegistrationDto.getPaymentStatus(),
             newRegistrationDto.getRegistrationStatus(),
-            newRegistrationDto.getRegistrationDate(),
+            LocalDateTime.now(),
             null,
             false
         );
