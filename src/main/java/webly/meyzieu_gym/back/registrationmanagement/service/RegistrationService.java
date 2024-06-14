@@ -14,7 +14,7 @@ import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.registrationmanagement.dto.NewRegistrationDto;
-import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateHealthCertificateDto;
+import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateRegistrationDto;
 import webly.meyzieu_gym.back.registrationmanagement.entity.Registration;
 import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
 
@@ -44,14 +44,15 @@ public class RegistrationService {
         if (isAlreadyRegistered) {
             throw new DuplicateRegistrationException("Member is already registered for a course in this season");
         }
-
+        
+        String stage = "En attente";
         Registration registration = new Registration(
             member,
             course,
             newRegistrationDto.getRegistrationFee(),
-            newRegistrationDto.getPaymentMethod(),
-            newRegistrationDto.getPaymentStatus(),
-            newRegistrationDto.getRegistrationStatus(),
+            stage,
+            stage,
+            stage,
             LocalDateTime.now(),
             null,
             false
@@ -62,12 +63,15 @@ public class RegistrationService {
     }
 
     @Transactional
-    public void updateHealthCertificate(UpdateHealthCertificateDto updateHealthCertificateDto) {
-        Registration registration = registrationRepository.findById(updateHealthCertificateDto.getId())
+    public void updateRegistration(Long id, UpdateRegistrationDto updatedRegistrationDto) {
+        Registration registration = registrationRepository.findById(id)
                 .orElseThrow(() -> new RegistrationNotFoundException("Registration not found"));
 
-        registration.setHealthCertificateRequired(updateHealthCertificateDto.isHealthCertificateRequired());
-        registration.setHealthCertificateFileUrl(updateHealthCertificateDto.getHealthCertificateFileUrl());
+        updatedRegistrationDto.getIsHealthCertificateRequired().ifPresent(registration::setHealthCertificateRequired);
+        updatedRegistrationDto.getHealthCertificateFileUrl().ifPresent(registration::setHealthCertificateFileUrl);
+        updatedRegistrationDto.getPaymentMethod().ifPresent(registration::setPaymentMethod);
+        updatedRegistrationDto.getPaymentStatus().ifPresent(registration::setPaymentStatus);
+        updatedRegistrationDto.getRegistrationStatus().ifPresent(registration::setRegistrationStatus);
         registrationRepository.save(registration);
     }
 }
