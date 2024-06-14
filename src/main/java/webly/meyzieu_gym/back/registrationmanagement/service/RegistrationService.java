@@ -45,7 +45,7 @@ public class RegistrationService {
             throw new DuplicateRegistrationException("Member is already registered for a course in this season");
         }
         
-        String stage = "Pending";
+        String stage = "En attente";
         Registration registration = new Registration(
             member,
             course,
