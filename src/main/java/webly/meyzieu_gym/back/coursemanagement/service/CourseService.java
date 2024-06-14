@@ -1,10 +1,13 @@
 package webly.meyzieu_gym.back.coursemanagement.service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
@@ -17,25 +20,30 @@ import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
 
 @Service
-public class CourseAdminService {
-    
+public class CourseService {
+
     private final CourseRepository courseRepository;
     private final RegistrationRepository registrationRepository;
 
-    public CourseAdminService(CourseRepository courseRepository, RegistrationRepository registrationRepository) {
+    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository) {
         this.courseRepository = courseRepository;
         this.registrationRepository = registrationRepository;
     }
 
     @Transactional(readOnly = true)
-    public List<CourseDto> getAllCourses() {
+    public List<CourseDto> getAvailableCoursesForRegistration() {
+        LocalDateTime now = LocalDateTime.now();
+        Date currentDate = new Date();
+
         return courseRepository.findAll().stream()
+                .filter(course -> course.getRegistrationEndDate().isAfter(now) && course.getSeason().getEndDate().after(currentDate))
                 .map(this::mapToCourseDto)
                 .collect(Collectors.toList());
     }
 
     private CourseDto mapToCourseDto(Course course) {
-        int remainingSlots = calculateRemainingSlots(course);
+        long registrationsCount = registrationRepository.countByCourseId(course.getId());
+        int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
 
         SeasonDto seasonDto = mapToSeasonDto(course.getSeason());
         ProgramDto programDto = mapToProgramDto(course.getProgram());
@@ -56,15 +64,10 @@ public class CourseAdminService {
         );
     }
 
-    private int calculateRemainingSlots(Course course) {
-        long registrationsCount = registrationRepository.countByCourseId(course.getId());
-        return course.getMaxMembers() - (int) registrationsCount;
-    }
-
     private SeasonDto mapToSeasonDto(Season season) {
         return new SeasonDto(
-            season.getId(), 
-            season.getStartDate(), 
+            season.getId(),
+            season.getStartDate(),
             season.getEndDate());
     }
 

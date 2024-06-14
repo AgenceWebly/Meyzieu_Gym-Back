@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -22,6 +23,7 @@ public class CreateCourseDto {
     private LocalDateTime registrationStartDate;
 
     @NotNull
+    @Future(message = "Registration end date must be in the future")
     private LocalDateTime registrationEndDate;
 
     @NotNull

@@ -15,4 +15,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
        "JOIN m.guardians g " +
        "WHERE r.id = :registrationId AND g.user.id = :userId")
     boolean existsByIdAndMemberGuardianUserId(@Param("registrationId") Long registrationId, @Param("userId") Long userId);
+
+    long countByCourseId(Long courseId);
+
 }

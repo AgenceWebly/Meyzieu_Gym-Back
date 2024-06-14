@@ -7,40 +7,43 @@ import java.util.List;
 public class CourseDto {
 
     private Long id;
-    private Long seasonId;
-    private Long programId;
+    private SeasonDto season;
+    private ProgramDto program;
     private LocalDateTime registrationStartDate;
     private LocalDateTime registrationEndDate;
     private BigDecimal price;
     private Integer maxMembers;
     private Integer minAge;
     private Integer maxAge;
-    private List<TrainingSlotDto> trainingSlotDtos;
-
+    private List<TrainingSlotDto> trainingSlots;
+    private Integer remainingSlots;
+    
     public CourseDto() {
     }
 
     public CourseDto(
             Long id, 
-            Long seasonId,
-            Long programId,
+            SeasonDto season,
+            ProgramDto program,
             LocalDateTime registrationStartDate,
             LocalDateTime registrationEndDate,
             BigDecimal price,
             Integer maxMembers,
             Integer minAge,
             Integer maxAge,
-            List<TrainingSlotDto> trainingSlotDtos) {
+            List<TrainingSlotDto> trainingSlots,
+            Integer remainingSlots) {
         this.id = id;
-        this.seasonId = seasonId;
-        this.programId = programId;
+        this.season = season;
+        this.program = program;
         this.registrationStartDate = registrationStartDate;
         this.registrationEndDate = registrationEndDate;
         this.price = price;
         this.maxMembers = maxMembers;
         this.minAge = minAge;
         this.maxAge = maxAge;
-        this.trainingSlotDtos = trainingSlotDtos;
+        this.trainingSlots = trainingSlots;
+        this.remainingSlots = remainingSlots;
     }
 
     public Long getId() {
@@ -51,21 +54,22 @@ public class CourseDto {
         this.id = id;
     }
 
-    public Long getSeasonId() {
-        return seasonId;
+    public SeasonDto getSeason() {
+        return season;
     }
 
-    public void setSeasonId(Long seasonId) {
-        this.seasonId = seasonId;
+    public void setSeason(SeasonDto season) {
+        this.season = season;
     }
 
-    public Long getProgramId() {
-        return programId;
+    public ProgramDto getProgram() {
+        return program;
     }
 
-    public void setProgramId(Long programId) {
-        this.programId = programId;
+    public void setProgram(ProgramDto program) {
+        this.program = program;
     }
+
 
     public LocalDateTime getRegistrationStartDate() {
         return registrationStartDate;
@@ -115,11 +119,19 @@ public class CourseDto {
         this.maxAge = maxAge;
     }
 
-    public List<TrainingSlotDto> getTrainingSlotDtos() {
-        return trainingSlotDtos;
+    public List<TrainingSlotDto> getTrainingSlots() {
+        return this.trainingSlots;
+    }
+    
+    public void setTrainingSlots(List<TrainingSlotDto> trainingSlots) {
+        this.trainingSlots = trainingSlots;
     }
 
-    public void setTrainingSlotDtos(List<TrainingSlotDto> trainingSlotDtos) {
-        this.trainingSlotDtos = trainingSlotDtos;
+    public Integer getRemainingSlots() {
+        return this.remainingSlots;
+    }
+
+    public void setRemainingSlots(Integer remainingSlots) {
+        this.remainingSlots = remainingSlots;
     }
 }
