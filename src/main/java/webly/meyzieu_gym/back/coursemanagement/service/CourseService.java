@@ -11,14 +11,17 @@ import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
+import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
 
 @Service
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final RegistrationRepository registrationRepository;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository) {
         this.courseRepository = courseRepository;
+        this.registrationRepository = registrationRepository;
     }
 
     public List<CourseDto> getAvailableCoursesForRegistration() {
@@ -32,6 +35,10 @@ public class CourseService {
     }
 
     private CourseDto mapToAvailableCourseDto(Course course) {
+
+        long registrationsCount = registrationRepository.countByCourseId(course.getId());
+        int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
+
         return new CourseDto(
                 course.getId(),
                 course.getSeason().getId(),
@@ -49,7 +56,8 @@ public class CourseService {
                         slot.getDay(), 
                         slot.getStartTime(), 
                         slot.getEndTime()))
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toList()),
+                    remainingSlots
         );
     }
 }

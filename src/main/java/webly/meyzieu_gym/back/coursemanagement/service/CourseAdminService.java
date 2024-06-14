@@ -10,14 +10,17 @@ import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.coursemanagement.entity.TrainingSlot;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
+import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
 
 @Service
 public class CourseAdminService {
     
     private final CourseRepository courseRepository;
+    private final RegistrationRepository registrationRepository;
 
-    public CourseAdminService(CourseRepository courseRepository) {
+    public CourseAdminService(CourseRepository courseRepository, RegistrationRepository registrationRepository) {
         this.courseRepository = courseRepository;
+        this.registrationRepository = registrationRepository;
     }
 
     @Transactional(readOnly = true)
@@ -32,6 +35,8 @@ public class CourseAdminService {
         List<TrainingSlotDto> trainingSlotDtos = course.getTrainingSlots().stream()
                 .map(this::mapToTrainingSlotDto)
                 .collect(Collectors.toList());
+                long registrationsCount = registrationRepository.countByCourseId(course.getId());
+                int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
 
         return new CourseDto(
                 course.getId(),
@@ -43,7 +48,8 @@ public class CourseAdminService {
                 course.getMaxMembers(),
                 course.getMinAge(),
                 course.getMaxAge(),
-                trainingSlotDtos
+                trainingSlotDtos,
+                remainingSlots
         );
     }
 

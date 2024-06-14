@@ -16,7 +16,8 @@ public class CourseDto {
     private Integer minAge;
     private Integer maxAge;
     private List<TrainingSlotDto> trainingSlotDtos;
-
+    private Integer remainingSlots;
+    
     public CourseDto() {
     }
 
@@ -30,7 +31,8 @@ public class CourseDto {
             Integer maxMembers,
             Integer minAge,
             Integer maxAge,
-            List<TrainingSlotDto> trainingSlotDtos) {
+            List<TrainingSlotDto> trainingSlotDtos,
+            Integer remainingSlots) {
         this.id = id;
         this.seasonId = seasonId;
         this.programId = programId;
@@ -41,6 +43,7 @@ public class CourseDto {
         this.minAge = minAge;
         this.maxAge = maxAge;
         this.trainingSlotDtos = trainingSlotDtos;
+        this.remainingSlots = remainingSlots;
     }
 
     public Long getId() {
@@ -121,5 +124,13 @@ public class CourseDto {
 
     public void setTrainingSlotDtos(List<TrainingSlotDto> trainingSlotDtos) {
         this.trainingSlotDtos = trainingSlotDtos;
+    }
+
+    public Integer getRemainingSlots() {
+        return this.remainingSlots;
+    }
+
+    public void setRemainingSlots(Integer remainingSlots) {
+        this.remainingSlots = remainingSlots;
     }
 }

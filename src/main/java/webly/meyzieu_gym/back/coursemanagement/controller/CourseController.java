@@ -22,7 +22,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @GetMapping("/available")
+    @GetMapping
     public ResponseEntity<List<CourseDto>> getAvailableCoursesForRegistration() {
         List<CourseDto> courses = courseService.getAvailableCoursesForRegistration();
         return ResponseEntity.ok(courses);
