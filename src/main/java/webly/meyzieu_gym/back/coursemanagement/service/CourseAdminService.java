@@ -32,7 +32,7 @@ public class CourseAdminService {
     }
 
     private CourseDto mapToCourseDto(Course course) {
-        List<TrainingSlotDto> trainingSlotDtos = course.getTrainingSlots().stream()
+        List<TrainingSlotDto> trainingSlots = course.getTrainingSlots().stream()
                 .map(this::mapToTrainingSlotDto)
                 .collect(Collectors.toList());
                 long registrationsCount = registrationRepository.countByCourseId(course.getId());
@@ -48,7 +48,7 @@ public class CourseAdminService {
                 course.getMaxMembers(),
                 course.getMinAge(),
                 course.getMaxAge(),
-                trainingSlotDtos,
+                trainingSlots,
                 remainingSlots
         );
     }
