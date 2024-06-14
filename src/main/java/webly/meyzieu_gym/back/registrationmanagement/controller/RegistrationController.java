@@ -2,6 +2,7 @@ package webly.meyzieu_gym.back.registrationmanagement.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 import webly.meyzieu_gym.back.registrationmanagement.dto.NewRegistrationDto;
-import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateHealthCertificateDto;
+import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateRegistrationDto;
 import webly.meyzieu_gym.back.registrationmanagement.service.RegistrationService;
 
 @RestController
@@ -32,10 +33,10 @@ public class RegistrationController {
         return ResponseEntity.ok(registrationId);
     }
 
-    @PreAuthorize("@registrationOwnershipService.isRegistrationOwner(#updateHealthCertificateDto.id, authentication.principal.id)")
-    @PutMapping("/health-certificate")
-    public ResponseEntity<Void> updateHealthCertificate(@Valid @RequestBody UpdateHealthCertificateDto updateHealthCertificateDto) {
-        registrationService.updateHealthCertificate(updateHealthCertificateDto);
+    @PutMapping("/{id}")
+    @PreAuthorize("@registrationOwnershipService.isRegistrationOwner(#id, authentication.principal.id)")
+    public ResponseEntity<Void> updateRegistration(@PathVariable Long id, @Valid @RequestBody UpdateRegistrationDto updateRegistrationDto) {
+        registrationService.updateRegistration(id, updateRegistrationDto);
         return ResponseEntity.ok().build();
     }
 }
