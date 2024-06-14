@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 public class CreateTrainingSlotDto {
 
     @NotBlank(message = "Day cannot be blank")
-    @Pattern(regexp = "monday|tuesday|wednesday|thursday|friday|saturday|sunday", message = "The chosen day isn't correct")
+    @Pattern(regexp = "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche", message = "The chosen day isn't correct")
     private String day;
 
     @NotNull(message = "Start time cannot be null")
