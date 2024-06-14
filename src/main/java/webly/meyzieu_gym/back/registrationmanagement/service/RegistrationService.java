@@ -44,14 +44,15 @@ public class RegistrationService {
         if (isAlreadyRegistered) {
             throw new DuplicateRegistrationException("Member is already registered for a course in this season");
         }
-
+        
+        String stage = "Pending";
         Registration registration = new Registration(
             member,
             course,
             newRegistrationDto.getRegistrationFee(),
-            newRegistrationDto.getPaymentMethod(),
-            newRegistrationDto.getPaymentStatus(),
-            newRegistrationDto.getRegistrationStatus(),
+            stage,
+            stage,
+            stage,
             LocalDateTime.now(),
             null,
             false

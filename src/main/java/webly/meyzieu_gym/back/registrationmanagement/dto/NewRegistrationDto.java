@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public class NewRegistrationDto {
     
@@ -21,34 +19,16 @@ public class NewRegistrationDto {
     @Digits(integer = 10, fraction = 2)
     private BigDecimal registrationFee;
 
-    @NotBlank
-    @Size(max = 30)
-    private String paymentMethod;
-
-    @NotBlank
-    @Size(max = 30)
-    private String paymentStatus;
-
-    @NotBlank
-    @Size(max = 30)
-    private String registrationStatus;
-
     public NewRegistrationDto() {
     }
 
     public NewRegistrationDto(
         Long memberId,
         Long courseId,
-        BigDecimal registrationFee,
-        String paymentMethod,
-        String paymentStatus,
-        String registrationStatus) {
+        BigDecimal registrationFee) {
             this.memberId = memberId;
             this.courseId = courseId;
             this.registrationFee = registrationFee;
-            this.paymentMethod = paymentMethod;
-            this.paymentStatus = paymentStatus;
-            this.registrationStatus = registrationStatus;
     }
 
     public Long getMemberId() {
@@ -73,29 +53,5 @@ public class NewRegistrationDto {
 
     public void setRegistrationFee(BigDecimal registrationFee) {
         this.registrationFee = registrationFee;
-    }
-
-    public String getPaymentMethod() {
-        return this.paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getPaymentStatus() {
-        return this.paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public String getRegistrationStatus() {
-        return this.registrationStatus;
-    }
-
-    public void setRegistrationStatus(String registrationStatus) {
-        this.registrationStatus = registrationStatus;
     }
 }
