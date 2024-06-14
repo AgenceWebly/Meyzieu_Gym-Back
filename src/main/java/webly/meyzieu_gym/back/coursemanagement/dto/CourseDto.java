@@ -7,8 +7,8 @@ import java.util.List;
 public class CourseDto {
 
     private Long id;
-    private Long seasonId;
-    private Long programId;
+    private SeasonDto season;
+    private ProgramDto program;
     private LocalDateTime registrationStartDate;
     private LocalDateTime registrationEndDate;
     private BigDecimal price;
@@ -23,8 +23,8 @@ public class CourseDto {
 
     public CourseDto(
             Long id, 
-            Long seasonId,
-            Long programId,
+            SeasonDto season,
+            ProgramDto program,
             LocalDateTime registrationStartDate,
             LocalDateTime registrationEndDate,
             BigDecimal price,
@@ -34,8 +34,8 @@ public class CourseDto {
             List<TrainingSlotDto> trainingSlots,
             Integer remainingSlots) {
         this.id = id;
-        this.seasonId = seasonId;
-        this.programId = programId;
+        this.season = season;
+        this.program = program;
         this.registrationStartDate = registrationStartDate;
         this.registrationEndDate = registrationEndDate;
         this.price = price;
@@ -54,21 +54,22 @@ public class CourseDto {
         this.id = id;
     }
 
-    public Long getSeasonId() {
-        return seasonId;
+    public SeasonDto getSeason() {
+        return season;
     }
 
-    public void setSeasonId(Long seasonId) {
-        this.seasonId = seasonId;
+    public void setSeason(SeasonDto season) {
+        this.season = season;
     }
 
-    public Long getProgramId() {
-        return programId;
+    public ProgramDto getProgram() {
+        return program;
     }
 
-    public void setProgramId(Long programId) {
-        this.programId = programId;
+    public void setProgram(ProgramDto program) {
+        this.program = program;
     }
+
 
     public LocalDateTime getRegistrationStartDate() {
         return registrationStartDate;

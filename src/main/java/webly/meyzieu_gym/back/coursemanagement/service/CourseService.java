@@ -6,10 +6,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
+import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
+import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
+import webly.meyzieu_gym.back.coursemanagement.entity.Program;
+import webly.meyzieu_gym.back.coursemanagement.entity.Season;
+import webly.meyzieu_gym.back.coursemanagement.entity.TrainingSlot;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
 
@@ -24,40 +30,62 @@ public class CourseService {
         this.registrationRepository = registrationRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<CourseDto> getAvailableCoursesForRegistration() {
+        LocalDateTime now = LocalDateTime.now();
         Date currentDate = new Date();
 
         return courseRepository.findAll().stream()
-                .filter(course -> course.getRegistrationEndDate().isAfter(LocalDateTime.now())
-                                  && course.getSeason().getEndDate().after(currentDate))
-                .map(this::mapToAvailableCourseDto)
+                .filter(course -> course.getRegistrationEndDate().isAfter(now) && course.getSeason().getEndDate().after(currentDate))
+                .map(this::mapToCourseDto)
                 .collect(Collectors.toList());
     }
 
-    private CourseDto mapToAvailableCourseDto(Course course) {
-
+    private CourseDto mapToCourseDto(Course course) {
         long registrationsCount = registrationRepository.countByCourseId(course.getId());
         int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
 
+        SeasonDto seasonDto = mapToSeasonDto(course.getSeason());
+        ProgramDto programDto = mapToProgramDto(course.getProgram());
+        List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
+
         return new CourseDto(
                 course.getId(),
-                course.getSeason().getId(),
-                course.getProgram().getId(),
+                seasonDto,
+                programDto,
                 course.getRegistrationStartDate(),
                 course.getRegistrationEndDate(),
                 course.getPrice(),
                 course.getMaxMembers(),
                 course.getMinAge(),
                 course.getMaxAge(),
-                course.getTrainingSlots()
-                    .stream()
-                    .map(slot -> new TrainingSlotDto(
-                        slot.getId(), 
-                        slot.getDay(), 
-                        slot.getStartTime(), 
-                        slot.getEndTime()))
-                    .collect(Collectors.toList()),
-                    remainingSlots
+                trainingSlotDtos,
+                remainingSlots
         );
+    }
+
+    private SeasonDto mapToSeasonDto(Season season) {
+        return new SeasonDto(
+            season.getId(),
+            season.getStartDate(),
+            season.getEndDate());
+    }
+
+    private ProgramDto mapToProgramDto(Program program) {
+        return new ProgramDto(
+            program.getId(), 
+            program.getName(), 
+            program.getDescription(), 
+            program.isIncludingCompetition());
+    }
+
+    private List<TrainingSlotDto> mapToTrainingSlotDtos(List<TrainingSlot> trainingSlots) {
+        return trainingSlots.stream()
+                .map(slot -> new TrainingSlotDto(
+                        slot.getId(),
+                        slot.getDay(),
+                        slot.getStartTime(),
+                        slot.getEndTime()))
+                .collect(Collectors.toList());
     }
 }
