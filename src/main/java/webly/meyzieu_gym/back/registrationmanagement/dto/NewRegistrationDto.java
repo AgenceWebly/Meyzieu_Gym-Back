@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class NewRegistrationDto {
     
@@ -19,16 +21,22 @@ public class NewRegistrationDto {
     @Digits(integer = 10, fraction = 2)
     private BigDecimal registrationFee;
 
+    @NotBlank
+    @Pattern(regexp = "cours choisi", message = "The status isn't the right one")
+    private String registrationStatus;
+
     public NewRegistrationDto() {
     }
 
     public NewRegistrationDto(
         Long memberId,
         Long courseId,
-        BigDecimal registrationFee) {
+        BigDecimal registrationFee,
+        String registrationStatus) {
             this.memberId = memberId;
             this.courseId = courseId;
             this.registrationFee = registrationFee;
+            this.registrationStatus = registrationStatus;
     }
 
     public Long getMemberId() {
@@ -53,5 +61,13 @@ public class NewRegistrationDto {
 
     public void setRegistrationFee(BigDecimal registrationFee) {
         this.registrationFee = registrationFee;
+    }
+
+    public String getRegistrationStatus() {
+        return this.registrationStatus;
+    }
+
+    public void setRegistrationStatus(String registrationStatus) {
+        this.registrationStatus = registrationStatus;
     }
 }

@@ -52,7 +52,7 @@ public class RegistrationService {
             newRegistrationDto.getRegistrationFee(),
             stage,
             stage,
-            stage,
+            newRegistrationDto.getRegistrationStatus(),
             LocalDateTime.now(),
             null,
             false
