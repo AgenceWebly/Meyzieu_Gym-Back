@@ -41,11 +41,11 @@ public class MemberController {
         Long memberId = memberService.createMember(memberDto, id);
         return ResponseEntity.ok(memberId);
     }
-    
+
     @PreAuthorize("#id == authentication.principal.id")
     @GetMapping("/{id}/members")
     public List<MemberListDto> getMembersByUserId(@PathVariable Long id,
-                                                  @RequestParam(required = false) boolean forRegistration) {
+                                                  @RequestParam(required = false, defaultValue = "false") Boolean forRegistration) {
         return membersByUserService.getMembersByUserId(id, forRegistration);
     }
 
