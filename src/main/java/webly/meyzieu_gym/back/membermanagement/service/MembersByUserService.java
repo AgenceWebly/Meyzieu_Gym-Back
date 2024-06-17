@@ -60,7 +60,7 @@ public class MembersByUserService {
 
     private boolean isRegistrationValidated(Member member) {
         return member.getRegistrations().stream()
-            .anyMatch(reg -> "registration validated".equals(reg.getRegistrationStatus()));
+            .anyMatch(reg -> "mode de paiement choisi".equals(reg.getRegistrationStatus()));
     }
 
     private MemberListDto mapToMemberListDto(Member member) {
