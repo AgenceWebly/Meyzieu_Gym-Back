@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import webly.meyzieu_gym.back.registrationmanagement.entity.Registration;
 
 @Entity
 @Table(name = "member")
@@ -61,6 +62,9 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private Set<MemberGuardian> guardians;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Registration> registrations;
+    
     public Member() {
     }
 
@@ -179,5 +183,13 @@ public class Member {
 
     public void setGuardians(Set<MemberGuardian> guardians) {
         this.guardians = guardians;
+    }
+
+    public Set<Registration> getRegistrations() {
+        return this.registrations;
+    }
+
+    public void setRegistrations(Set<Registration> registrations) {
+        this.registrations = registrations;
     }
 }
