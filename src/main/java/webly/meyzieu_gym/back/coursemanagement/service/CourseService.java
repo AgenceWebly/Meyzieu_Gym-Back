@@ -31,14 +31,22 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseDto> getAvailableCoursesForRegistration() {
+    public List<CourseDto> getAvailableCoursesForMemberId(Long memberId) {
         LocalDateTime now = LocalDateTime.now();
         Date currentDate = new Date();
 
         return courseRepository.findAll().stream()
-                .filter(course -> course.getRegistrationEndDate().isAfter(now) && course.getSeason().getEndDate().after(currentDate))
+                .filter(course -> isCourseAvailableForMember(course, memberId, now, currentDate))
                 .map(this::mapToCourseDto)
                 .collect(Collectors.toList());
+    }
+
+    private boolean isCourseAvailableForMember(Course course, Long memberId, LocalDateTime now, Date currentDate) {
+
+        boolean isRegistrationPeriodOpen = course.getRegistrationEndDate().isAfter(now) && course.getSeason().getEndDate().after(currentDate);
+        boolean isMemberNotRegisteredForSeason = !registrationRepository.existsByMemberIdAndCourseSeasonId(memberId, course.getSeason().getId());
+        
+        return isRegistrationPeriodOpen && isMemberNotRegisteredForSeason;
     }
 
     private CourseDto mapToCourseDto(Course course) {
