@@ -17,7 +17,8 @@ public class CourseDto {
     private Integer maxAge;
     private List<TrainingSlotDto> trainingSlots;
     private Integer remainingSlots;
-    
+    private Integer userRegistrationsCount;
+
     public CourseDto() {
     }
 
@@ -32,7 +33,8 @@ public class CourseDto {
             Integer minAge,
             Integer maxAge,
             List<TrainingSlotDto> trainingSlots,
-            Integer remainingSlots) {
+            Integer remainingSlots,
+            Integer userRegistrationsCount) {
         this.id = id;
         this.season = season;
         this.program = program;
@@ -44,6 +46,7 @@ public class CourseDto {
         this.maxAge = maxAge;
         this.trainingSlots = trainingSlots;
         this.remainingSlots = remainingSlots;
+        this.userRegistrationsCount = userRegistrationsCount;
     }
 
     public Long getId() {
@@ -133,5 +136,13 @@ public class CourseDto {
 
     public void setRemainingSlots(Integer remainingSlots) {
         this.remainingSlots = remainingSlots;
+    }
+
+    public Integer getUserRegistrationsCount() {
+        return userRegistrationsCount;
+    }
+
+    public void setUserRegistrationsCount(Integer userRegistrationsCount) {
+        this.userRegistrationsCount = userRegistrationsCount;
     }
 }
