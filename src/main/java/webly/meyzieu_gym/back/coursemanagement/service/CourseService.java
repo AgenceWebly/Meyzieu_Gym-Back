@@ -79,11 +79,13 @@ public class CourseService {
         int currentYear = calendar.get(Calendar.YEAR);
 
         // Calculate min birth date (January 1 of the year currentYear - maxAge)
-        calendar.set(currentYear - course.getMaxAge(), Calendar.JANUARY, 1);
+        calendar.set(currentYear - course.getMaxAge(), Calendar.JANUARY, 1, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         Date minBirthDate = calendar.getTime();
 
         // Calculate max birth date (December 31 of the year currentYear - minAge)
-        calendar.set(currentYear - course.getMinAge(), Calendar.DECEMBER, 31);
+        calendar.set(currentYear - course.getMinAge(), Calendar.DECEMBER, 31, 23, 59, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
         Date maxBirthDate = calendar.getTime();
 
         return (memberBirthDate.after(minBirthDate) || memberBirthDate.equals(minBirthDate)) &&
