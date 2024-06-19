@@ -36,7 +36,7 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseDto> getAvailableCoursesForMemberId(Long memberId) {
+    public List<CourseDto> getAvailableCoursesForMemberId(Long memberId, Long userId) {
         LocalDateTime now = LocalDateTime.now();
         Date currentDate = new Date();
 
@@ -45,7 +45,7 @@ public class CourseService {
 
         return courseRepository.findAll().stream()
                 .filter(course -> isCourseAvailableForMember(course, member, now, currentDate))
-                .map(this::mapToCourseDto)
+                .map(course ->mapToCourseDto(course, userId))
                 .collect(Collectors.toList());
     }
 
@@ -67,7 +67,7 @@ public class CourseService {
         return !registrationRepository.existsByMemberIdAndCourseSeasonId(member.getId(), course.getSeason().getId());
     }
 
-    // Checks if a member's age is valid for the course based on the course's age requirements
+    // Checks if a member's age is valid for the course based on the course's age requirements.
     private boolean isAgeValidForCourse(Course course, Member member) {
         Date memberBirthDate = member.getBirthdate();
 
@@ -90,14 +90,16 @@ public class CourseService {
                (memberBirthDate.before(maxBirthDate) || memberBirthDate.equals(maxBirthDate));
     }
 
-
-    private CourseDto mapToCourseDto(Course course) {
+    private CourseDto mapToCourseDto(Course course, Long userId) {
         long registrationsCount = registrationRepository.countByCourseId(course.getId());
         int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
 
         SeasonDto seasonDto = mapToSeasonDto(course.getSeason());
         ProgramDto programDto = mapToProgramDto(course.getProgram());
         List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
+
+        // Count the number of registrations for the user for the season of this course
+        int userRegistrationsCount = (int) registrationRepository.countByUserIdAndSeasonId(userId, course.getSeason().getId());
 
         return new CourseDto(
                 course.getId(),
@@ -110,7 +112,8 @@ public class CourseService {
                 course.getMinAge(),
                 course.getMaxAge(),
                 trainingSlotDtos,
-                remainingSlots
+                remainingSlots,
+                userRegistrationsCount
         );
     }
 
