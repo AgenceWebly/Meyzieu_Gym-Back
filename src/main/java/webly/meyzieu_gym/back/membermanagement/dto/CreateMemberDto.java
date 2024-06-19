@@ -49,7 +49,7 @@ public class CreateMemberDto {
     private String profilePictureUrl;
     
     @NotBlank
-    @Pattern(regexp = "parent|grand-parent|relative|other", message = "The sent relation to member isn't right")
+    @Pattern(regexp = "father|mother|other", message = "The sent relation to member isn't right")
     private String relationToMember;
 
     private List<EmergencyContactDto> emergencyContacts;
