@@ -2,12 +2,14 @@ package webly.meyzieu_gym.back.registrationmanagement.service;
 
 import java.time.LocalDateTime;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.CourseNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationException;
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
+import webly.meyzieu_gym.back.common.exception.custom.RegistrationAvailabilityException;
 import webly.meyzieu_gym.back.common.exception.custom.RegistrationNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
@@ -33,33 +35,41 @@ public class RegistrationService {
 
     @Transactional
     public Long registerMember(NewRegistrationDto newRegistrationDto){
-        Member member = memberRepository.findById(newRegistrationDto.getMemberId())
-                .orElseThrow(() -> new MemberNotFoundException("Member not found"));
-        Course course = courseRepository.findById(newRegistrationDto.getCourseId())
-                .orElseThrow(() -> new CourseNotFoundException("Course not found"));
+        try {
+            Member member = memberRepository.findById(newRegistrationDto.getMemberId())
+                    .orElseThrow(() -> new MemberNotFoundException("Member not found"));
+            Course course = courseRepository.findById(newRegistrationDto.getCourseId())
+                    .orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
-        boolean isAlreadyRegistered = registrationRepository.existsByMemberIdAndCourseSeasonId(
-                newRegistrationDto.getMemberId(), course.getSeason().getId());
-        
-        if (isAlreadyRegistered) {
-            throw new DuplicateRegistrationException("Member is already registered for a course in this season");
+            int registrationsCount = registrationRepository.countByCourseId(course.getId());
+            if ((course.getMaxMembers() - registrationsCount) <= 0) {
+                throw new RegistrationAvailabilityException("This course is booked out");
+            }
+
+            boolean isAlreadyRegistered = registrationRepository.existsByMemberIdAndCourseSeasonId(
+                    newRegistrationDto.getMemberId(), course.getSeason().getId());
+            if (isAlreadyRegistered) {
+                throw new DuplicateRegistrationException("Member is already registered for a course in this season");
+            }
+            
+            String stage = "En attente";
+            Registration registration = new Registration(
+                member,
+                course,
+                newRegistrationDto.getRegistrationFee(),
+                stage,
+                stage,
+                newRegistrationDto.getRegistrationStatus(),
+                LocalDateTime.now(),
+                null,
+                false
+            );
+
+            Registration savedRegistration = registrationRepository.save(registration);
+            return savedRegistration.getId();
+        } catch (DataIntegrityViolationException e) {
+            throw new RegistrationAvailabilityException("This course is booked out. Please try again.");
         }
-        
-        String stage = "En attente";
-        Registration registration = new Registration(
-            member,
-            course,
-            newRegistrationDto.getRegistrationFee(),
-            stage,
-            stage,
-            newRegistrationDto.getRegistrationStatus(),
-            LocalDateTime.now(),
-            null,
-            false
-        );
-
-        Registration savedRegistration = registrationRepository.save(registration);
-        return savedRegistration.getId();
     }
 
     @Transactional
