@@ -9,5 +9,5 @@ import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long>{
-    Optional<Course> findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(Long programId, Long seasonId, Integer minAge, Integer maxAge);
+    Optional<Course> findByProgramIdAndSeasonIdAndMinAgeAndMaxAgeAndCourseName(Long programId, Long seasonId, Integer minAge, Integer maxAge, String courseName);
 }

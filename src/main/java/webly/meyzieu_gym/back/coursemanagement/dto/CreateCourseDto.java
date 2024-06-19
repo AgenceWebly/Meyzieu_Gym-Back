@@ -39,7 +39,7 @@ public class CreateCourseDto {
     @Positive(message = "La valeur doit etre positive")
     private Integer maxMembers;
 
-    @NotNull(message = "Veuillez indiquer l'age minimum minimum pour participer au cours")
+    @NotNull(message = "Veuillez indiquer l'age minimum pour participer au cours")
     @Positive(message = "La valeur doit etre positive")
     private Integer minAge;
 

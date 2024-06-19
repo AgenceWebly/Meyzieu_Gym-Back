@@ -49,7 +49,7 @@ public class RegistrationService {
             boolean isAlreadyRegistered = registrationRepository.existsByMemberIdAndCourseSeasonId(
                     newRegistrationDto.getMemberId(), course.getSeason().getId());
             if (isAlreadyRegistered) {
-                throw new DuplicateRegistrationException("L'adhérent est déjà inscri à un cours de la même saison");
+                throw new DuplicateRegistrationException("L'adhérent est déjà inscrit à un cours de la même saison");
             }
             
             String stage = "En attente";
@@ -75,7 +75,7 @@ public class RegistrationService {
     @Transactional
     public void updateRegistration(Long id, UpdateRegistrationDto updatedRegistrationDto) {
         Registration registration = registrationRepository.findById(id)
-                .orElseThrow(() -> new RegistrationNotFoundException("L'inscription n'a pas été trouvé"));
+                .orElseThrow(() -> new RegistrationNotFoundException("L'inscription n'a pas été trouvée"));
 
         updatedRegistrationDto.getIsHealthCertificateRequired().ifPresent(registration::setHealthCertificateRequired);
         updatedRegistrationDto.getHealthCertificateFileUrl().ifPresent(registration::setHealthCertificateFileUrl);

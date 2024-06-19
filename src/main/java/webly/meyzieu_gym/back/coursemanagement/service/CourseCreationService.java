@@ -36,17 +36,18 @@ public class CourseCreationService {
     @Transactional
     public void createCourse(CreateCourseDto createCourseDto) {
         Season season = seasonRepository.findById(createCourseDto.getSeasonId())
-                .orElseThrow(() -> new SeasonNotFoundException("La saison n'a pas été trouvé"));
+                .orElseThrow(() -> new SeasonNotFoundException("La saison n'a pas été trouvée"));
         Program program = programRepository.findById(createCourseDto.getProgramId())
                 .orElseThrow(() -> new ProgramNotFoundException("Le programme n'a pas été trouvé"));
 
-        courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(
+        courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAgeAndCourseName(
             createCourseDto.getProgramId(),
             createCourseDto.getSeasonId(),
             createCourseDto.getMinAge(),
-            createCourseDto.getMaxAge()
+            createCourseDto.getMaxAge(),
+            createCourseDto.getCourseName()
         ).ifPresent(existingProgramSeason -> {
-            throw new DuplicateCourseException("Un cours avec le même programme, saison, âge minimum et âge maximum existe déjà.");
+            throw new DuplicateCourseException("Un cours avec le même programme, saison, âge minimum, âge maximum et nom existe déjà.");
         });
 
         Course course = new Course(
