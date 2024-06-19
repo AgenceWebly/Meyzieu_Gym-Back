@@ -10,19 +10,19 @@ import jakarta.validation.constraints.Pattern;
 
 public class NewRegistrationDto {
     
-    @NotNull
+    @NotNull(message = "L'identifiant du membre ne peut pas être nul")
     private Long memberId;
 
-    @NotNull
+    @NotNull(message = "L'identifiant du cours ne peut pas être nul")
     private Long courseId;
 
-    @NotNull
-    @DecimalMin("0.00")
-    @Digits(integer = 10, fraction = 2)
+    @NotNull(message = "Les frais d'inscription ne peuvent pas être nuls")
+    @DecimalMin(value = "0.00", message = "Les frais d'inscription doivent être au moins de 0,00")
+    @Digits(integer = 3, fraction = 2, message = "Les frais d'inscription doivent avoir au plus 3 chiffres avant la virgule et 2 chiffres après la virgule")
     private BigDecimal registrationFee;
 
-    @NotBlank
-    @Pattern(regexp = "cours choisi", message = "The status isn't the right one")
+    @NotBlank(message = "Le statut de l'inscription ne peut pas être vide")
+    @Pattern(regexp = "cours choisi", message = "Le statut n'est pas correct")
     private String registrationStatus;
 
     public NewRegistrationDto() {

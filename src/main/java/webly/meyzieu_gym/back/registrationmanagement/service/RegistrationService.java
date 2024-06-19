@@ -37,19 +37,19 @@ public class RegistrationService {
     public Long registerMember(NewRegistrationDto newRegistrationDto){
         try {
             Member member = memberRepository.findById(newRegistrationDto.getMemberId())
-                    .orElseThrow(() -> new MemberNotFoundException("Member not found"));
+                    .orElseThrow(() -> new MemberNotFoundException("L'adhérent n'a pas été trouvé"));
             Course course = courseRepository.findById(newRegistrationDto.getCourseId())
-                    .orElseThrow(() -> new CourseNotFoundException("Course not found"));
+                    .orElseThrow(() -> new CourseNotFoundException("Le cours n'a pas été trouvé"));
 
             int registrationsCount = registrationRepository.countByCourseId(course.getId());
             if ((course.getMaxMembers() - registrationsCount) <= 0) {
-                throw new RegistrationAvailabilityException("This course is booked out");
+                throw new RegistrationAvailabilityException("Le cours est complet");
             }
 
             boolean isAlreadyRegistered = registrationRepository.existsByMemberIdAndCourseSeasonId(
                     newRegistrationDto.getMemberId(), course.getSeason().getId());
             if (isAlreadyRegistered) {
-                throw new DuplicateRegistrationException("Member is already registered for a course in this season");
+                throw new DuplicateRegistrationException("L'adhérent est déjà inscri à un cours de la même saison");
             }
             
             String stage = "En attente";
@@ -68,14 +68,14 @@ public class RegistrationService {
             Registration savedRegistration = registrationRepository.save(registration);
             return savedRegistration.getId();
         } catch (DataIntegrityViolationException e) {
-            throw new RegistrationAvailabilityException("This course is booked out. Please try again.");
+            throw new RegistrationAvailabilityException("Le cours est complet");
         }
     }
 
     @Transactional
     public void updateRegistration(Long id, UpdateRegistrationDto updatedRegistrationDto) {
         Registration registration = registrationRepository.findById(id)
-                .orElseThrow(() -> new RegistrationNotFoundException("Registration not found"));
+                .orElseThrow(() -> new RegistrationNotFoundException("L'inscription n'a pas été trouvé"));
 
         updatedRegistrationDto.getIsHealthCertificateRequired().ifPresent(registration::setHealthCertificateRequired);
         updatedRegistrationDto.getHealthCertificateFileUrl().ifPresent(registration::setHealthCertificateFileUrl);
