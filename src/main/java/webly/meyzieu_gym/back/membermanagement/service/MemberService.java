@@ -43,7 +43,7 @@ public class MemberService {
 
     private User getUserById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("L'utilisateur n'a pas été trouvé"));
     }
 
     private Member saveMember(CreateMemberDto createMemberDto) {

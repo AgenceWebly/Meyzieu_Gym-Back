@@ -8,29 +8,29 @@ import jakarta.validation.constraints.Size;
 
 public class SignupRequest {
 
-    @NotBlank
-    @Size(min = 3, max = 100)
+    @NotBlank(message = "Le prénom ne peut pas être vide")
+    @Size(min = 3, max = 100, message = "La taille du prénom n'est pas valide")
     private String firstname;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
+    @NotBlank(message = "Le nom de famille ne peut pas être vide")
+    @Size(min = 3, max = 100, message = "La taille du nom de famille n'est pas valide")
     private String lastname;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    @NotBlank(message = "L'adresse e-mail ne peut pas être vide")
+    @Size(max = 50, message = "La taille de l'adresse e-mail n'est pas valide")
+    @Email(message = "L'adresse e-mail doit être valide")
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 40)
+    @NotBlank(message = "Le mot de passe ne peut pas être vide")
+    @Size(min = 8, max = 40, message = "La taille du mot de passe doit être comprise entre 8 et 40 caractères")
     private String password;
 
-    @NotBlank
-    @Size(min = 3, max = 20)
+    @NotBlank(message = "Le numéro de téléphone ne peut pas être vide")
+    @Size(min = 3, max = 20, message = "La taille du numéro de téléphone n'est pas valide")
     private String phoneNumber;
 
-    @NotBlank
-    @Size(min = 3, max = 255)
+    @NotBlank(message = "L'adresse ne peut pas être vide")
+    @Size(min = 15, max = 255, message = "La taille de l'adresse n'est pas valide")
     private String address;
 
     private String occupation;

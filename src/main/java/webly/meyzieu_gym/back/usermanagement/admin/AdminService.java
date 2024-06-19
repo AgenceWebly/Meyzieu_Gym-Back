@@ -24,7 +24,7 @@ public class AdminService {
     public List<UserProfileForAdminDto> getUsersForAdmin() {
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
-            throw new UserNotFoundException("No users found");
+            throw new UserNotFoundException("Aucun utilisateur trouvé");
         }
         return users.stream()
                     .map(this::mapToAdminDto)
@@ -34,7 +34,7 @@ public class AdminService {
     @Transactional(readOnly = true)
     public UserProfileForAdminDto getUserById(Long id) {
         User user = userRepository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException("User not found"));
+            .orElseThrow(() -> new UserNotFoundException("L'utilisateur n'a pas été trouvé"));
         return mapToAdminDto(user);
     }
 
