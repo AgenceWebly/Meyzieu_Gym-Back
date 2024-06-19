@@ -14,41 +14,41 @@ import jakarta.validation.constraints.Size;
 
 public class CreateCourseDto {
 
-    @NotNull
+    @NotNull(message = "Veuillez indiquer la saison")
     private Long seasonId;
 
-    @NotNull
+    @NotNull(message = "Veuillez indiquer le programme")
     private Long programId;
 
-    @NotBlank
-    @Size(min = 2, max = 20, message = "The description size isn't right")
+    @NotBlank(message = "Veuillez indiquer le nom du cours")
+    @Size(min = 2, max = 20, message = "La taille du nom n'est pas compatible")
     private String courseName;
 
-    @NotNull
+    @NotNull(message = "Veuillez indiquer la date de début d'inscription")
     private LocalDateTime registrationStartDate;
 
-    @NotNull
+    @NotNull(message = "Veuillez indiquer la date de fin d'inscription")
     @Future(message = "Registration end date must be in the future")
     private LocalDateTime registrationEndDate;
 
-    @NotNull
+    @NotNull(message = "Veuillez indiquer le tarif du cours")
     @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal price;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "Veuillez indiquer le nombre maximum d'adhérent au cours")
+    @Positive(message = "La valeur doit etre positive")
     private Integer maxMembers;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "Veuillez indiquer l'age minimum minimum pour participer au cours")
+    @Positive(message = "La valeur doit etre positive")
     private Integer minAge;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "Veuillez indiquer l'age maximum pour participer au cours")
+    @Positive(message = "La valeur doit etre positive")
     private Integer maxAge;
 
     @Valid
-    @Size(min = 1, message = "At least one training slot is required")
+    @Size(min = 1, message = "Au moins un créneau d'entraînement est requis")
     private List<CreateTrainingSlotDto> createTrainingSlotDtos;
 
     public CreateCourseDto() {

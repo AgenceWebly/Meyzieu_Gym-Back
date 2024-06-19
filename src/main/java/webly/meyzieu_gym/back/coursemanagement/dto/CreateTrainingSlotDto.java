@@ -8,14 +8,14 @@ import jakarta.validation.constraints.Pattern;
 
 public class CreateTrainingSlotDto {
 
-    @NotBlank(message = "Day cannot be blank")
-    @Pattern(regexp = "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche", message = "The chosen day isn't correct")
+    @NotBlank(message = "Le jour ne peut pas être vide")
+    @Pattern(regexp = "lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche", message = "Le jour choisi n'est pas correct")
     private String day;
-
-    @NotNull(message = "Start time cannot be null")
+    
+    @NotNull(message = "L'heure de début ne peut pas être nulle")
     private LocalTime startTime;
-
-    @NotNull(message = "End time cannot be null")
+    
+    @NotNull(message = "L'heure de fin ne peut pas être nulle")
     private LocalTime endTime;
 
     public CreateTrainingSlotDto() {

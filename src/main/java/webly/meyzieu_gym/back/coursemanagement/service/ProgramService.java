@@ -29,7 +29,7 @@ public class ProgramService {
     @Transactional(readOnly = true)
     public ProgramDto getProgramById(Long id) {
         Program program = programRepository.findById(id)
-            .orElseThrow(() -> new ProgramNotFoundException("Program not found"));
+            .orElseThrow(() -> new ProgramNotFoundException("Le programme n'a pas été trouvé"));
         return mapToDto(program);
     }
 
@@ -42,7 +42,7 @@ public class ProgramService {
 
     public ProgramDto updateProgram(Long id, ProgramDto programDto) {
         Program program = programRepository.findById(id)
-            .orElseThrow(() -> new ProgramNotFoundException("Program not found"));
+            .orElseThrow(() -> new ProgramNotFoundException("Le programme n'a pas été trouvé"));
             program.setName(programDto.getName());
             program.setDescription(programDto.getDescription());
             program.setIncludingCompetition(programDto.isIncludingCompetition());

@@ -29,7 +29,7 @@ public class SeasonService {
     @Transactional(readOnly = true)
     public SeasonDto getSeasonById(Long id) {
         Season season = seasonRepository.findById(id)
-            .orElseThrow(() -> new SeasonNotFoundException("Season not found"));
+            .orElseThrow(() -> new SeasonNotFoundException("La saison n'a pas été trouvé"));
         return mapToDto(season);
     }
 
@@ -42,7 +42,7 @@ public class SeasonService {
 
     public SeasonDto updateSeason(Long id, SeasonDto seasonDto) {
         Season season = seasonRepository.findById(id)
-            .orElseThrow(() -> new SeasonNotFoundException("Season not found"));
+            .orElseThrow(() -> new SeasonNotFoundException("La saison n'a pas été trouvé"));
         season.setStartDate(seasonDto.getStartDate());
         season.setEndDate(seasonDto.getEndDate());
         Season updatedSeason = seasonRepository.save(season);
