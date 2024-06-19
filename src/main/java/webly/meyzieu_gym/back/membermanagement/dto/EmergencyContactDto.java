@@ -15,7 +15,7 @@ public class EmergencyContactDto {
     private String lastname;
 
     @NotBlank
-    @Pattern(regexp = "parent|grand-parent|relative|other", message = "The sent relation to member isn't right")
+    @Pattern(regexp = "father|mother|relative", message = "The sent relation to member isn't right")
     private String relationToMember;
 
     @NotBlank

@@ -52,7 +52,8 @@ public class CourseAdminService {
                 course.getMinAge(),
                 course.getMaxAge(),
                 trainingSlotDtos,
-                remainingSlots
+                remainingSlots,
+                null
         );
     }
 
