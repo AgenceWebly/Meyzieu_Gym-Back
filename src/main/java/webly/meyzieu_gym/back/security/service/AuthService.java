@@ -47,7 +47,7 @@ public class AuthService {
 
     public ResponseEntity<MessageResponse> registerUser(SignupRequest signUpRequest) {
         if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
-            throw new UserAlreadyExistsException("Error: This email is already used!");
+            throw new UserAlreadyExistsException("Erreur: cet email est déjà utilisé par un autre utilisateur");
         }
 
         User user = new User(signUpRequest.getFirstname(),
@@ -86,12 +86,12 @@ public class AuthService {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("L'utilisateur est bien enregistré"));
     }
 
     private void addRoleToSet(Set<Role> roles, ERole roleEnum) {
         Role role = roleRepository.findByName(roleEnum)
-            .orElseThrow(() -> new RoleNotFoundException("Error: Role " + roleEnum + " is not found."));
+            .orElseThrow(() -> new RoleNotFoundException("Erreur: Rôle " + roleEnum + " non trouvé"));
         roles.add(role);
     }
 
@@ -124,7 +124,7 @@ public class AuthService {
     public ResponseEntity<MessageResponse> logout() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new MessageResponse("You've been signed out!"));
+                .body(new MessageResponse("Utilisateur déconnecté"));
     }
     
 }
