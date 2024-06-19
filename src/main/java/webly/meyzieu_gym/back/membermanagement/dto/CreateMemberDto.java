@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -13,45 +14,47 @@ import jakarta.validation.constraints.Size;
 
 public class CreateMemberDto {
     
-    @NotBlank
-    @Size(min = 3, max = 100)
+    @NotBlank(message = "Le prénom ne peut pas être vide")
+    @Size(min = 3, max = 100, message = "La taille du prénom n'est pas valide")
     private String firstname;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
+    @NotBlank(message = "Le nom de famille ne peut pas être vide")
+    @Size(min = 3, max = 100, message = "La taille du nom de famille n'est pas valide")
     private String lastname;
-    
-    @NotNull
-    @Past(message = "Birthdate must be in the past")
+
+    @NotNull(message = "La date de naissance ne peut pas être nulle")
+    @Past(message = "La date de naissance doit être dans le passé")
     private Date birthdate;
-    
-    @NotBlank
-    @Pattern(regexp = "male|female", message = "Gender must be male or female")
+
+    @NotBlank(message = "Le genre ne peut pas être vide")
+    @Pattern(regexp = "male|female", message = "Le genre doit être male ou female")
     private String gender;
-    
-    @NotBlank
-    @Size(min = 10, max = 255)
+
+    @NotBlank(message = "L'école ne peut pas être vide")
+    @Size(min = 10, max = 255, message = "La taille de l'école doit être comprise entre 10 et 255 caractères")
     private String school;
-    
-    @NotNull
+
+    @NotNull(message = "Veuillez indiquer si la photo est approuvée")
     private boolean isPhotoApproved;
-    
-    @NotNull
+
+    @NotNull(message = "Veuillez indiquer si le transport est approuvé")
     private boolean isTransportApproved;
-    
-    @NotNull
+
+    @NotNull(message = "Veuillez indiquer si les premiers secours sont approuvés")
     private boolean isFirstAidApproved;
-    
-    @NotNull
+
+    @NotNull(message = "Veuillez indiquer si l'élève est autorisé à partir")
     private boolean isAllowedToLeave;
-    
-    @URL(message = "Invalid URL format")
+
+    @URL(message = "Le format de l'URL est invalide")
     private String profilePictureUrl;
-    
-    @NotBlank
-    @Pattern(regexp = "father|mother|other", message = "The sent relation to member isn't right")
+
+    @NotBlank(message = "La relation avec le membre ne peut pas être vide")
+    @Pattern(regexp = "father|mother|other", message = "La relation envoyée au membre n'est pas correcte")
     private String relationToMember;
 
+    @Valid
+    @Size(min = 1, message = "Au moins un contact d'urgence est requis")
     private List<EmergencyContactDto> emergencyContacts;
     
     public CreateMemberDto() {

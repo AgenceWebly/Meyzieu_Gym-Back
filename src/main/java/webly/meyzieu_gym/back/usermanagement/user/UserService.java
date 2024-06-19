@@ -17,14 +17,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserProfileDto getUserById(Long id) {
         User user = userRepository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException("User not found"));
+            .orElseThrow(() -> new UserNotFoundException("L'utilisateur n'a pas été trouvé"));
         return mapToDto(user);
     }
 
     @Transactional
     public UserProfileDto updateUser(Long id, UserProfileDto updatedProfileDto){
         User user = userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException("User not found"));
+        .orElseThrow(() -> new UserNotFoundException("L'utilisateur n'a pas été trouvé"));
 
         user.setPhoneNumber(updatedProfileDto.getPhoneNumber());
         user.setAddress(updatedProfileDto.getAddress());

@@ -8,16 +8,16 @@ public class ProgramDto {
     
     private Long id;
 
-    @NotBlank
-    @Size(min = 2, max = 100, message = "The name size isn't right")
+    @NotBlank(message = "Le nom ne peut pas être vide")
+    @Size(min = 2, max = 100, message = "La taille du nom doit être comprise entre 2 et 100 caractères")
     private String name;
-
-    @NotBlank
-    @Size(min = 3, max = 255, message = "The description size isn't right")
+    
+    @NotBlank(message = "La description ne peut pas être vide")
+    @Size(min = 3, max = 255, message = "La taille de la description doit être comprise entre 3 et 255 caractères")
     private String description;
 
-    @NotNull
-    private boolean isIncludingCompetition;
+    @NotNull(message = "Veuillez indiquer si la compétition est incluse")
+    private Boolean isIncludingCompetition;
 
     public ProgramDto() {
     }

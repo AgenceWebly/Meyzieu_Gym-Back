@@ -55,7 +55,7 @@ public class MemberController {
         Long authenticatedUserId = userDetails.getId();
 
         if (!authenticatedUserId.equals(userId)) {
-            throw new AccessDeniedException("You do not have permission to perform this action.");
+            throw new AccessDeniedException("Vous n'avez pas la permission d'effectuer cette action.");
         }
     }
 }

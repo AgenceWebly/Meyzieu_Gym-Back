@@ -9,11 +9,11 @@ public class SeasonDto {
     
     private Long id;
 
-    @NotNull(message = "Start date cannot be null")
+    @NotNull(message = "La date de début ne peut pas être nulle")
     private Date startDate;
-
-    @NotNull(message = "End date cannot be null")
-    @Future(message = "End date must be in the future")
+    
+    @NotNull(message = "La date de fin ne peut pas être nulle")
+    @Future(message = "La date de fin doit être dans le futur")
     private Date endDate;
 
     public SeasonDto() {

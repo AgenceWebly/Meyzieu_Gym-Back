@@ -41,7 +41,7 @@ public class CourseService {
         Date currentDate = new Date();
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new RuntimeException("L'adhérent n'a pas été trouvé"));
 
         return courseRepository.findAll().stream()
                 .filter(course -> isCourseAvailableForMember(course, member, now, currentDate))
