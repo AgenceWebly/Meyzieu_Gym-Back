@@ -45,6 +45,7 @@ public class CourseAdminService {
                 course.getId(),
                 seasonDto,
                 programDto,
+                course.getCourseName(),
                 course.getRegistrationStartDate(),
                 course.getRegistrationEndDate(),
                 course.getPrice(),

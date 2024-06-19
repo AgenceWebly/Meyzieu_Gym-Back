@@ -52,6 +52,7 @@ public class CourseCreationService {
         Course course = new Course(
             season, 
             program, 
+            createCourseDto.getCourseName(),
             createCourseDto.getRegistrationStartDate(),
             createCourseDto.getRegistrationEndDate(), 
             createCourseDto.getPrice(),
@@ -69,7 +70,6 @@ public class CourseCreationService {
             trainingSlot.setDay(createTrainingSlotDto.getDay());
             trainingSlot.setStartTime(createTrainingSlotDto.getStartTime());
             trainingSlot.setEndTime(createTrainingSlotDto.getEndTime());
-
             trainingSlot.setCourse(course);
             trainingSlotRepository.save(trainingSlot);
         }
