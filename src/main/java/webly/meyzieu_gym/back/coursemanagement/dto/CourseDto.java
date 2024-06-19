@@ -9,6 +9,7 @@ public class CourseDto {
     private Long id;
     private SeasonDto season;
     private ProgramDto program;
+    private String courseName;
     private LocalDateTime registrationStartDate;
     private LocalDateTime registrationEndDate;
     private BigDecimal price;
@@ -26,6 +27,7 @@ public class CourseDto {
             Long id, 
             SeasonDto season,
             ProgramDto program,
+            String courseName,
             LocalDateTime registrationStartDate,
             LocalDateTime registrationEndDate,
             BigDecimal price,
@@ -38,6 +40,7 @@ public class CourseDto {
         this.id = id;
         this.season = season;
         this.program = program;
+        this.courseName = courseName;
         this.registrationStartDate = registrationStartDate;
         this.registrationEndDate = registrationEndDate;
         this.price = price;
@@ -73,6 +76,13 @@ public class CourseDto {
         this.program = program;
     }
 
+    public String getCourseName() {
+        return this.courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
     public LocalDateTime getRegistrationStartDate() {
         return registrationStartDate;

@@ -32,6 +32,9 @@ public class Course {
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
 
+    @Column(name = "course_name", nullable = false, length = 20)
+    private String courseName;
+    
     @Column(name = "registration_start_date", nullable = false)
     private LocalDateTime registrationStartDate;
 
@@ -56,17 +59,19 @@ public class Course {
     public Course() {
     }
 
-    public Course(Season season,
+    public Course(
+            Season season,
             Program program,
+            String courseName,
             LocalDateTime registrationStartDate,
             LocalDateTime registrationEndDate,
             BigDecimal price,
             Integer maxMembers,
             Integer minAge,
             Integer maxAge) {
-
         this.season = season;
         this.program = program;
+        this.courseName = courseName;
         this.registrationStartDate = registrationStartDate;
         this.registrationEndDate = registrationEndDate;
         this.price = price;
@@ -97,6 +102,14 @@ public class Course {
 
     public void setProgram(Program program) {
         this.program = program;
+    }
+
+    public String getCourseName() {
+        return this.courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public LocalDateTime getRegistrationStartDate() {

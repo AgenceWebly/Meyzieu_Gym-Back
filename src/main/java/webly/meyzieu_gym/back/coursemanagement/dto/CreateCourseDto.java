@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -18,6 +19,10 @@ public class CreateCourseDto {
 
     @NotNull
     private Long programId;
+
+    @NotBlank
+    @Size(min = 2, max = 20, message = "The description size isn't right")
+    private String courseName;
 
     @NotNull
     private LocalDateTime registrationStartDate;
@@ -51,7 +56,8 @@ public class CreateCourseDto {
 
     public CreateCourseDto(
         Long seasonId, 
-        Long programId, 
+        Long programId,
+        String courseName,
         LocalDateTime registrationStartDate, 
         LocalDateTime registrationEndDate, 
         BigDecimal price, 
@@ -60,6 +66,7 @@ public class CreateCourseDto {
         Integer maxAge) {
             this.seasonId = seasonId;
             this.programId = programId;
+            this.courseName = courseName;
             this.registrationStartDate = registrationStartDate;
             this.registrationEndDate = registrationEndDate;
             this.price = price;
@@ -84,6 +91,14 @@ public class CreateCourseDto {
         this.programId = programId;
     }
 
+    public String getCourseName() {
+        return this.courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+    
     public LocalDateTime getRegistrationStartDate() {
         return registrationStartDate;
     }
