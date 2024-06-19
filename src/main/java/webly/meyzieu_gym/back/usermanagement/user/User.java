@@ -43,6 +43,8 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private GuardianInfo guardianInfo;
 
     public User() {
     }
@@ -127,5 +129,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public GuardianInfo getGuardianInfo() {
+        return this.guardianInfo;
+    }
+
+    public void setGuardianInfo(GuardianInfo guardianInfo) {
+        this.guardianInfo = guardianInfo;
     }
 }
