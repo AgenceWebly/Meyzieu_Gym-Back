@@ -17,6 +17,7 @@ import webly.meyzieu_gym.back.common.exception.custom.DuplicateCourseException;
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationException;
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.ProgramNotFoundException;
+import webly.meyzieu_gym.back.common.exception.custom.RegistrationAvailabilityException;
 import webly.meyzieu_gym.back.common.exception.custom.RegistrationNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.SeasonNotFoundException;
@@ -80,6 +81,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateRegistrationException.class)
     public ResponseEntity<MessageResponse> handleDuplicateRegistrationException(DuplicateRegistrationException ex) {
+        return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RegistrationAvailabilityException.class)
+    public ResponseEntity<MessageResponse> handleRegistrationAvailabilityException(RegistrationAvailabilityException ex) {
         return new ResponseEntity<>(new MessageResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
