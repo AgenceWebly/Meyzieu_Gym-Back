@@ -26,7 +26,7 @@ public class MembersByUserService {
         this.seasonRepository = seasonRepository;
     }
 
-        public List<MemberListDto> getMembersByUserId(Long userId, boolean filterByRegistration) {
+    public List<MemberListDto> getMembersByUserId(Long userId, boolean filterByRegistration) {
         List<Member> members = memberRepository.findAllByUserId(userId);
         List<Season> upcomingSeasons = getUpcomingSeasons();
 
@@ -64,10 +64,21 @@ public class MembersByUserService {
     }
 
     private MemberListDto mapToMemberListDto(Member member) {
+        Registration registration = member.getRegistrations().stream()
+            .filter(reg -> !"mode de paiement choisi".equals(reg.getRegistrationStatus()))
+            .findFirst()
+            .orElse(null);
+    
+        Long registrationId = registration != null ? registration.getId() : null;
+        String registrationStatus = registration != null ? registration.getRegistrationStatus() : null;
+    
         return new MemberListDto(
-            member.getId(), 
+            member.getId(),
             member.getFirstname(),
-            member.getLastname(), 
-            member.getProfilePictureUrl());
+            member.getLastname(),
+            member.getProfilePictureUrl(),
+            registrationStatus,
+            registrationId
+        );
     }
 }
