@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import webly.meyzieu_gym.back.usermanagement.user.User;
-import webly.meyzieu_gym.back.usermanagement.user.UserRepository;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
+import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

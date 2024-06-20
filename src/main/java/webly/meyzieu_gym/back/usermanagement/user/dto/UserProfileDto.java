@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.usermanagement.user;
+package webly.meyzieu_gym.back.usermanagement.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

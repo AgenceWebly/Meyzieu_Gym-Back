@@ -1,9 +1,12 @@
-package webly.meyzieu_gym.back.usermanagement.user;
+package webly.meyzieu_gym.back.usermanagement.user.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
+import webly.meyzieu_gym.back.usermanagement.user.dto.UserProfileDto;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
+import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
 
 @Service
 public class UserService {

@@ -25,8 +25,8 @@ import webly.meyzieu_gym.back.security.payload.response.UserInfoResponse;
 import webly.meyzieu_gym.back.usermanagement.role.ERole;
 import webly.meyzieu_gym.back.usermanagement.role.Role;
 import webly.meyzieu_gym.back.usermanagement.role.RoleRepository;
-import webly.meyzieu_gym.back.usermanagement.user.User;
-import webly.meyzieu_gym.back.usermanagement.user.UserRepository;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
+import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
 
 @Service
 public class AuthService {

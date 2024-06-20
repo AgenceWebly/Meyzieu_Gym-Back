@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import webly.meyzieu_gym.back.usermanagement.user.User;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
 
 public class UserDetailsImpl  implements UserDetails {
 

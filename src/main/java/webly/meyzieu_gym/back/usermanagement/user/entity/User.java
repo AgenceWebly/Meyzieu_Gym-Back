@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.usermanagement.user;
+package webly.meyzieu_gym.back.usermanagement.user.entity;
 
 import java.util.Set;
 
