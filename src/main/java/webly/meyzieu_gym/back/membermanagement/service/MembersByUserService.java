@@ -64,18 +64,21 @@ public class MembersByUserService {
     }
 
     private MemberListDto mapToMemberListDto(Member member) {
-        String registrationStatus = member.getRegistrations().stream()
+        Registration registration = member.getRegistrations().stream()
             .filter(reg -> !"mode de paiement choisi".equals(reg.getRegistrationStatus()))
-            .map(Registration::getRegistrationStatus)
             .findFirst()
             .orElse(null);
+    
+        Long registrationId = registration != null ? registration.getId() : null;
+        String registrationStatus = registration != null ? registration.getRegistrationStatus() : null;
     
         return new MemberListDto(
             member.getId(),
             member.getFirstname(),
             member.getLastname(),
             member.getProfilePictureUrl(),
-            registrationStatus
+            registrationStatus,
+            registrationId
         );
     }
 }

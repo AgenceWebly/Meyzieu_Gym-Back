@@ -7,16 +7,24 @@ public class MemberListDto {
     private String lastname;
     private String profilePictureUrl;
     private String registrationStatus;
+    private Long registrationId;
 
     public MemberListDto() {
     }
 
-    public MemberListDto(Long id, String firstname, String lastname, String profilePictureUrl, String registrationStatus) {
+    public MemberListDto(
+            Long id, 
+            String firstname, 
+            String lastname, 
+            String profilePictureUrl, 
+            String registrationStatus, 
+            Long registrationId) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.profilePictureUrl = profilePictureUrl;
         this.registrationStatus = registrationStatus;
+        this.registrationId = registrationId;
     }
 
     public Long getId() {
@@ -57,5 +65,13 @@ public class MemberListDto {
 
     public void setRegistrationStatus(String registrationStatus) {
         this.registrationStatus = registrationStatus;
+    }
+
+    public Long getRegistrationId() {
+        return registrationId;
+    }
+
+    public void setRegistrationId(Long registrationId) {
+        this.registrationId = registrationId;
     }
 }
