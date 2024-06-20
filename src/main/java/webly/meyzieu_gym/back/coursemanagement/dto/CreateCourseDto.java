@@ -28,7 +28,7 @@ public class CreateCourseDto {
     private LocalDateTime registrationStartDate;
 
     @NotNull(message = "Veuillez indiquer la date de fin d'inscription")
-    @Future(message = "Registration end date must be in the future")
+    @Future(message = "La date de fin d'inscription doit etre dans le futur")
     private LocalDateTime registrationEndDate;
 
     @NotNull(message = "Veuillez indiquer le tarif du cours")

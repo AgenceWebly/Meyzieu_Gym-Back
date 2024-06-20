@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,9 @@ import jakarta.validation.Valid;
 import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.CreateCourseDto;
 import webly.meyzieu_gym.back.coursemanagement.service.CourseAdminService;
-import webly.meyzieu_gym.back.coursemanagement.service.CourseCreationService;
+import webly.meyzieu_gym.back.coursemanagement.service.CourseCreationAdminService;
+import webly.meyzieu_gym.back.coursemanagement.service.CourseUpdateAdminService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -22,12 +25,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 @PreAuthorize("hasRole('ADMIN')")
 public class CourseAdminController {
 
-    private final CourseCreationService courseCreationService;
+    private final CourseCreationAdminService courseCreationService;
     private final CourseAdminService courseAdminService;
+    private final CourseUpdateAdminService courseUpdateAdminService;
 
-    public CourseAdminController(CourseCreationService courseCreationService, CourseAdminService courseAdminService) {
+    public CourseAdminController(CourseCreationAdminService courseCreationService, CourseAdminService courseAdminService, CourseUpdateAdminService courseUpdateAdminService) {
         this.courseCreationService = courseCreationService;
         this.courseAdminService = courseAdminService;
+        this.courseUpdateAdminService = courseUpdateAdminService;
     }
 
     @PostMapping
@@ -48,4 +53,9 @@ public class CourseAdminController {
         return ResponseEntity.ok(course);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDto> updateCourse(@PathVariable Long id, @Valid @RequestBody CreateCourseDto updateCourseDto) {
+        CourseDto updatedCourse = courseUpdateAdminService.updateCourse(id, updateCourseDto);
+        return ResponseEntity.ok(updatedCourse);
+    }
 }
