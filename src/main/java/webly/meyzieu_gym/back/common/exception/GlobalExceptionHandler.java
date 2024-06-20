@@ -96,11 +96,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<MessageResponse> handleRuntimeException(RuntimeException ex, WebRequest request) {
-        return new ResponseEntity<>(new MessageResponse("An unexpected error occurred: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new MessageResponse("Une erreur inattendue est survenue: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<MessageResponse> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
-        return new ResponseEntity<>(new MessageResponse("You do not have permission to access this resource"), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(new MessageResponse("Vous n'êtes pas autorisé à accéder à cette ressource"), HttpStatus.FORBIDDEN);
     }
 }

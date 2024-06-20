@@ -25,7 +25,7 @@ import webly.meyzieu_gym.back.coursemanagement.entity.Season;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.coursemanagement.repository.ProgramRepository;
 import webly.meyzieu_gym.back.coursemanagement.repository.SeasonRepository;
-import webly.meyzieu_gym.back.coursemanagement.service.CourseCreationService;
+import webly.meyzieu_gym.back.coursemanagement.service.CourseCreationAdminService;
 
 class ProgramSeasonServiceTest {
 
@@ -39,7 +39,7 @@ class ProgramSeasonServiceTest {
     private ProgramRepository programRepository;
 
     @InjectMocks
-    private CourseCreationService courseService;
+    private CourseCreationAdminService courseService;
 
     @BeforeEach
     void setUp() {

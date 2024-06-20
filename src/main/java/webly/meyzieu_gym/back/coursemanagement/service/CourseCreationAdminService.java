@@ -19,14 +19,14 @@ import webly.meyzieu_gym.back.coursemanagement.repository.SeasonRepository;
 import webly.meyzieu_gym.back.coursemanagement.repository.TrainingSlotRepository;
 
 @Service
-public class CourseCreationService {
+public class CourseCreationAdminService {
     
     private final CourseRepository courseRepository;
     private final SeasonRepository seasonRepository;
     private final ProgramRepository programRepository;
     private final TrainingSlotRepository trainingSlotRepository;
 
-    public CourseCreationService(CourseRepository courseRepository, SeasonRepository seasonRepository, ProgramRepository programRepository, TrainingSlotRepository trainingSlotRepository) {
+    public CourseCreationAdminService(CourseRepository courseRepository, SeasonRepository seasonRepository, ProgramRepository programRepository, TrainingSlotRepository trainingSlotRepository) {
         this.courseRepository = courseRepository;
         this.seasonRepository = seasonRepository;
         this.programRepository = programRepository;
