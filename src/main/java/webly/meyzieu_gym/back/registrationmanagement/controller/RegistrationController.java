@@ -2,6 +2,7 @@ package webly.meyzieu_gym.back.registrationmanagement.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 import webly.meyzieu_gym.back.registrationmanagement.dto.NewRegistrationDto;
+import webly.meyzieu_gym.back.registrationmanagement.dto.RegistrationDetailsDto;
 import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateRegistrationDto;
 import webly.meyzieu_gym.back.registrationmanagement.service.RegistrationService;
 
@@ -38,5 +40,12 @@ public class RegistrationController {
     public ResponseEntity<Void> updateRegistration(@PathVariable Long id, @Valid @RequestBody UpdateRegistrationDto updateRegistrationDto) {
         registrationService.updateRegistration(id, updateRegistrationDto);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("@registrationOwnershipService.isRegistrationOwner(#id, authentication.principal.id)")
+    public ResponseEntity<RegistrationDetailsDto> getRegistrationById(@PathVariable Long id) {
+        RegistrationDetailsDto registrationDetails = registrationService.getRegistrationById(id);
+        return ResponseEntity.ok(registrationDetails);
     }
 }

@@ -1,11 +1,13 @@
 package webly.meyzieu_gym.back.registrationmanagement.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.CourseNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationException;
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
@@ -13,9 +15,11 @@ import webly.meyzieu_gym.back.common.exception.custom.RegistrationAvailabilityEx
 import webly.meyzieu_gym.back.common.exception.custom.RegistrationNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
+import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.registrationmanagement.dto.NewRegistrationDto;
+import webly.meyzieu_gym.back.registrationmanagement.dto.RegistrationDetailsDto;
 import webly.meyzieu_gym.back.registrationmanagement.dto.UpdateRegistrationDto;
 import webly.meyzieu_gym.back.registrationmanagement.entity.Registration;
 import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
@@ -83,5 +87,27 @@ public class RegistrationService {
         updatedRegistrationDto.getPaymentStatus().ifPresent(registration::setPaymentStatus);
         updatedRegistrationDto.getRegistrationStatus().ifPresent(registration::setRegistrationStatus);
         registrationRepository.save(registration);
+    }
+
+    @Transactional(readOnly = true)
+    public RegistrationDetailsDto getRegistrationById(Long registrationId) {
+        Registration registration = registrationRepository.findById(registrationId)
+                .orElseThrow(() -> new RegistrationNotFoundException("L'inscription n'a pas été trouvée"));
+
+        Member member = registration.getMember();
+        Course course = registration.getCourse();
+
+        List<TrainingSlotDto> trainingSlotDtos = course.getTrainingSlots().stream()
+                .map(slot -> new TrainingSlotDto(slot.getId(), slot.getDay(), slot.getStartTime(), slot.getEndTime()))
+                .collect(Collectors.toList());
+
+        return new RegistrationDetailsDto(
+                member.getFirstname(),
+                member.getLastname(),
+                member.getBirthdate(),
+                course.getProgram().getName(),
+                trainingSlotDtos,
+                registration.getRegistrationFee()
+        );
     }
 }
