@@ -14,8 +14,8 @@ import webly.meyzieu_gym.back.membermanagement.entity.MemberGuardian;
 import webly.meyzieu_gym.back.membermanagement.repository.EmergencyContactRepository;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberGuardianRepository;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
-import webly.meyzieu_gym.back.usermanagement.user.User;
-import webly.meyzieu_gym.back.usermanagement.user.UserRepository;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
+import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
 
 @Service
 public class MemberService {

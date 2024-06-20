@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import webly.meyzieu_gym.back.usermanagement.user.User;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
 
 @Entity
 @Table(name = "member_guardian")

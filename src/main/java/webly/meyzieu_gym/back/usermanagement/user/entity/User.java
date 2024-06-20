@@ -1,4 +1,4 @@
-package webly.meyzieu_gym.back.usermanagement.user;
+package webly.meyzieu_gym.back.usermanagement.user.entity;
 
 import java.util.Set;
 
@@ -36,6 +36,9 @@ public class User {
     @Column(name = "occupation", nullable = false, length = 255)
     private String occupation;
 
+    @Column(name = "rib_url", length = 2048)
+    private String ribUrl;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_roles", 
@@ -43,11 +46,18 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String password, String phoneNumber, String address, String occupation) {
+    public User(
+            String firstname, 
+            String lastname, 
+            String email, 
+            String password, 
+            String phoneNumber, 
+            String address, 
+            String occupation,
+            String ribUrl) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -55,6 +65,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.occupation = occupation;
+        this.ribUrl = ribUrl;
     }
 
     public long getId() {
@@ -121,6 +132,14 @@ public class User {
         this.occupation = occupation;
     }
 
+    public String getRibUrl() {
+        return this.ribUrl;
+    }
+
+    public void setRibUrl(String ribUrl) {
+        this.ribUrl = ribUrl;
+    }
+
     public Set<Role> getRoles() {
         return this.roles;
     }
@@ -128,4 +147,5 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

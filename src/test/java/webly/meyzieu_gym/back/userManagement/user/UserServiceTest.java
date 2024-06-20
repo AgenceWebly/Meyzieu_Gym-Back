@@ -13,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
-import webly.meyzieu_gym.back.usermanagement.user.User;
-import webly.meyzieu_gym.back.usermanagement.user.UserProfileDto;
-import webly.meyzieu_gym.back.usermanagement.user.UserRepository;
-import webly.meyzieu_gym.back.usermanagement.user.UserService;
+import webly.meyzieu_gym.back.usermanagement.user.dto.UserProfileDto;
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
+import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
+import webly.meyzieu_gym.back.usermanagement.user.service.UserService;
 
 class UserServiceTest {
     @Mock

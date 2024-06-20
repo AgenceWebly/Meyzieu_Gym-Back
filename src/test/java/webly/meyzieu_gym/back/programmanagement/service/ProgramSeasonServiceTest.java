@@ -67,7 +67,7 @@ class ProgramSeasonServiceTest {
         // Mock the repositories
         when(seasonRepository.findById(1L)).thenReturn(Optional.of(season));
         when(programRepository.findById(1L)).thenReturn(Optional.of(program));
-        when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.empty());
+        when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAgeAndCourseName(1L, 1L, 18, 65, "toto")).thenReturn(Optional.empty());
 
         // Create the DTO
         CreateCourseDto dto = new CreateCourseDto();
@@ -112,7 +112,7 @@ class ProgramSeasonServiceTest {
         // Mock the repositories
         when(seasonRepository.findById(1L)).thenReturn(Optional.of(season));
         when(programRepository.findById(1L)).thenReturn(Optional.of(program));
-        when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAge(1L, 1L, 18, 65)).thenReturn(Optional.of(new Course()));
+        when(courseRepository.findByProgramIdAndSeasonIdAndMinAgeAndMaxAgeAndCourseName(1L, 1L, 18, 65, "toto")).thenReturn(Optional.of(new Course()));
 
         // Call the service and expect DuplicateProgramSeasonException
         assertThrows(DuplicateCourseException.class, () -> courseService.createCourse(dto));

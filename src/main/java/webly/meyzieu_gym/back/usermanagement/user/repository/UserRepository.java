@@ -1,10 +1,12 @@
-package webly.meyzieu_gym.back.usermanagement.user;
+package webly.meyzieu_gym.back.usermanagement.user.repository;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import webly.meyzieu_gym.back.usermanagement.user.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
