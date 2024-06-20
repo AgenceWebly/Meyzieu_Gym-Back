@@ -1,5 +1,7 @@
 package webly.meyzieu_gym.back.usermanagement.user.dto;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -22,6 +24,9 @@ public class UserUpdateDto {
     @Size(min = 3, message = "The occupation format isn't correct!")
     private String occupation;
 
+    @URL(message = "Le format de l'URL est invalide")
+    private String ribUrl;
+
     public UserUpdateDto() {
     }
 
@@ -32,7 +37,8 @@ public class UserUpdateDto {
             String email, 
             String phoneNumber, 
             String address, 
-            String occupation) {
+            String occupation,
+            String ribUrl) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -40,6 +46,7 @@ public class UserUpdateDto {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.occupation = occupation;
+        this.ribUrl = ribUrl;
     }
 
     public Long getId() {
@@ -96,6 +103,14 @@ public class UserUpdateDto {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    public String getRibUrl() {
+        return this.ribUrl;
+    }
+
+    public void setRibUrl(String ribUrl) {
+        this.ribUrl = ribUrl;
     }
     
 }

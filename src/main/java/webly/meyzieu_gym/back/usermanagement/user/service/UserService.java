@@ -33,6 +33,7 @@ public class UserService {
         user.setPhoneNumber(updatedProfileDto.getPhoneNumber());
         user.setAddress(updatedProfileDto.getAddress());
         user.setOccupation(updatedProfileDto.getOccupation());
+        user.setRibUrl(updatedProfileDto.getRibUrl());
 
         User updatedUser = userRepository.save(user);
 
@@ -40,10 +41,6 @@ public class UserService {
     }
 
     private UserProfileDto mapToDto(User user) {
-        String ribUrl = null;
-        if (user.getGuardianInfo() != null) {
-            ribUrl = user.getGuardianInfo().getRibUrl();
-        }
     
         return new UserProfileDto(
             user.getId(),
@@ -53,7 +50,7 @@ public class UserService {
             user.getPhoneNumber(),
             user.getAddress(),
             user.getOccupation(),
-            ribUrl
+            user.getRibUrl()
         );
     }
 }

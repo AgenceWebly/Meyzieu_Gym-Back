@@ -56,7 +56,8 @@ public class AuthService {
                              encoder.encode(signUpRequest.getPassword()),
                              signUpRequest.getPhoneNumber(),
                              signUpRequest.getAddress(),
-                             signUpRequest.getOccupation()
+                             signUpRequest.getOccupation(),
+                             null
                              );
 
         Set<String> strRoles = signUpRequest.getRole();
