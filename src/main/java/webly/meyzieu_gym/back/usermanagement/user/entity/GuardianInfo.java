@@ -26,8 +26,7 @@ public class GuardianInfo {
     public GuardianInfo() {
     }
 
-    public GuardianInfo(Long userId, String ribUrl, User user) {
-        this.userId = userId;
+    public GuardianInfo(String ribUrl, User user) {
         this.ribUrl = ribUrl;
         this.user = user;
     }

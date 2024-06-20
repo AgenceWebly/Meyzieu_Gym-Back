@@ -3,7 +3,7 @@ package webly.meyzieu_gym.back.usermanagement.user.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UserProfileDto {
+public class UserUpdateDto {
 
     private Long id;
     private String firstname;
@@ -22,20 +22,17 @@ public class UserProfileDto {
     @Size(min = 3, message = "The occupation format isn't correct!")
     private String occupation;
 
-    private String ribUrl;
-
-    public UserProfileDto() {
+    public UserUpdateDto() {
     }
 
-    public UserProfileDto(
+    public UserUpdateDto(
             Long id, 
             String firstname, 
             String lastname, 
             String email, 
             String phoneNumber, 
             String address, 
-            String occupation,
-            String ribUrl) {
+            String occupation) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -43,7 +40,6 @@ public class UserProfileDto {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.occupation = occupation;
-        this.ribUrl = ribUrl;
     }
 
     public Long getId() {
@@ -102,11 +98,4 @@ public class UserProfileDto {
         this.occupation = occupation;
     }
     
-    public String getRibUrl() {
-        return this.ribUrl;
-    }
-
-    public void setRibUrl(String ribUrl) {
-        this.ribUrl = ribUrl;
-    }
 }

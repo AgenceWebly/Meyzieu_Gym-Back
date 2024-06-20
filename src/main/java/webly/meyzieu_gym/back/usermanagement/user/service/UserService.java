@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 import webly.meyzieu_gym.back.usermanagement.user.dto.UserProfileDto;
+import webly.meyzieu_gym.back.usermanagement.user.dto.UserUpdateDto;
 import webly.meyzieu_gym.back.usermanagement.user.entity.User;
 import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
 
@@ -25,7 +26,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserProfileDto updateUser(Long id, UserProfileDto updatedProfileDto){
+    public UserProfileDto updateUser(Long id, UserUpdateDto updatedProfileDto){
         User user = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("L'utilisateur n'a pas été trouvé"));
 
@@ -39,6 +40,11 @@ public class UserService {
     }
 
     private UserProfileDto mapToDto(User user) {
+        String ribUrl = null;
+        if (user.getGuardianInfo() != null) {
+            ribUrl = user.getGuardianInfo().getRibUrl();
+        }
+    
         return new UserProfileDto(
             user.getId(),
             user.getFirstname(),
@@ -46,7 +52,8 @@ public class UserService {
             user.getEmail(),
             user.getPhoneNumber(),
             user.getAddress(),
-            user.getOccupation()
+            user.getOccupation(),
+            ribUrl
         );
     }
 }
