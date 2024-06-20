@@ -15,6 +15,7 @@ import webly.meyzieu_gym.back.coursemanagement.dto.CreateCourseDto;
 import webly.meyzieu_gym.back.coursemanagement.service.CourseAdminService;
 import webly.meyzieu_gym.back.coursemanagement.service.CourseCreationService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/admin/courses")
@@ -40,4 +41,11 @@ public class CourseAdminController {
         List<CourseDto> courses = courseAdminService.getAllCourses();
         return ResponseEntity.ok(courses);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable Long id) {
+        CourseDto course = courseAdminService.getCourseById(id);
+        return ResponseEntity.ok(course);
+    }
+
 }

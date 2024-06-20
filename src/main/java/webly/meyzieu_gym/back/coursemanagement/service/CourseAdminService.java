@@ -1,10 +1,13 @@
 package webly.meyzieu_gym.back.coursemanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import webly.meyzieu_gym.back.common.exception.custom.CourseNotFoundException;
 import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
@@ -34,6 +37,18 @@ public class CourseAdminService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public CourseDto getCourseById(Long id) {
+        Optional<Course> courseOptional = courseRepository.findById(id);
+
+        if (!courseOptional.isPresent()) {
+            throw new CourseNotFoundException("Le cours n'a pas été trouvé");
+        }
+
+        Course course = courseOptional.get();
+        return mapToCourseDto(course);
+    }
+    
     private CourseDto mapToCourseDto(Course course) {
         int remainingSlots = calculateRemainingSlots(course);
 
