@@ -15,7 +15,7 @@ public class EmergencyContactDto {
     private String lastname;
 
     @NotBlank(message = "La relation avec le membre ne peut pas être vide")
-    @Pattern(regexp = "father|mother|other", message = "La relation envoyée au membre n'est pas correcte")
+    @Pattern(regexp = "father|mother|grand-father|grand-mother|other", message = "La relation envoyée au membre n'est pas correcte")
     private String relationToMember;
 
     @NotBlank(message = "Le numéro de téléphone ne peut pas être vide")
