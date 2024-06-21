@@ -9,6 +9,8 @@ public class MemberDto {
     private boolean isPhotoApproved;
     private boolean isTransportApproved;
     private String profilePictureUrl;
+    private String sportPassUrl;
+    private String regionPassUrl;
 
     public MemberDto() {}
 
@@ -20,7 +22,9 @@ public class MemberDto {
             boolean isFirstAidApproved, 
             boolean isPhotoApproved, 
             boolean isTransportApproved, 
-            String profilePictureUrl) {
+            String profilePictureUrl,
+            String sportPassUrl,
+            String regionPassUrl) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -29,6 +33,8 @@ public class MemberDto {
         this.isPhotoApproved = isPhotoApproved;
         this.isTransportApproved = isTransportApproved;
         this.profilePictureUrl = profilePictureUrl;
+        this.sportPassUrl = sportPassUrl;
+        this.regionPassUrl = regionPassUrl;
     }
 
     public Long getId() {
@@ -93,5 +99,21 @@ public class MemberDto {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public String getSportPassUrl() {
+        return this.sportPassUrl;
+    }
+
+    public void setSportPassUrl(String sportPassUrl) {
+        this.sportPassUrl = sportPassUrl;
+    }
+
+    public String getRegionPassUrl() {
+        return this.regionPassUrl;
+    }
+
+    public void setRegionPassUrl(String regionPassUrl) {
+        this.regionPassUrl = regionPassUrl;
     }
 }

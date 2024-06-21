@@ -143,7 +143,9 @@ public class CourseAdminService {
                         member.isFirstAidApproved(),
                         member.isPhotoApproved(),
                         member.isTransportApproved(),
-                        member.getProfilePictureUrl()
+                        member.getProfilePictureUrl(),
+                        member.getSportPassUrl(),
+                        member.getRegionPassUrl()
                 ))
                 .collect(Collectors.toList());
     }
