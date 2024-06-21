@@ -54,8 +54,8 @@ public class CourseAdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseDto> updateCourse(@PathVariable Long id, @Valid @RequestBody CreateCourseDto updateCourseDto) {
-        CourseDto updatedCourse = courseUpdateAdminService.updateCourse(id, updateCourseDto);
-        return ResponseEntity.ok(updatedCourse);
+    public ResponseEntity<Void> updateCourse(@PathVariable Long id, @Valid @RequestBody CreateCourseDto updateCourseDto) {
+        courseUpdateAdminService.updateCourse(id, updateCourseDto);
+        return ResponseEntity.ok().build();
     }
 }
