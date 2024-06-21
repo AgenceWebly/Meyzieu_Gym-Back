@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import webly.meyzieu_gym.back.coursemanagement.dto.CourseAdminDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.CourseDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.CreateCourseDto;
 import webly.meyzieu_gym.back.coursemanagement.service.CourseAdminService;
@@ -48,8 +49,8 @@ public class CourseAdminController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDto> getCourseById(@PathVariable Long id) {
-        CourseDto course = courseAdminService.getCourseById(id);
+    public ResponseEntity<CourseAdminDto> getCourseById(@PathVariable Long id) {
+        CourseAdminDto course = courseAdminService.getCourseById(id);
         return ResponseEntity.ok(course);
     }
 

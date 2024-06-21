@@ -8,7 +8,6 @@ public class MemberDto {
     private boolean isFirstAidApproved;
     private boolean isPhotoApproved;
     private boolean isTransportApproved;
-    private boolean isJudge;
     private String profilePictureUrl;
 
     public MemberDto() {}
@@ -21,7 +20,6 @@ public class MemberDto {
             boolean isFirstAidApproved, 
             boolean isPhotoApproved, 
             boolean isTransportApproved, 
-            boolean isJudge, 
             String profilePictureUrl) {
         this.id = id;
         this.firstname = firstname;
@@ -30,7 +28,6 @@ public class MemberDto {
         this.isFirstAidApproved = isFirstAidApproved;
         this.isPhotoApproved = isPhotoApproved;
         this.isTransportApproved = isTransportApproved;
-        this.isJudge = isJudge;
         this.profilePictureUrl = profilePictureUrl;
     }
 
@@ -58,64 +55,36 @@ public class MemberDto {
         this.lastname = lastname;
     }
 
-    public boolean isIsAllowedToLeave() {
+    public boolean isAllowedToLeave() {
         return this.isAllowedToLeave;
     }
 
-    public boolean getIsAllowedToLeave() {
-        return this.isAllowedToLeave;
-    }
-
-    public void setIsAllowedToLeave(boolean isAllowedToLeave) {
+    public void setAllowedToLeave(boolean isAllowedToLeave) {
         this.isAllowedToLeave = isAllowedToLeave;
     }
 
-    public boolean isIsFirstAidApproved() {
+    public boolean isFirstAidApproved() {
         return this.isFirstAidApproved;
     }
 
-    public boolean getIsFirstAidApproved() {
-        return this.isFirstAidApproved;
-    }
-
-    public void setIsFirstAidApproved(boolean isFirstAidApproved) {
+    public void setFirstAidApproved(boolean isFirstAidApproved) {
         this.isFirstAidApproved = isFirstAidApproved;
     }
 
-    public boolean isIsPhotoApproved() {
+    public boolean isPhotoApproved() {
         return this.isPhotoApproved;
     }
 
-    public boolean getIsPhotoApproved() {
-        return this.isPhotoApproved;
-    }
-
-    public void setIsPhotoApproved(boolean isPhotoApproved) {
+    public void setPhotoApproved(boolean isPhotoApproved) {
         this.isPhotoApproved = isPhotoApproved;
     }
 
-    public boolean isIsTransportApproved() {
+    public boolean isTransportApproved() {
         return this.isTransportApproved;
     }
 
-    public boolean getIsTransportApproved() {
-        return this.isTransportApproved;
-    }
-
-    public void setIsTransportApproved(boolean isTransportApproved) {
+    public void setTransportApproved(boolean isTransportApproved) {
         this.isTransportApproved = isTransportApproved;
-    }
-
-    public boolean isIsJudge() {
-        return this.isJudge;
-    }
-
-    public boolean getIsJudge() {
-        return this.isJudge;
-    }
-
-    public void setIsJudge(boolean isJudge) {
-        this.isJudge = isJudge;
     }
 
     public String getProfilePictureUrl() {

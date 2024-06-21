@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import webly.meyzieu_gym.back.registrationmanagement.entity.Registration;
 
 @Entity
 @Table(name = "course")
@@ -55,6 +56,9 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrainingSlot> trainingSlots;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Registration> registrations;
 
     public Course() {
     }
@@ -166,5 +170,13 @@ public class Course {
 
     public void setTrainingSlots(List<TrainingSlot> trainingSlots) {
         this.trainingSlots = trainingSlots;
+    }
+
+    public List<Registration> getRegistrations() {
+        return this.registrations;
+    }
+
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
     }
 }
