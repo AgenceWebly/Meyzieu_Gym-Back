@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import webly.meyzieu_gym.back.membermanagement.dto.MemberListAdminDto;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberProfileAdminDto;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
@@ -18,6 +19,22 @@ public class MemberAdminService {
 
     public MemberAdminService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<MemberListAdminDto> getAllMembers() {
+        return memberRepository.findAll().stream()
+                .map(this::mapToMemberListAdminDto)
+                .collect(Collectors.toList());
+    }
+
+    private MemberListAdminDto mapToMemberListAdminDto(Member member) {
+        return new MemberListAdminDto(
+                member.getId(),
+                member.getFirstname(),
+                member.getLastname(),
+                member.getProfilePictureUrl()
+        );
     }
 
     @Transactional(readOnly = true)
