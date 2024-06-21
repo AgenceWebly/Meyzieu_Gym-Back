@@ -65,10 +65,28 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Registration> registrations;
     
+    @Column(name = "sport_pass_url")
+    private String sportPassUrl;
+
+    @Column(name = "region_pass_url")
+    private String regionPassUrl;
+
     public Member() {
     }
 
-    public Member(String firstname, String lastname, Date birthdate, String gender, String school, boolean isPhotoApproved, boolean isTransportApproved, boolean isFirstAidApproved, boolean isAllowedToLeave, String profilePictureUrl) {
+    public Member(
+            String firstname, 
+            String lastname, 
+            Date birthdate, 
+            String gender, 
+            String school, 
+            boolean isPhotoApproved, 
+            boolean isTransportApproved, 
+            boolean isFirstAidApproved, 
+            boolean isAllowedToLeave, 
+            String profilePictureUrl,
+            String sportPassUrl,
+            String regionPassUrl) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
@@ -79,6 +97,8 @@ public class Member {
         this.isFirstAidApproved = isFirstAidApproved;
         this.isAllowedToLeave = isAllowedToLeave;
         this.profilePictureUrl = profilePictureUrl;
+        this.sportPassUrl = sportPassUrl;
+        this.regionPassUrl = regionPassUrl;
     }
 
     public Long getId() {
@@ -167,6 +187,22 @@ public class Member {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public String getSportPassUrl() {
+        return this.sportPassUrl;
+    }
+
+    public void setSportPassUrl(String sportPassUrl) {
+        this.sportPassUrl = sportPassUrl;
+    }
+
+    public String getRegionPassUrl() {
+        return this.regionPassUrl;
+    }
+
+    public void setRegionPassUrl(String regionPassUrl) {
+        this.regionPassUrl = regionPassUrl;
     }
 
     public List<EmergencyContact> getEmergencyContacts() {
