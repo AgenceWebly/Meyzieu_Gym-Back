@@ -14,6 +14,8 @@ phases:
       - ./mvnw package -DskipTests
       - echo Copying appspec.yml to target directory
       - cp appspec.yml target/
+      - echo Listing target directory
+      - ls -al target/
   post_build:
     commands:
       - echo Build completed on `date`
