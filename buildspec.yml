@@ -8,6 +8,12 @@ phases:
     commands:
       - echo Pre-build started
       - chmod +x mvnw
+      - echo "DB_URL: $DB_URL"
+      - echo "DB_USER: $DB_USER"
+      - echo "DB_PASSWORD: $DB_PASSWORD"
+      - echo "SPRING_PROFILES_ACTIVE: $SPRING_PROFILES_ACTIVE"
+      - echo "JWT_COOKIE_NAME: $JWT_COOKIE_NAME"
+      - echo "JWT_SECRET: $JWT_SECRET"
   build:
     commands:
       - echo Building the project...
