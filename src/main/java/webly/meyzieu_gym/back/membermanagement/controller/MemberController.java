@@ -1,6 +1,5 @@
 package webly.meyzieu_gym.back.membermanagement.controller;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,15 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import webly.meyzieu_gym.back.membermanagement.dto.CreateMemberDto;
+import webly.meyzieu_gym.back.membermanagement.dto.MemberDto;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberListDto;
+import webly.meyzieu_gym.back.membermanagement.service.CreateMemberService;
 import webly.meyzieu_gym.back.membermanagement.service.MemberService;
 import webly.meyzieu_gym.back.membermanagement.service.MembersByUserService;
-import webly.meyzieu_gym.back.security.service.UserDetailsImpl;
-
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,18 +25,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 @PreAuthorize("hasRole('GUARDIAN')")
 public class MemberController {
 
-    private final MemberService memberService;
+    private final CreateMemberService createMemberService;
     private final MembersByUserService membersByUserService;
+    private final MemberService memberService;
 
-    public MemberController(MemberService memberService, MembersByUserService membersByUserService) {
-        this.memberService = memberService;
+    public MemberController(CreateMemberService createMemberService, MembersByUserService membersByUserService, MemberService memberService) {
+        this.createMemberService = createMemberService;
         this.membersByUserService = membersByUserService;
+        this.memberService = memberService;
     }
 
+    @PreAuthorize("#id == authentication.principal.id")
     @PostMapping("/{id}/members")
-    public ResponseEntity<Long> createMember(@Valid @RequestBody CreateMemberDto memberDto, @PathVariable Long id, Authentication authentication) {
-        validateUser(id, authentication);
-        Long memberId = memberService.createMember(memberDto, id);
+    public ResponseEntity<Long> createMember(@Valid @RequestBody CreateMemberDto memberDto, @PathVariable Long id) {
+        Long memberId = createMemberService.createMember(memberDto, id);
         return ResponseEntity.ok(memberId);
     }
 
@@ -49,13 +49,10 @@ public class MemberController {
         return membersByUserService.getMembersByUserId(id, forRegistration);
     }
 
-    // Necessary? must verify
-    private void validateUser(Long userId, Authentication authentication) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long authenticatedUserId = userDetails.getId();
-
-        if (!authenticatedUserId.equals(userId)) {
-            throw new AccessDeniedException("Vous n'avez pas la permission d'effectuer cette action.");
-        }
+    @GetMapping("/members/{memberId}")
+    @PreAuthorize("@memberOwnershipService.isMemberOwner(#memberId, authentication.principal.id)")
+    public ResponseEntity<MemberDto> getMemberById(@PathVariable Long memberId) {
+        MemberDto memberDto = memberService.getMemberById(memberId);
+        return ResponseEntity.ok(memberDto);
     }
 }

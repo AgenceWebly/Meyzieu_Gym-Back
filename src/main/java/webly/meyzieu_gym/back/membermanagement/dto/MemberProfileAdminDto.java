@@ -1,6 +1,12 @@
 package webly.meyzieu_gym.back.membermanagement.dto;
 
-public class MemberDto {
+import java.util.List;
+
+import webly.meyzieu_gym.back.registrationmanagement.dto.RegistrationDetailsForMemberDto;
+import webly.meyzieu_gym.back.usermanagement.user.dto.GuardianDto;
+
+public class MemberProfileAdminDto {
+    
     private Long id;
     private String firstname;
     private String lastname;
@@ -11,10 +17,13 @@ public class MemberDto {
     private String profilePictureUrl;
     private String sportPassUrl;
     private String regionPassUrl;
+    private List<GuardianDto> guardians;
+    private List<RegistrationDetailsForMemberDto> registrations;
 
-    public MemberDto() {}
+    public MemberProfileAdminDto() {
+    }
 
-    public MemberDto(
+    public MemberProfileAdminDto(
             Long id, 
             String firstname, 
             String lastname, 
@@ -22,9 +31,11 @@ public class MemberDto {
             boolean isFirstAidApproved, 
             boolean isPhotoApproved, 
             boolean isTransportApproved, 
-            String profilePictureUrl,
-            String sportPassUrl,
-            String regionPassUrl) {
+            String profilePictureUrl, 
+            String sportPassUrl, 
+            String regionPassUrl, 
+            List<GuardianDto> guardians, 
+            List<RegistrationDetailsForMemberDto> registrations) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -35,6 +46,8 @@ public class MemberDto {
         this.profilePictureUrl = profilePictureUrl;
         this.sportPassUrl = sportPassUrl;
         this.regionPassUrl = regionPassUrl;
+        this.guardians = guardians;
+        this.registrations = registrations;
     }
 
     public Long getId() {
@@ -116,4 +129,21 @@ public class MemberDto {
     public void setRegionPassUrl(String regionPassUrl) {
         this.regionPassUrl = regionPassUrl;
     }
+
+    public List<GuardianDto> getGuardians() {
+        return this.guardians;
+    }
+
+    public void setGuardians(List<GuardianDto> guardians) {
+        this.guardians = guardians;
+    }
+
+    public List<RegistrationDetailsForMemberDto> getRegistrations() {
+        return this.registrations;
+    }
+
+    public void setRegistrations(List<RegistrationDetailsForMemberDto> registrations) {
+        this.registrations = registrations;
+    }
+
 }
