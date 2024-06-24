@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberDto;
+import webly.meyzieu_gym.back.membermanagement.dto.UpdateMemberDto;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
 
@@ -29,6 +30,19 @@ public class MemberService {
 
         Member member = memberOptional.get();
         return mapToMemberDto(member);
+    }
+
+    @Transactional
+    public void updateMember(Long memberId, UpdateMemberDto updateMemberDto) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("L'adhérent n'a pas été trouvé"));
+
+        member.setSchool(updateMemberDto.getSchool());
+        member.setProfilePictureUrl(updateMemberDto.getProfilePictureUrl());
+        member.setSportPassUrl(updateMemberDto.getSportPassUrl());
+        member.setRegionPassUrl(updateMemberDto.getRegionPassUrl());
+
+        memberRepository.save(member);
     }
 
     private MemberDto mapToMemberDto(Member member) {

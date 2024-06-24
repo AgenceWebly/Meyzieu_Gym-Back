@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import webly.meyzieu_gym.back.membermanagement.dto.CreateMemberDto;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberDto;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberListDto;
+import webly.meyzieu_gym.back.membermanagement.dto.UpdateMemberDto;
 import webly.meyzieu_gym.back.membermanagement.service.CreateMemberService;
 import webly.meyzieu_gym.back.membermanagement.service.MemberService;
 import webly.meyzieu_gym.back.membermanagement.service.MembersByUserService;
@@ -18,6 +19,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -54,5 +56,12 @@ public class MemberController {
     public ResponseEntity<MemberDto> getMemberById(@PathVariable Long memberId) {
         MemberDto memberDto = memberService.getMemberById(memberId);
         return ResponseEntity.ok(memberDto);
+    }
+
+    @PutMapping("/members/{memberId}")
+    @PreAuthorize("@memberOwnershipService.isMemberOwner(#memberId, authentication.principal.id)")
+    public ResponseEntity<Void> updateMember(@PathVariable Long memberId, @Valid @RequestBody UpdateMemberDto updateMemberDto) {
+        memberService.updateMember(memberId, updateMemberDto);
+        return ResponseEntity.ok().build();
     }
 }
