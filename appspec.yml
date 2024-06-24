@@ -1,5 +1,5 @@
 version: 0.0
 os: linux
 files:
-  - source: target/meyzieu_gym.back-0.0.1-SNAPSHOT.jar
+  - source: meyzieu_gym.back-0.0.1-SNAPSHOT.jar
     destination: /home/ec2-user/meyzieu-gym-back/
