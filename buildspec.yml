@@ -12,9 +12,12 @@ phases:
     commands:
       - echo Building the project...
       - ./mvnw package -DskipTests
+      - echo Copying appspec.yml to target directory
+      - cp appspec.yml target/
   post_build:
     commands:
       - echo Build completed on `date`
 artifacts:
   files:
     - target/*.jar
+    - target/appspec.yml
