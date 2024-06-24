@@ -19,5 +19,5 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - target/*.jar
+    - target/meyzieu_gym.back-0.0.1-SNAPSHOT.jar
     - target/appspec.yml
