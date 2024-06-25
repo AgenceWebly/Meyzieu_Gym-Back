@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import webly.meyzieu_gym.back.common.exception.custom.RoleNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.UserAlreadyExistsException;
+import webly.meyzieu_gym.back.emailmanagement.EmailConfService;
 import webly.meyzieu_gym.back.security.jwt.JwtUtils;
 import webly.meyzieu_gym.back.security.payload.request.LoginRequest;
 import webly.meyzieu_gym.back.security.payload.request.SignupRequest;
@@ -36,13 +37,21 @@ public class AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
     private JwtUtils jwtUtils;
+    private EmailConfService emailConfService;
 
-    public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthService(
+            AuthenticationManager authenticationManager, 
+            UserRepository userRepository, 
+            RoleRepository roleRepository, 
+            PasswordEncoder encoder, 
+            JwtUtils jwtUtils,
+            EmailConfService emailConfService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.emailConfService = emailConfService;
     }
 
     public ResponseEntity<MessageResponse> registerUser(SignupRequest signUpRequest) {
@@ -86,7 +95,7 @@ public class AuthService {
 
         user.setRoles(roles);
         userRepository.save(user);
-
+        emailConfService.sendEmail(user.getEmail());
         return ResponseEntity.ok(new MessageResponse("L'utilisateur est bien enregistré"));
     }
 
