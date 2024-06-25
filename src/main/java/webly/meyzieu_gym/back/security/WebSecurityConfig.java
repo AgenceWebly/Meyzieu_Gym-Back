@@ -22,6 +22,8 @@ import webly.meyzieu_gym.back.security.jwt.AuthTokenFilter;
 import webly.meyzieu_gym.back.security.jwt.JwtUtils;
 import webly.meyzieu_gym.back.security.service.UserDetailsServiceImpl;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true) // Enabling method level security
 public class WebSecurityConfig {
@@ -89,7 +91,7 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
-        config.addAllowedOrigin("*");
+        config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://dbcizbyvaws4y.cloudfront.net"));
         config.addAllowedHeader("*"); // Allow all headers
         config.addAllowedMethod("*"); // Allow all HTTP methods
         config.setMaxAge(3600L); // Setting the maxAge to 3600 seconds
