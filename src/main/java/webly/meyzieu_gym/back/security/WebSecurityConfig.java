@@ -90,6 +90,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
         config.addAllowedOrigin("http://localhost:4200"); // Allow requests from this origin
+        config.addAllowedOrigin("https://dbcizbyvaws4y.cloudfront.net");
         config.addAllowedHeader("*"); // Allow all headers
         config.addAllowedMethod("*"); // Allow all HTTP methods
         config.setMaxAge(3600L); // Setting the maxAge to 3600 seconds
