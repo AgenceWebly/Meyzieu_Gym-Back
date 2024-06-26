@@ -23,8 +23,6 @@ import webly.meyzieu_gym.back.security.jwt.AuthTokenFilter;
 import webly.meyzieu_gym.back.security.jwt.JwtUtils;
 import webly.meyzieu_gym.back.security.service.UserDetailsServiceImpl;
 
-import java.util.Arrays;
-
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true) // Enabling method level security
 public class WebSecurityConfig {
@@ -79,7 +77,6 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> 
             auth.requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers("/api/send-email").permitAll()
                 .requestMatchers("/api/users/**").hasRole("USER")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

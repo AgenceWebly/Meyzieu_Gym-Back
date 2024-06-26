@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import webly.meyzieu_gym.back.common.exception.custom.CourseNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateCourseException;
 import webly.meyzieu_gym.back.common.exception.custom.DuplicateRegistrationException;
+import webly.meyzieu_gym.back.common.exception.custom.EmailSendingException;
 import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.ProgramNotFoundException;
 import webly.meyzieu_gym.back.common.exception.custom.RegistrationAvailabilityException;
@@ -102,5 +103,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<MessageResponse> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         return new ResponseEntity<>(new MessageResponse("Vous n'êtes pas autorisé à accéder à cette ressource"), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(EmailSendingException.class)
+    public ResponseEntity<String> handleEmailSendingException(EmailSendingException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("L'email n'a pas pu être envoyé: " + ex.getMessage());
     }
 }
