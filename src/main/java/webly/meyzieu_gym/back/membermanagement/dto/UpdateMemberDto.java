@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class UpdateMemberDto {
 
     @NotBlank(message = "L'école ne peut pas être vide")
-    @Size(min = 10, max = 255, message = "La taille de l'école doit être comprise entre 10 et 255 caractères")
+    @Size(min = 4, max = 255, message = "La taille de l'école doit être comprise entre 10 et 255 caractères")
     private String school;
 
     @URL(message = "Le format de l'URL est invalide")
