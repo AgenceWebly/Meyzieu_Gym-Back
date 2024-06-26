@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailConfService {
     
-        private JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
     public EmailConfService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -17,15 +17,25 @@ public class EmailConfService {
     @Value("${meyzieu-gym.app.email}")
     private String email;
 
-    public void sendEmail(String newUserEmail) {
+    public void sendEmailForSignup(String newUserEmail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(email);
         message.setTo(newUserEmail);
-        message.setSubject("Bienvenue chez Meyzieu Gym!");
-        message.setText("Bonjour,\n\nNous sommes ravis de vous accueillir chez Mezieu Gym!" + 
-        "\n\nVotre inscription a bien été prise en compte et vous pouvez dès à présent profiter de tous nos services." +
-        "Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter.\n\nÀ très bientôt sur notre plateforme"+
-        "!\n\nSportivement,\nL'équipe Meyzieu Gym");
+        message.setSubject("Bienvenue chez Meyzieu Gym !");
+        message.setText("Bonjour,\n\nNous sommes ravis de vous accueillir chez Meyzieu Gym !" + 
+        "\n\nVotre compte a bien été créé !" +
+        "\n\nVous pouvez dès à présent vous connecter sur le site et inscrire vos enfants à un cours pour la saison à venir." +
+        "Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter.\n\nÀ très bientôt sur notre plateforme."+
+        "\n\nSportivement,\nL'équipe Meyzieu Gym");
+        mailSender.send(message);
+    }
+
+    public void sendEmailForRegister(EmailRequest emailRequest) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(email);
+        message.setTo(emailRequest.getTo());
+        message.setSubject(emailRequest.getSubject());
+        message.setText(emailRequest.getMessage());
         mailSender.send(message);
     }
 }

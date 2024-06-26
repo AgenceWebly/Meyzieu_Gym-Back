@@ -23,8 +23,6 @@ import webly.meyzieu_gym.back.security.jwt.AuthTokenFilter;
 import webly.meyzieu_gym.back.security.jwt.JwtUtils;
 import webly.meyzieu_gym.back.security.service.UserDetailsServiceImpl;
 
-import java.util.Arrays;
-
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true) // Enabling method level security
 public class WebSecurityConfig {
