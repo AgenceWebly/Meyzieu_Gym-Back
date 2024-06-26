@@ -31,7 +31,7 @@ public class CreateMemberDto {
     private String gender;
 
     @NotBlank(message = "L'école ne peut pas être vide")
-    @Size(min = 10, max = 255, message = "La taille de l'école doit être comprise entre 10 et 255 caractères")
+    @Size(min = 4, max = 255, message = "La taille de l'école doit être comprise entre 10 et 255 caractères")
     private String school;
 
     @NotNull(message = "Veuillez indiquer si la photo est approuvée")
