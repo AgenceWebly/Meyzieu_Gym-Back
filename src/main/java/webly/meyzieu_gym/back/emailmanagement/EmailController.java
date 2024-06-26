@@ -18,9 +18,8 @@ public class EmailController {
 
     @PostMapping("/api/send-email")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> sendEmail(@RequestBody EmailRequest emailRequest) {
+    public ResponseEntity<Void> sendEmail(@RequestBody EmailRequest emailRequest) {
         emailConfService.sendEmailForRegister(emailRequest);
-        return ResponseEntity.ok("Email envoyé avec succès");
+        return ResponseEntity.ok().build();
     }
-    
 }
