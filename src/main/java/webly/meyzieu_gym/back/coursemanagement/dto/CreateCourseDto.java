@@ -21,7 +21,7 @@ public class CreateCourseDto {
     private Long programId;
 
     @NotBlank(message = "Veuillez indiquer le nom du cours")
-    @Size(min = 2, max = 20, message = "La taille du nom n'est pas compatible")
+    @Size(min = 2, max = 30, message = "La taille du nom n'est pas compatible")
     private String courseName;
 
     @NotNull(message = "Veuillez indiquer la date de début d'inscription")

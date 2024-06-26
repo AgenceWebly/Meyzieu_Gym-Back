@@ -33,7 +33,7 @@ public class Course {
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
 
-    @Column(name = "course_name", nullable = false, length = 20)
+    @Column(name = "course_name", nullable = false, length = 30)
     private String courseName;
     
     @Column(name = "registration_start_date", nullable = false)
