@@ -1,5 +1,6 @@
 package webly.meyzieu_gym.back.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -65,6 +66,9 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
     
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
+
     // Security filter chain configuration
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -91,7 +95,7 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
-        config.addAllowedOriginPattern("*");
+        config.addAllowedOriginPattern("allowedOrigins");
         config.addAllowedHeader("*"); // Allow all headers
         config.addAllowedMethod("*"); // Allow all HTTP methods
         config.setMaxAge(3600L); // Setting the maxAge to 3600 seconds
