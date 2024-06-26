@@ -95,7 +95,7 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
-        config.addAllowedOriginPattern("https://www.meyzieu-gym.fr/");
+        config.addAllowedOrigin("https://www.meyzieu-gym.fr");
         config.addAllowedHeader("*"); // Allow all headers
         config.addAllowedMethod("*"); // Allow all HTTP methods
         config.setMaxAge(3600L); // Setting the maxAge to 3600 seconds
