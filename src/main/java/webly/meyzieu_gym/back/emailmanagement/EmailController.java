@@ -1,9 +1,10 @@
 package webly.meyzieu_gym.back.emailmanagement;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 public class EmailController {
@@ -16,8 +17,10 @@ public class EmailController {
     }
 
     @PostMapping("/api/send-email")
-    public void sendEmail(@RequestBody EmailRequest emailRequest) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> sendEmail(@RequestBody EmailRequest emailRequest) {
         emailConfService.sendEmailForRegister(emailRequest);
+        return ResponseEntity.ok("Email envoyé avec succès");
     }
     
 }
