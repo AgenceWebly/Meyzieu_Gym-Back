@@ -105,7 +105,7 @@ public class RegistrationService {
                 member.getFirstname(),
                 member.getLastname(),
                 member.getBirthdate(),
-                course.getProgram().getName(),
+                course.getCourseName(),
                 trainingSlotDtos,
                 registration.getRegistrationFee()
         );
