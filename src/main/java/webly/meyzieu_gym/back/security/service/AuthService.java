@@ -95,7 +95,7 @@ public class AuthService {
 
         user.setRoles(roles);
         userRepository.save(user);
-        //emailConfService.sendEmail(user.getEmail());
+        emailConfService.sendEmailForSignup(user.getEmail());
         return ResponseEntity.ok(new MessageResponse("L'utilisateur est bien enregistré"));
     }
 
