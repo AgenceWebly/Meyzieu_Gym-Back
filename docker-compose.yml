@@ -1,0 +1,47 @@
+services:
+  spring:
+    container_name: mga-prod-spring
+    build:
+      context: .
+      target: production  # Use the production build target
+    ports:
+      - "9003:8080"
+    volumes:
+      - ./logs:/workspace/app/logs  # Log directory for persistent logs
+    depends_on:
+      - mysql
+    restart: unless-stopped  # Only restart the container if it stops unexpectedly
+    networks:
+      - angular-spring-connect
+      - spring-mysql-connect
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod  # Use the production profile
+      JAVA_OPTS: "-Xms512m -Xmx1024m"  # Optimize JVM settings for production
+
+  mysql:
+    image: "mysql:8.3.0"
+    container_name: mga-prod-mysql
+    volumes:
+      - mga-mysql-volume:/var/lib/mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    networks:
+      - spring-mysql-connect
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+volumes:
+  mga-mysql-volume:
+
+networks:
+  angular-spring-connect:
+  spring-mysql-connect:

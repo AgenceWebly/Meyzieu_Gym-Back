@@ -1,0 +1,58 @@
+services:
+  spring:
+    container_name: mga-dev-spring
+    build:
+      context: .
+      target: dev
+    ports:
+      - "9003:8080"
+    volumes:
+      - ./:/workspace/app
+    depends_on:
+      - mysql
+    restart: always
+    networks:
+      - angular-spring-connect
+      - spring-mysql-connect
+    environment:
+      MYSQL_HOST: jdbc:mysql://mga-dev-mysql:3306/MGA_docker?createDatabaseIfNotExist=true
+      MYSQL_ROOT_PASSWORD: root69
+      MYSQL_DATABASE: mga-dev
+      MYSQL_USER: Ben
+      MYSQL_PASSWORD: Ben69
+      SPRING_PROFILES_ACTIVE: dev
+
+  mysql:
+    image: "mysql:8.3.0"
+    container_name: mga-dev-mysql
+    volumes:
+      - mga-mysql-volume:/var/lib/mysql
+    restart: always
+    ports:
+      - "3307:3306"
+    networks:
+      - spring-mysql-connect
+    environment:
+      MYSQL_ROOT_PASSWORD: root69
+      MYSQL_DATABASE: mga-dev
+      MYSQL_USER: Ben
+      MYSQL_PASSWORD: Ben69
+      SPRING_PROFILES_ACTIVE: dev
+
+volumes:
+  mga-mysql-volume:
+
+networks:
+  angular-spring-connect:
+  spring-mysql-connect:
+
+# COMMANDS
+
+# Building phase:
+# docker-compose -f docker-compose-dev.yml build --no-cache
+
+# Launching phase:
+# docker-compose -f docker-compose-dev.yml up -d
+
+# Landing phase:
+# docker-compose -f docker-compose-dev.yml down
