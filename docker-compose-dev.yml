@@ -15,11 +15,11 @@ services:
       - angular-spring-connect
       - spring-mysql-connect
     environment:
-      MYSQL_HOST: jdbc:mysql://mga-dev-mysql:3306/MGA_docker?createDatabaseIfNotExist=true
-      MYSQL_ROOT_PASSWORD: root69
-      MYSQL_DATABASE: mga-dev
-      MYSQL_USER: Ben
-      MYSQL_PASSWORD: Ben69
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       SPRING_PROFILES_ACTIVE: dev
 
   mysql:
@@ -33,10 +33,10 @@ services:
     networks:
       - spring-mysql-connect
     environment:
-      MYSQL_ROOT_PASSWORD: root69
-      MYSQL_DATABASE: mga-dev
-      MYSQL_USER: Ben
-      MYSQL_PASSWORD: Ben69
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       SPRING_PROFILES_ACTIVE: dev
 
 volumes:
