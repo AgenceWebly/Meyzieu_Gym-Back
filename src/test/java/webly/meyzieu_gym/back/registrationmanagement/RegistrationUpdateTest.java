@@ -15,6 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import webly.meyzieu_gym.back.common.exception.custom.RegistrationNotFoundException;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
@@ -24,6 +28,9 @@ import webly.meyzieu_gym.back.registrationmanagement.entity.Registration;
 import webly.meyzieu_gym.back.registrationmanagement.repository.RegistrationRepository;
 import webly.meyzieu_gym.back.registrationmanagement.service.RegistrationService;
 
+@ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:application-test.properties")
+@ImportAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 class RegistrationUpdateTest {
     
     @Mock
