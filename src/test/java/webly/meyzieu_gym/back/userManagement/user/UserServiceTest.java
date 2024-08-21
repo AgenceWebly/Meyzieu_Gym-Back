@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import webly.meyzieu_gym.back.common.exception.custom.UserNotFoundException;
 import webly.meyzieu_gym.back.usermanagement.user.dto.UserProfileDto;
@@ -18,6 +22,9 @@ import webly.meyzieu_gym.back.usermanagement.user.entity.User;
 import webly.meyzieu_gym.back.usermanagement.user.repository.UserRepository;
 import webly.meyzieu_gym.back.usermanagement.user.service.UserService;
 
+@ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:application-test.properties")
+@ImportAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 class UserServiceTest {
     @Mock
     private UserRepository userRepository;
