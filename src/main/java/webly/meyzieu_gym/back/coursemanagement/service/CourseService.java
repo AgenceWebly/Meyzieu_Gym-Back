@@ -15,8 +15,8 @@ import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
 import webly.meyzieu_gym.back.coursemanagement.entity.Program;
-import webly.meyzieu_gym.back.coursemanagement.entity.Season;
 import webly.meyzieu_gym.back.coursemanagement.entity.TrainingSlot;
+import webly.meyzieu_gym.back.coursemanagement.mapper.SeasonMapper;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
@@ -28,11 +28,13 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final RegistrationRepository registrationRepository;
     private final MemberRepository memberRepository;
-
-    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberRepository memberRepository) {
+    private final SeasonMapper seasonMapper;
+    
+    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberRepository memberRepository, SeasonMapper seasonMapper) {
         this.courseRepository = courseRepository;
         this.registrationRepository = registrationRepository;
         this.memberRepository = memberRepository;
+        this.seasonMapper = seasonMapper;
     }
 
     @Transactional(readOnly = true)
@@ -96,7 +98,7 @@ public class CourseService {
         long registrationsCount = registrationRepository.countByCourseId(course.getId());
         int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
 
-        SeasonDto seasonDto = mapToSeasonDto(course.getSeason());
+        SeasonDto seasonDto = seasonMapper.mapToDto(course.getSeason());
         ProgramDto programDto = mapToProgramDto(course.getProgram());
         List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
 
@@ -118,13 +120,6 @@ public class CourseService {
                 remainingSlots,
                 userRegistrationsCount
         );
-    }
-
-    private SeasonDto mapToSeasonDto(Season season) {
-        return new SeasonDto(
-            season.getId(),
-            season.getStartDate(),
-            season.getEndDate());
     }
 
     private ProgramDto mapToProgramDto(Program program) {
