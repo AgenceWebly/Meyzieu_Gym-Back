@@ -14,8 +14,8 @@ import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
-import webly.meyzieu_gym.back.coursemanagement.entity.Program;
 import webly.meyzieu_gym.back.coursemanagement.entity.TrainingSlot;
+import webly.meyzieu_gym.back.coursemanagement.mapper.ProgramMapper;
 import webly.meyzieu_gym.back.coursemanagement.mapper.SeasonMapper;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
@@ -29,12 +29,14 @@ public class CourseService {
     private final RegistrationRepository registrationRepository;
     private final MemberRepository memberRepository;
     private final SeasonMapper seasonMapper;
+    private final ProgramMapper programMapper;
     
-    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberRepository memberRepository, SeasonMapper seasonMapper) {
+    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberRepository memberRepository, SeasonMapper seasonMapper, ProgramMapper programMapper) {
         this.courseRepository = courseRepository;
         this.registrationRepository = registrationRepository;
         this.memberRepository = memberRepository;
         this.seasonMapper = seasonMapper;
+        this.programMapper = programMapper;
     }
 
     @Transactional(readOnly = true)
@@ -69,7 +71,7 @@ public class CourseService {
         return !registrationRepository.existsByMemberIdAndCourseSeasonId(member.getId(), course.getSeason().getId());
     }
 
-    // Checks if a member's age is valid for the course based on the course's age requirements.
+    // Checks if a member's age is valid for the course based on the course's age requirements
     private boolean isAgeValidForCourse(Course course, Member member) {
         Date memberBirthDate = member.getBirthdate();
 
@@ -99,7 +101,7 @@ public class CourseService {
         int remainingSlots = course.getMaxMembers() - (int) registrationsCount;
 
         SeasonDto seasonDto = seasonMapper.mapToDto(course.getSeason());
-        ProgramDto programDto = mapToProgramDto(course.getProgram());
+        ProgramDto programDto = programMapper.mapToDto(course.getProgram());
         List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
 
         // Count the number of registrations for the user for the season of this course
@@ -120,14 +122,6 @@ public class CourseService {
                 remainingSlots,
                 userRegistrationsCount
         );
-    }
-
-    private ProgramDto mapToProgramDto(Program program) {
-        return new ProgramDto(
-            program.getId(), 
-            program.getName(), 
-            program.getDescription(), 
-            program.isIncludingCompetition());
     }
 
     private List<TrainingSlotDto> mapToTrainingSlotDtos(List<TrainingSlot> trainingSlots) {

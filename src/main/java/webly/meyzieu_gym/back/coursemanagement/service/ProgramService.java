@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.ProgramNotFoundException;
 import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Program;
+import webly.meyzieu_gym.back.coursemanagement.mapper.ProgramMapper;
 import webly.meyzieu_gym.back.coursemanagement.repository.ProgramRepository;
 
 @Service
@@ -16,13 +17,15 @@ import webly.meyzieu_gym.back.coursemanagement.repository.ProgramRepository;
 public class ProgramService {
     
     private final ProgramRepository programRepository;
-
-    public ProgramService(ProgramRepository programRepository) {
+    private final ProgramMapper programMapper;
+    
+    public ProgramService(ProgramRepository programRepository, ProgramMapper programMapper) {
         this.programRepository = programRepository;
+        this.programMapper = programMapper;
     }
 
     public void createProgram(ProgramDto programDto) {
-        Program program = mapToEntity(programDto);
+        Program program = programMapper.mapToEntity(programDto);
         programRepository.save(program);
     }
 
@@ -30,13 +33,13 @@ public class ProgramService {
     public ProgramDto getProgramById(Long id) {
         Program program = programRepository.findById(id)
             .orElseThrow(() -> new ProgramNotFoundException("Le programme n'a pas été trouvé"));
-        return mapToDto(program);
+        return programMapper.mapToDto(program);
     }
 
     @Transactional(readOnly = true)
     public List<ProgramDto> getAllPrograms() {
         return programRepository.findAll().stream()
-            .map(this::mapToDto)
+            .map(programMapper::mapToDto)
             .collect(Collectors.toList());
     }
 
@@ -47,22 +50,7 @@ public class ProgramService {
             program.setDescription(programDto.getDescription());
             program.setIncludingCompetition(programDto.isIncludingCompetition());
         Program updatedProgram = programRepository.save(program);
-        return mapToDto(updatedProgram);
+        return programMapper.mapToDto(updatedProgram);
     }
 
-    private Program mapToEntity(ProgramDto programDto) {
-        Program program = new Program();
-        program.setName(programDto.getName());
-        program.setDescription(programDto.getDescription());
-        program.setIncludingCompetition(programDto.isIncludingCompetition());
-        return program;
-    }
-
-    private ProgramDto mapToDto(Program program) {
-        return new ProgramDto(
-            program.getId(),
-            program.getName(),
-            program.getDescription(),
-            program.isIncludingCompetition());
-    }
 }

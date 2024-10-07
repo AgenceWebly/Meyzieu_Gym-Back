@@ -14,8 +14,8 @@ import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
-import webly.meyzieu_gym.back.coursemanagement.entity.Program;
 import webly.meyzieu_gym.back.coursemanagement.entity.TrainingSlot;
+import webly.meyzieu_gym.back.coursemanagement.mapper.ProgramMapper;
 import webly.meyzieu_gym.back.coursemanagement.mapper.SeasonMapper;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberDto;
@@ -28,11 +28,13 @@ public class CourseAdminService {
     private final CourseRepository courseRepository;
     private final RegistrationRepository registrationRepository;
     private final SeasonMapper seasonMapper;
+    private final ProgramMapper programMapper;
     
-    CourseAdminService(CourseRepository courseRepository, RegistrationRepository registrationRepository, SeasonMapper seasonMapper) {
+    CourseAdminService(CourseRepository courseRepository, RegistrationRepository registrationRepository, SeasonMapper seasonMapper, ProgramMapper programMapper) {
         this.courseRepository = courseRepository;
         this.registrationRepository = registrationRepository;
         this.seasonMapper = seasonMapper;
+        this.programMapper = programMapper;
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +60,7 @@ public class CourseAdminService {
         int remainingSlots = calculateRemainingSlots(course);
 
         SeasonDto seasonDto = seasonMapper.mapToDto(course.getSeason());
-        ProgramDto programDto = mapToProgramDto(course.getProgram());
+        ProgramDto programDto = programMapper.mapToDto(course.getProgram());
         List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
 
         return new CourseDto(
@@ -78,11 +80,11 @@ public class CourseAdminService {
         );
     }
 
-        private CourseAdminDto mapToCourseAdminDto(Course course) {
+    private CourseAdminDto mapToCourseAdminDto(Course course) {
         int remainingSlots = calculateRemainingSlots(course);
 
         SeasonDto seasonDto = seasonMapper.mapToDto(course.getSeason());
-        ProgramDto programDto = mapToProgramDto(course.getProgram());
+        ProgramDto programDto = programMapper.mapToDto(course.getProgram());
         List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
         List<MemberDto> memberDtos = mapToMemberDtos(course.getRegistrations().stream()
                                                    .map(reg -> reg.getMember())
@@ -108,15 +110,6 @@ public class CourseAdminService {
     private int calculateRemainingSlots(Course course) {
         long registrationsCount = registrationRepository.countByCourseId(course.getId());
         return course.getMaxMembers() - (int) registrationsCount;
-    }
-
-
-    private ProgramDto mapToProgramDto(Program program) {
-        return new ProgramDto(
-            program.getId(), 
-            program.getName(), 
-            program.getDescription(), 
-            program.isIncludingCompetition());
     }
 
     private List<TrainingSlotDto> mapToTrainingSlotDtos(List<TrainingSlot> trainingSlots) {
