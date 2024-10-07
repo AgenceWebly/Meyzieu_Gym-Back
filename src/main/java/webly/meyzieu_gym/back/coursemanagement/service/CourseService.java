@@ -14,9 +14,9 @@ import webly.meyzieu_gym.back.coursemanagement.dto.ProgramDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
 import webly.meyzieu_gym.back.coursemanagement.dto.TrainingSlotDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Course;
-import webly.meyzieu_gym.back.coursemanagement.entity.TrainingSlot;
 import webly.meyzieu_gym.back.coursemanagement.mapper.ProgramMapper;
 import webly.meyzieu_gym.back.coursemanagement.mapper.SeasonMapper;
+import webly.meyzieu_gym.back.coursemanagement.mapper.TrainingSlotMapper;
 import webly.meyzieu_gym.back.coursemanagement.repository.CourseRepository;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
@@ -30,13 +30,15 @@ public class CourseService {
     private final MemberRepository memberRepository;
     private final SeasonMapper seasonMapper;
     private final ProgramMapper programMapper;
+    private final TrainingSlotMapper trainingSlotMapper;
     
-    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberRepository memberRepository, SeasonMapper seasonMapper, ProgramMapper programMapper) {
+    public CourseService(CourseRepository courseRepository, RegistrationRepository registrationRepository, MemberRepository memberRepository, SeasonMapper seasonMapper, ProgramMapper programMapper, TrainingSlotMapper trainingSlotMapper) {
         this.courseRepository = courseRepository;
         this.registrationRepository = registrationRepository;
         this.memberRepository = memberRepository;
         this.seasonMapper = seasonMapper;
         this.programMapper = programMapper;
+        this.trainingSlotMapper = trainingSlotMapper;
     }
 
     @Transactional(readOnly = true)
@@ -102,7 +104,7 @@ public class CourseService {
 
         SeasonDto seasonDto = seasonMapper.mapToDto(course.getSeason());
         ProgramDto programDto = programMapper.mapToDto(course.getProgram());
-        List<TrainingSlotDto> trainingSlotDtos = mapToTrainingSlotDtos(course.getTrainingSlots());
+        List<TrainingSlotDto> trainingSlotDtos = trainingSlotMapper.mapToDtos(course.getTrainingSlots());
 
         // Count the number of registrations for the user for the season of this course
         int userRegistrationsCount = (int) registrationRepository.countByUserIdAndSeasonId(userId, course.getSeason().getId());
@@ -124,13 +126,4 @@ public class CourseService {
         );
     }
 
-    private List<TrainingSlotDto> mapToTrainingSlotDtos(List<TrainingSlot> trainingSlots) {
-        return trainingSlots.stream()
-                .map(slot -> new TrainingSlotDto(
-                        slot.getId(),
-                        slot.getDay(),
-                        slot.getStartTime(),
-                        slot.getEndTime()))
-                .collect(Collectors.toList());
-    }
 }
