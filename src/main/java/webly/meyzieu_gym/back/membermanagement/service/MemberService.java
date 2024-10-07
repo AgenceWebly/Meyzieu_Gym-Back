@@ -9,15 +9,18 @@ import webly.meyzieu_gym.back.common.exception.custom.MemberNotFoundException;
 import webly.meyzieu_gym.back.membermanagement.dto.MemberDto;
 import webly.meyzieu_gym.back.membermanagement.dto.UpdateMemberDto;
 import webly.meyzieu_gym.back.membermanagement.entity.Member;
+import webly.meyzieu_gym.back.membermanagement.mapper.MemberMapper;
 import webly.meyzieu_gym.back.membermanagement.repository.MemberRepository;
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    public MemberService(MemberRepository memberRepository) {
+    private final MemberMapper memberMapper;
+    
+    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper) {
         this.memberRepository = memberRepository;
+        this.memberMapper = memberMapper;
     }
 
     @Transactional(readOnly = true)
@@ -29,7 +32,7 @@ public class MemberService {
         }
 
         Member member = memberOptional.get();
-        return mapToMemberDto(member);
+        return memberMapper.mapToDto(member);
     }
 
     @Transactional
@@ -43,20 +46,5 @@ public class MemberService {
         member.setRegionPassUrl(updateMemberDto.getRegionPassUrl());
 
         memberRepository.save(member);
-    }
-
-    private MemberDto mapToMemberDto(Member member) {
-        return new MemberDto(
-                member.getId(),
-                member.getFirstname(),
-                member.getLastname(),
-                member.isAllowedToLeave(),
-                member.isFirstAidApproved(),
-                member.isPhotoApproved(),
-                member.isTransportApproved(),
-                member.getProfilePictureUrl(),
-                member.getSportPassUrl(),
-                member.getRegionPassUrl()
-        );
     }
 }
