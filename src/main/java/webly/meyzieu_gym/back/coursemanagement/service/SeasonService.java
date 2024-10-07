@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.SeasonNotFoundException;
 import webly.meyzieu_gym.back.coursemanagement.dto.SeasonDto;
 import webly.meyzieu_gym.back.coursemanagement.entity.Season;
+import webly.meyzieu_gym.back.coursemanagement.mapper.SeasonMapper;
 import webly.meyzieu_gym.back.coursemanagement.repository.SeasonRepository;
 
 @Service
@@ -16,13 +17,15 @@ import webly.meyzieu_gym.back.coursemanagement.repository.SeasonRepository;
 public class SeasonService {
 
     private final SeasonRepository seasonRepository;
+    private final SeasonMapper seasonMapper;
 
-    public SeasonService(SeasonRepository seasonRepository) {
+    public SeasonService(SeasonRepository seasonRepository, SeasonMapper seasonMapper) {
         this.seasonRepository = seasonRepository;
+        this.seasonMapper = seasonMapper;
     }
 
     public void createSeason(SeasonDto seasonDto) {
-        Season season = mapToEntity(seasonDto);
+        Season season = seasonMapper.mapToEntity(seasonDto);
         seasonRepository.save(season);
     }
 
@@ -30,13 +33,13 @@ public class SeasonService {
     public SeasonDto getSeasonById(Long id) {
         Season season = seasonRepository.findById(id)
             .orElseThrow(() -> new SeasonNotFoundException("La saison n'a pas été trouvée"));
-        return mapToDto(season);
+        return seasonMapper.mapToDto(season);
     }
 
     @Transactional(readOnly = true)
     public List<SeasonDto> getAllSeasons() {
         return seasonRepository.findAll().stream()
-            .map(this::mapToDto)
+            .map(seasonMapper::mapToDto)
             .collect(Collectors.toList());
     }
 
@@ -46,20 +49,7 @@ public class SeasonService {
         season.setStartDate(seasonDto.getStartDate());
         season.setEndDate(seasonDto.getEndDate());
         Season updatedSeason = seasonRepository.save(season);
-        return mapToDto(updatedSeason);
+        return seasonMapper.mapToDto(updatedSeason);
     }
 
-    private Season mapToEntity(SeasonDto seasonDto) {
-        Season season = new Season();
-        season.setStartDate(seasonDto.getStartDate());
-        season.setEndDate(seasonDto.getEndDate());
-        return season;
-    }
-
-    private SeasonDto mapToDto(Season season) {
-        return new SeasonDto(
-            season.getId(), 
-            season.getStartDate(), 
-            season.getEndDate());
-    }
 }
