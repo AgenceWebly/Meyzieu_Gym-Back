@@ -7,11 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import webly.meyzieu_gym.back.membermanagement.dto.CreateMemberDto;
-import webly.meyzieu_gym.back.membermanagement.dto.MemberDto;
-import webly.meyzieu_gym.back.membermanagement.dto.MemberListDto;
-import webly.meyzieu_gym.back.membermanagement.dto.UpdateMemberDto;
+import webly.meyzieu_gym.back.membermanagement.dto.*;
 import webly.meyzieu_gym.back.membermanagement.service.CreateMemberService;
+import webly.meyzieu_gym.back.membermanagement.service.MemberAdminService;
 import webly.meyzieu_gym.back.membermanagement.service.MemberService;
 import webly.meyzieu_gym.back.membermanagement.service.MembersByUserService;
 import java.util.List;
@@ -31,10 +29,13 @@ public class MemberController {
     private final MembersByUserService membersByUserService;
     private final MemberService memberService;
 
-    public MemberController(CreateMemberService createMemberService, MembersByUserService membersByUserService, MemberService memberService) {
+    private final MemberAdminService memberAdminService;
+
+    public MemberController(CreateMemberService createMemberService, MembersByUserService membersByUserService, MemberService memberService, MemberAdminService memberAdminService) {
         this.createMemberService = createMemberService;
         this.membersByUserService = membersByUserService;
         this.memberService = memberService;
+        this.memberAdminService = memberAdminService;
     }
 
     @PreAuthorize("#id == authentication.principal.id")
@@ -56,6 +57,13 @@ public class MemberController {
     public ResponseEntity<MemberDto> getMemberById(@PathVariable Long memberId) {
         MemberDto memberDto = memberService.getMemberById(memberId);
         return ResponseEntity.ok(memberDto);
+    }
+
+    @GetMapping("/members/{memberId}/details")
+    @PreAuthorize("@memberOwnershipService.isMemberOwner(#memberId, authentication.principal.id)")
+    public ResponseEntity<MemberDetailsDto> getMemberDetails(@PathVariable Long memberId) {
+        MemberDetailsDto memberProfileAdminDto = memberService.getMemberDetails(memberId);
+        return ResponseEntity.ok(memberProfileAdminDto);
     }
 
     @PutMapping("/members/{memberId}")

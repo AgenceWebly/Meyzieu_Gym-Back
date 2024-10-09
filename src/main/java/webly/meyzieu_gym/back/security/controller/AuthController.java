@@ -1,18 +1,17 @@
 package webly.meyzieu_gym.back.security.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import webly.meyzieu_gym.back.security.payload.request.LoginRequest;
+import webly.meyzieu_gym.back.security.payload.request.ResetPasswordRequest;
 import webly.meyzieu_gym.back.security.payload.request.SignupRequest;
 import webly.meyzieu_gym.back.security.payload.response.MessageResponse;
 import webly.meyzieu_gym.back.security.payload.response.UserInfoResponse;
 import webly.meyzieu_gym.back.security.service.AuthService;
+import webly.meyzieu_gym.back.security.service.PasswordResetService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -20,9 +19,11 @@ import webly.meyzieu_gym.back.security.service.AuthService;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, PasswordResetService passwordResetService) {
         this.authService = authService;
+        this.passwordResetService = passwordResetService;
     }
 
     @PostMapping("/signup")
@@ -38,5 +39,17 @@ public class AuthController {
     @PostMapping("/signout")
     public ResponseEntity<MessageResponse> logoutUser() {
         return authService.logout();
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestParam String email) {
+        passwordResetService.initiatePasswordReset(email);
+        return ResponseEntity.ok().build();  // Toujours retourner OK même si l'email n'existe pas
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequest request) {
+        passwordResetService.resetPassword(request.getToken(), request.getNewPassword(), request.getEmail());
+        return ResponseEntity.ok().build();
     }
 }
