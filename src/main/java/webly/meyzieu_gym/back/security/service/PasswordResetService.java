@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import webly.meyzieu_gym.back.common.exception.custom.InvalidTokenException;
 import webly.meyzieu_gym.back.common.exception.custom.TokenExpiredException;
 import webly.meyzieu_gym.back.emailmanagement.EmailConfService;
@@ -28,39 +29,54 @@ public class PasswordResetService {
         this.emailConfService = emailConfService;
     }
 
+    @Transactional
     public void initiatePasswordReset(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Adresse e-mail non trouvée"));
+
+        // Supprimer tous les anciens tokens de l'utilisateur avant d'en générer un nouveau
+        passwordResetTokenRepository.deleteByUser(user);
 
         // Créer un token JWT ou un token aléatoire
         String token = UUID.randomUUID().toString();
 
-        // Stocker le token avec une expiration de 60 minutes
-        PasswordResetToken resetToken = new PasswordResetToken(token, user, 60);
+        // Hasher le token avant sauvegarde en base de données
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedToken = passwordEncoder.encode(token);
+
+        // Stocker le token hashé avec une expiration de 60 minutes
+        PasswordResetToken resetToken = new PasswordResetToken(hashedToken, user, 60);
         passwordResetTokenRepository.save(resetToken);
 
         // Envoyer un email avec un lien de réinitialisation
-        String resetUrl = "www.meyzieu-gym.fr/reset-password?token=" + token;
+        String resetUrl = "https://www.meyzieu-gym.fr/reinitialisation-mot-de-passe?token=" + token + "&email=" + email;
         emailConfService.sendPasswordResetEmail(user.getEmail(), resetUrl);
     }
 
-    public boolean isTokenValid(String token) {
-        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-                .orElseThrow(() -> new InvalidTokenException("Token invalide"));
+    public void resetPassword(String token, String newPassword, String email) {
+        // Rechercher l'utilisateur par son email
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
 
-        return !resetToken.getExpirationDate().isBefore(LocalDateTime.now());
-    }
+        // Récupérer le token haché de réinitialisation associé à l'utilisateur
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByUser(user)
+                .orElseThrow(() -> new InvalidTokenException("Token non trouvé pour cet utilisateur"));
 
-    public void resetPassword(String token, String newPassword) {
-        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-                .orElseThrow(() -> new InvalidTokenException("Token invalide"));
-
+        // Vérifier la validité du token (expiration)
         if (resetToken.getExpirationDate().isBefore(LocalDateTime.now())) {
-            throw new TokenExpiredException("Token expiré");
+            throw new TokenExpiredException("Le token a expiré");
+        }
+
+        // Vérifier la concordance du token reçu avec le token haché stocké
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(token, resetToken.getToken())) {
+            throw new InvalidTokenException("Le token fourni est invalide");
         }
 
         // Réinitialiser le mot de passe de l'utilisateur
-        User user = resetToken.getUser();
-        user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+
+        // Supprimer le token de réinitialisation après utilisation
+        passwordResetTokenRepository.delete(resetToken);
     }
 }

@@ -49,11 +49,7 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequest request) {
-        if (passwordResetService.isTokenValid(request.getToken())) {
-            passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+        passwordResetService.resetPassword(request.getToken(), request.getNewPassword(), request.getEmail());
+        return ResponseEntity.ok().build();
     }
 }
